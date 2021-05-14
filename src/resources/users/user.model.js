@@ -18,8 +18,8 @@ class User {
     return { id, name, login };
   }
 
-  static fromRequest() {
-    return null;
+  static fromRequest(body) {
+    return new User(body);
   }
 }
 
