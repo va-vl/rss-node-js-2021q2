@@ -10,7 +10,6 @@ const db = {
   fixUsersStructure: (user) => {
     if (user) {
       db.Tasks.filter((task) => task).forEach((task2) => {
-        // eslint-disable-next-line no-param-reassign
         task2.userId = task2.userId === user.id ? null : task2.userId;
       });
     }
