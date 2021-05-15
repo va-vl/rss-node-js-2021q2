@@ -9,7 +9,7 @@ const remove = (id) => usersRepo.remove(id);
 
 const save = (user) => usersRepo.save(new User(user));
 
-const update = (id, user) => usersRepo.update(id, user);
+const update = (id, user) => usersRepo.update(id, new User(user));
 
 module.exports = { 
   getAll,

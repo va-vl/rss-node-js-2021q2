@@ -4,29 +4,34 @@ const usersService = require('./user.service');
 
 router.route('/').get(async (req, res) => {
   const users = await usersService.getAll();
-  res.json(users.map(User.toResponse));
+
+  res.status(200).json(users.map(User.toResponse));
 });
 
-router.route('/:id').get(async (req, res) => {
-  const user = await usersService.get(req.params.id);
-  res.status(200).send(User.toResponse(user));
+router.route('/:userId').get(async (req, res) => {
+  const user = await usersService.get(req.params.userId);
+
+  res.status(200).json(User.toResponse(user));
 });
 
 router.route('/').post(async (req, res) => {
-  const user = await usersService.save(User.fromRequest(req.body));
-  res.status(200).send(User.toResponse(user));
+  const user = await usersService.save(req.body);
+
+  res.status(200).json(User.toResponse(user));
 });
 
-router.route('/:id').put(async (req, res) => {
+router.route('/:userId').put(async (req, res) => {
   const user = await usersService.update(
-    req.params.id,
-    User.fromRequest(req.body)
+    req.params.userId,
+    req.body
   );
-  res.status(200).send(User.toResponse(user));
+  
+  res.status(200).json(User.toResponse(user));
 });
 
-router.route('/:id').delete(async (req, res) => {
-  await usersService.remove(req.params.id);
+router.route('/:userId').delete(async (req, res) => {
+  await usersService.remove(req.params.userId);
+
   res.sendStatus(200);
 });
 
