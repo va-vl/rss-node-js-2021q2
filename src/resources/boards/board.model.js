@@ -20,22 +20,6 @@ class Board {
     this.title = title;
     this.columns = columns;
   }
-
-  /**
-   * @param {Object} board 
-   * @returns {Board}
-   */
-  static fromRequest(board) {
-    return new Board(board);
-  }
-
-  /**
-   * @param {Object} board 
-   * @returns {Board}
-   */
-  static toResponse(board) {
-    return new Board(board);
-  }
 }
 
 module.exports = Board;

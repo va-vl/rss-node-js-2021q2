@@ -4,11 +4,25 @@ const Board = require('./board.model');
 
 const getAll = () => boardsRepo.getAll();
 
+/**
+ * @param {String} id 
+ * @returns {Board} 
+ */
 const getById = (id) => boardsRepo.getById(id);
 
-const create = (board) => boardsRepo.create(new Board(board));
+/**
+ * @param {Object} props 
+ * @returns {Board}
+ */
+const create = (props) => boardsRepo.create(new Board(props));
 
-const update = (id, board) => boardsRepo.update(id, board);
+/**
+ * 
+ * @param {String} id 
+ * @param {Object} props 
+ * @returns 
+ */
+const update = (id, props) => boardsRepo.update(id, props);
 
 const remove = async (id) => {
   await boardsRepo.remove(id);

@@ -29,7 +29,7 @@ router.route('/:boardId/tasks').post(
     const task = await tasksService.create(req.params.boardId, req.body);
 
     res
-      .status(200)
+      .status(201)
       .json(Task.toResponse(task));
   })
 );

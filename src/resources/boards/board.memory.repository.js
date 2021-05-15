@@ -1,6 +1,6 @@
 const DB = require("../../db/db.memory");
 // 
-const NotFoundError = require('../../errors/not-found-error');
+const MissingError = require('../../errors/missing-error');
 
 const ENTITY_NAME = 'Board';
 const TABLE_NAME = 'Boards';
@@ -15,41 +15,41 @@ const getById = async (id) => {
   const board = await DB.getEntityById(TABLE_NAME, id);
 
   if (!board) {
-    throw new NotFoundError(ENTITY_NAME, id);
+    throw new MissingError(ENTITY_NAME, id);
   }
 
   return board;
 };
 
 /**
- * @param {Object} board 
+ * @param {Board} board 
  * @returns {Object}
  */
 const create = async (board) => DB.createEntity(TABLE_NAME, board);
 
 /**
  * @param {String} id 
- * @param {Object} board 
+ * @param {Object} props 
  * @returns {Object}
  */
-const update = async (id, board) => {
-  const updatedBoard = await DB.updateEntity(TABLE_NAME, id, board);
+const update = async (id, props) => {
+  const board = await DB.updateEntity(TABLE_NAME, id, props);
   
-  if (!updatedBoard) {
-    throw new NotFoundError(ENTITY_NAME, id);
+  if (!board) {
+    throw new MissingError(ENTITY_NAME, id);
   }
 
-  return updatedBoard;
+  return board;
 };
 
 /**
  * @param {Sting} id 
  */
-const remove = async id => {
-  const deletedBoard = await DB.deleteEntity(TABLE_NAME, id);
+const remove = async (id) => {
+  const board = await DB.deleteEntity(TABLE_NAME, id);
 
-  if (!(deletedBoard)) {
-    throw new NotFoundError(ENTITY_NAME, id);
+  if (!board) {
+    throw new MissingError(ENTITY_NAME, id);
   }
 };
 

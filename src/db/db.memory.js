@@ -83,7 +83,10 @@ const updateEntity = async (tableName, id, props) => {
   if (entity) {
     const entityIndex = db[tableName].indexOf(entity);
     
-    db[tableName][entityIndex] = new User({ ...entity, ...props });
+    db[tableName][entityIndex] = new entity.constructor({ 
+      ...entity, 
+      ...props,
+    });
   }
   
   return getEntityById(tableName, id);
@@ -117,7 +120,10 @@ const deleteEntity = async (tableName, id) => {
     }));
   }
   
-  db.Boards.push(new Board({ title: 'Test array'}));
+  db.Boards.push(new Board({ 
+    id: '0',
+    title: 'Test board', 
+  }));
 
   db.Tasks.push(new Task({
     title: 'Test task',
@@ -127,8 +133,6 @@ const deleteEntity = async (tableName, id) => {
   }));
 })();
 /* #endregion */
-
-console.log(db);
 
 module.exports = {
   getAllEntities,

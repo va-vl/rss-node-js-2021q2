@@ -1,6 +1,6 @@
 const DB = require("../../db/db.memory");
 const Task = require("./task.model");
-const NotFoundError = require("../../errors/not-found-error");
+const MissingError = require("../../errors/missing-error");
 
 const ENTITY_NAME = 'Task';
 const TABLE_NAME = 'Tasks';
@@ -20,7 +20,7 @@ const getById = async (boardId, id) => {
   const task = await DB.getEntityByIdAndProps(TABLE_NAME, id, { boardId });
 
   if (!task) {
-    throw new NotFoundError(ENTITY_NAME, id, `Board id: ${boardId}`);
+    throw new MissingError(ENTITY_NAME, id, `Board id: ${boardId}`);
   }
 
   return task;
@@ -42,7 +42,7 @@ const update = async (boardId, id, task) => {
   const updatedTask = await DB.updateEntity(TABLE_NAME, id, task);
 
   if (!updatedTask) {
-    throw new NotFoundError(ENTITY_NAME, id, `Board id: ${boardId}`);
+    throw new MissingError(ENTITY_NAME, id, `Board id: ${boardId}`);
   }
 
   return updatedTask;
@@ -56,7 +56,7 @@ const remove = async (boardId, id) => {
   const removedTask = await DB.deleteEntity(TABLE_NAME, id);
 
   if (!removedTask) {
-    throw new NotFoundError(ENTITY_NAME, id, `Board id: ${boardId}`);
+    throw new MissingError(ENTITY_NAME, id, `Board id: ${boardId}`);
   }
 };
 

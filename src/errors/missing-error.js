@@ -1,4 +1,4 @@
-class NotFoundError extends Error {
+class MissingError extends Error {
   /**
    * @param {String} entityName 
    * @param {String} id 
@@ -6,7 +6,8 @@ class NotFoundError extends Error {
    */
   constructor(entityName, id, extra = '') {
     super(`Error: ${entityName} with id ${id} not found!${extra && ` ${extra}`}`);
+    this.name = 'MissingError';
   }
 }
 
-module.exports = NotFoundError;
+module.exports = MissingError;
