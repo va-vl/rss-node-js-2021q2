@@ -1,93 +1,134 @@
-const User = require("../resources/users/user.model");
-const Board = require("../resources/boards/board.model");
-const Task = require("../resources/tasks/task.model");
+const Board = require('../resources/boards/board.model');
+const Task = require('../resources/tasks/task.model');
+const User = require('../resources/users/user.model');
 
 const db = {
+  Tasks: [],
   Users: [],
   Boards: [],
-  Tasks: [],
-  Columns: [],
-
-  handleRemovedUsers (user) {
-    this.Tasks.forEach((task) => {
-      if (task.userId === user.id) {
-        task.updateTask({...task, userId: null});
-      }
-    })
-  },
-
-  handleRemovedBoards (board) {
-    this.Tasks = this.Tasks.filter((task) => task.id !== board.id);
-  },
 };
 
-const getAllEntities = (tableName) => db[tableName];
+/**
+ * @param {String} tableName 
+ * @returns {Array}
+ */
+const getAllEntities = async (tableName) => db[tableName].filter((entity) => entity);
 
-const getEntity = (tableName, id) => {
-  const entities = db[tableName].filter((entity) => entity.id === id);
+/**
+ * @param {} tableName 
+ * @param {*} props 
+ */
+const getEntitiesByProps = async (tableName, props) => {
+  const keys = Object.keys(props);
+
+  return db[tableName].filter((entity) => keys.every((key) => props[key] === entity[key]));
+};
+
+/**
+ * @param {String} tableName 
+ * @param {String} id  
+ * @returns 
+ */
+const getEntityById = async (tableName, id) => {
+  const entities = db[tableName].filter(item => id === item.id);
 
   if (entities.length > 1) {
-    process.stderr.write(`The DB data is damaged. Table: ${tableName}. EntityId: ${id}.`)
-    
-    throw Error("The DB data is wrong!");
+    throw new Error('Data corrupted! More than one id present!');
   }
 
   return entities[0];
-}
-
-const removeEntity = (tableName, id) => {
-  const entity = getEntity(tableName, id);
-
-  if (entity) {
-    db[`handleRemoved${tableName}`](entity);
-
-    const removedEntityIndex = db[tableName].indexOf(entity);
-
-    db[tableName] = db.filter((_, index) => index !== removedEntityIndex);
-  }
-
-  return entity;
-}
-
-const saveEntity = (tableName, entity) => {
-  db[tableName].push(entity);
-
-  return getEntity(tableName, entity.id);
 };
 
-const updateEntity = (tableName, id, entity) => {
-  const oldEntity = getEntity(tableName, id);
+/**
+ * @param {String} tableName 
+ * @param {String} id 
+ * @param {Props} props 
+ */
+const getEntityByIdAndProps = async (tableName, id, props) => {
+  const keys = Object.keys(props);
+  const entities = db[tableName].filter((entity) => {
+    const propCondition = keys.every((key) => props[key] === entity[key]);
+    const idCondition = entity.id === id;
+
+    return propCondition && idCondition;
+  });
+
+  if (entities.length > 1) {
+    throw new Error('Data corrupted! More than one id present!');
+  }
+
+  return entities[0];
+};
+
+/**
+ * @param {String} tableName 
+ * @param {Object} entity 
+ * @returns {Promise}
+ */
+const createEntity = async (tableName, entity) => {
+  db[tableName].push(entity);
+  await getEntityById(tableName, entity.id);
+};
+
+/**
+ * 
+ * @param {String} tableName 
+ * @param {String} id 
+ * @param {Object} entity 
+ * @returns {Promise} 
+ */
+const updateEntity = async (tableName, id, entity) => {
+  const oldEntity = await getEntityById(tableName, id);
+  
+  if (oldEntity) {
+    const oldEntityIndex = db[tableName].indexOf(oldEntity);
+
+    db[oldEntityIndex] = { ...entity };
+  }
+  
+  await getEntityById(tableName, id);
+};
+
+/**
+ * @param {String} tableName 
+ * @param {String} id 
+ * @returns {Boolean}
+ */
+const deleteEntity = async (tableName, id) => {
+  const oldEntity = await getEntityById(tableName, id);
 
   if (oldEntity) {
-    const oldEntityIndex = db[tableName].indexOf(oldEntity)
-
-    db[tableName][oldEntityIndex] = {...entity};
+    db[tableName] = db[tableName].filter((entity) => entity !== oldEntity);
   }
 
-  return getEntity(tableName, id);
+  return !!oldEntity;
 };
 
-/* #region mock data for db */
+/* #region init db */
 (() => {
+  const createString = (num = 1000) => String(Math.floor(Math.random() * num));
+  
   for (let i = 0; i < 5; i += 1) {
-    db.Users.push(new User());
+    db.Users.push(new User({
+      id: String(i),
+      name: createString(),
+      login: createString(10_000),
+      password: createString(100_000),
+    }));
   }
+  
+  db.Boards.push(new Board({ title: 'Test array'}));
 
-  const board = new Board();
-
-  db.Boards.push(board);
-
-  db.Tasks.push(
-    new Task({ boardId: board.id }),
-    new Task({ boardId: board.id }),
-  );
-})()
+  db.Tasks.push(new Task({ title: "Test task" }));
+})();
 /* #endregion */
 
 module.exports = {
   getAllEntities,
-  getEntity,
-  removeEntity,
-  saveEntity,
+  getEntitiesByProps,
+  getEntityById,
+  getEntityByIdAndProps,
+  createEntity,
   updateEntity,
+  deleteEntity,
 };
