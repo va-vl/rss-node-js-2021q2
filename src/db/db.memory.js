@@ -15,8 +15,8 @@ const db = {
 const getAllEntities = async (tableName) => db[tableName].filter((entity) => entity);
 
 /**
- * @param {} tableName 
- * @param {*} props 
+ * @param {String} tableName 
+ * @param {Object} props 
  */
 const getEntitiesByProps = async (tableName, props) => {
   const keys = Object.keys(props);
@@ -27,7 +27,7 @@ const getEntitiesByProps = async (tableName, props) => {
 /**
  * @param {String} tableName 
  * @param {String} id  
- * @returns 
+ * @returns {Object|undefined}
  */
 const getEntityById = async (tableName, id) => {
   const entities = db[tableName].filter(item => id === item.id);
