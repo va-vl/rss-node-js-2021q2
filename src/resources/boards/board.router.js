@@ -53,7 +53,7 @@ router.route('/:boardId').delete(
     
     res
       .status(204)
-      .send('Board deleted');
+      .send('Board removed!');
   })
 );
 

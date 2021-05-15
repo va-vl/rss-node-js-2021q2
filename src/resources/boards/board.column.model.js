@@ -5,7 +5,6 @@ class Column {
    * @param {Object} params
    * @param {String} params.id
    * @param {Title} params.title
-   * @param {Number} params.order 
    */
   constructor({
     id = uuid.v4(),
@@ -15,7 +14,6 @@ class Column {
     this.id = id;
     this.title = title;
     this.order = order;
-    this.tasks = [];
   }
 
   /**

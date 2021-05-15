@@ -1,7 +1,11 @@
 class NotFoundError extends Error {
-  constructor(entity, id, message = '') {
-    const messageError = message === '' ? '' : ` ${message}`;
-    super(`Oops...There is no ${entity} with this id ${id} ${messageError}`);
+  /**
+   * @param {String} entityName 
+   * @param {String} id 
+   * @param {String} extra 
+   */
+  constructor(entityName, id, extra = '') {
+    super(`Error: ${entityName} with id ${id} not found!${extra && ` ${extra}`}`);
   }
 }
 

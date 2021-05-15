@@ -12,7 +12,7 @@ const update = (id, board) => boardsRepo.update(id, board);
 
 const remove = async (id) => {
   await boardsRepo.remove(id);
-  await tasksService.deleteAllFromBoard(id);
+  await tasksService.removeAllOnBoard(id);
 };
 
 module.exports = {
