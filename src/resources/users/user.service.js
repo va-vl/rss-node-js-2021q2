@@ -1,20 +1,43 @@
 const User = require('./user.model');
 const usersRepo = require('./user.memory.repository');
+const taskService = require("../tasks/task.service")
 
+/**
+ * @returns {Array}
+ */
 const getAll = () => usersRepo.getAll();
 
-const get = (id) => usersRepo.get(id);
+/**
+ * @param {String} id 
+ * @returns {Object}
+ */
+const getById = (id) => usersRepo.getById(id);
 
-const remove = (id) => usersRepo.remove(id);
+/**
+ * @param {String} user 
+ * @returns {Object}
+ */
+const create = (user) => usersRepo.create(new User(user));
 
-const save = (user) => usersRepo.save(new User(user));
+/**
+ * @param {String} id 
+ * @param {Object} user 
+ * @returns 
+ */
+const update = (id, user) => usersRepo.update(id, user);
 
-const update = (id, user) => usersRepo.update(id, new User(user));
+/**
+ * @param {String} id 
+ */
+const remove = async (id) => {
+  await usersRepo.remove(id);
+  await taskService.unassignUser(id);
+}
 
 module.exports = { 
   getAll,
-  get,
-  remove,
-  save,
+  getById,
+  create,
   update,
+  remove,
 };

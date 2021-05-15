@@ -1,6 +1,13 @@
 const uuid = require('uuid');
 
 class User {
+  /**
+   * @param {Object} params
+   * @param {String} params.id
+   * @param {String} params.name
+   * @param {Sting} params.login
+   * @param {String} params.password 
+   */
   constructor({
     id = uuid.v4(),
     name = 'USER',
@@ -13,6 +20,10 @@ class User {
     this.password = password;
   }
 
+  /**
+   * @param {User} user 
+   * @returns 
+   */
   static toResponse(user) {
     const { 
       id, name, login 
