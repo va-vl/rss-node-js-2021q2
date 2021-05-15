@@ -16,7 +16,8 @@ router.route('/').get(
 
 router.route('/:id').get(
   catchRouteError(async (req, res) => {
-    const user = await usersService.getById(req.params.id);
+    const { id } = req.params;
+    const user = await usersService.getById(id);
 
     res
       .status(200)
@@ -26,17 +27,20 @@ router.route('/:id').get(
 
 router.route('/').post(
   catchRouteError(async (req, res) => {
-    const user = await usersService.create(req.body);
+    const { name, login, password } = req.body;
+    const user = await usersService.create({ name, login, password });
 
     res
-      .status(200)
+      .status(201)
       .json(User.toResponse(user));
   })
 );
 
 router.route('/:id').put(
   catchRouteError(async (req, res) => {
-    const user = await usersService.update(req.params.id, req.body);
+    const { id } = req.params;
+    const { name, login, password } = req.body
+    const user = await usersService.update(id, { name, login, password });
 
     res
       .status(200)
@@ -44,9 +48,11 @@ router.route('/:id').put(
   })
 );
 
-router.route('/:userId').delete(
+router.route('/:id').delete(
   catchRouteError(async (req, res) => {
-    await usersService.remove(req.params.id);
+    const { id } = req.params;
+
+    await usersService.remove(id);
 
     res
       .status(204)

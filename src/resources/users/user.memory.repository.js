@@ -4,7 +4,7 @@ const NotFoundError = require("../../errors/not-found-error");
 const ENTITY_NAME = 'User';
 const TABLE_NAME = 'Users';
 
-const getAll = async () => db.getAll(TABLE_NAME);
+const getAll = async () => db.getAllEntities(TABLE_NAME);
 
 /**
  * @param {String} id 
@@ -21,34 +21,34 @@ const getById = async (id) => {
 };
 
 /**
- * @param {Object} user 
+ * @param {Object} props 
  * @returns {Object}
  */
-const create = async (user) => db.createEntity(TABLE_NAME, user)
+const create = async (props) => db.createEntity(TABLE_NAME, props);
 
 /**
  * 
  * @param {String} id 
- * @param {Object} user 
+ * @param {Object} props 
  * @returns {Object}
  */
-const update = async (id, user) => {
-  const updatedUser = await db.updateEntity(TABLE_NAME, id, user);
+const update = async (id, props) => {
+  const user = await db.updateEntity(TABLE_NAME, id, props);
 
-  if (!updatedUser) {
+  if (!user) {
     throw new NotFoundError(ENTITY_NAME, id);
   }
 
-  return updatedUser;
+  return user;
 };
 
 /**
  * @param {String} id 
  */
 const remove = async (id) => {
-  const deleteUserId = await db.deleteEntity(TABLE_NAME, id);
+  const user = await db.deleteEntity(TABLE_NAME, id);
 
-  if (!deleteUserId) {
+  if (!user) {
     throw new NotFoundError(ENTITY_NAME, id);
   }
 };

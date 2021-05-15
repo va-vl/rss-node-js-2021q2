@@ -67,26 +67,26 @@ const getEntityByIdAndProps = async (tableName, id, props) => {
  */
 const createEntity = async (tableName, entity) => {
   db[tableName].push(entity);
-  await getEntityById(tableName, entity.id);
+  
+  return getEntityById(tableName, entity.id);
 };
 
 /**
- * 
  * @param {String} tableName 
  * @param {String} id 
- * @param {Object} entity 
+ * @param {Object} props 
  * @returns {Promise} 
  */
-const updateEntity = async (tableName, id, entity) => {
-  const oldEntity = await getEntityById(tableName, id);
-  
-  if (oldEntity) {
-    const oldEntityIndex = db[tableName].indexOf(oldEntity);
+const updateEntity = async (tableName, id, props) => {
+  const entity = await getEntityById(tableName, id);
 
-    db[oldEntityIndex] = { ...entity };
+  if (entity) {
+    const entityIndex = db[tableName].indexOf(entity);
+    
+    db[tableName][entityIndex] = new User({ ...entity, ...props });
   }
   
-  await getEntityById(tableName, id);
+  return getEntityById(tableName, id);
 };
 
 /**
@@ -95,13 +95,13 @@ const updateEntity = async (tableName, id, entity) => {
  * @returns {Boolean}
  */
 const deleteEntity = async (tableName, id) => {
-  const oldEntity = await getEntityById(tableName, id);
+  const entity = await getEntityById(tableName, id);
 
-  if (oldEntity) {
-    db[tableName] = db[tableName].filter((entity) => entity !== oldEntity);
+  if (entity) {
+    db[tableName] = db[tableName].filter((ent) => ent !== entity);
   }
 
-  return !!oldEntity;
+  return !!entity;
 };
 
 /* #region init db */
@@ -119,9 +119,16 @@ const deleteEntity = async (tableName, id) => {
   
   db.Boards.push(new Board({ title: 'Test array'}));
 
-  db.Tasks.push(new Task({ title: "Test task" }));
+  db.Tasks.push(new Task({
+    title: 'Test task',
+    userId: db.Users[0].id,
+    boardId: db.Boards[0].id,
+    columnId: db.Boards[0].columns[0].id,
+  }));
 })();
 /* #endregion */
+
+console.log(db);
 
 module.exports = {
   getAllEntities,

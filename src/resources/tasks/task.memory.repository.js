@@ -78,7 +78,7 @@ const unassignUser = async (userId) => {
   const tasks = await DB.getAllEntities(TABLE_NAME);
 
   tasks.forEach(async (task) => {
-    if (task.userId === userId) {
+    if (task.userId === userId) {      
       await update(
         task.boardId,
         task.id,

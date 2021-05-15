@@ -17,14 +17,14 @@ const getById = (id) => usersRepo.getById(id);
  * @param {String} user 
  * @returns {Object}
  */
-const create = (user) => usersRepo.create(new User(user));
+const create = (props) => usersRepo.create(new User(props));
 
 /**
  * @param {String} id 
  * @param {Object} user 
  * @returns 
  */
-const update = (id, user) => usersRepo.update(id, user);
+const update = (id, props) => usersRepo.update(id, props);
 
 /**
  * @param {String} id 
