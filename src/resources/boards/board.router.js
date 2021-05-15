@@ -1,38 +1,60 @@
 const router = require('express').Router();
+// 
 const Board = require('./board.model');
 const boardsService = require('./board.service');
+const catchRouteError = require("../../utils/catch-route-error");
 
-router.route("/").get(async (req, res) => {
-  const boards = await boardsService.getAll();
+router.route("/").get(
+  catchRouteError(async (req, res) => {
+    const boards = await boardsService.getAll();
 
-  res.json(boards);
-});
+    res
+      .status(200)
+      .json(boards.map(Board.toResponse));
+  })
+);
 
-router.route("/:boardId").get(async (req, res) => {
-  const board = await boardsService.get(req.params.boardId);
+router.route("/:id").get(
+  catchRouteError(async (req, res) => {
+    const board = await boardsService.getById(req.params.id);
 
-  res.json(board);
-});
+    res
+      .status(200)
+      .json(Board.toResponse(board));
+  })
+);
 
-router.route('/').post(async (req, res) => {
-  const board = await boardsService.save(Board.fromRequest(req.body));
+router.route('/').post(
+  catchRouteError(async (req, res) => {
+    const board = await boardsService.create(Board.fromRequest(req.body));
+  
+    res
+      .status(200)
+      .json(board);
+  })
+);
 
-  res.json(board);
-});
+router.route('/:boardId').put(
+  catchRouteError(async (req, res) => {
+    const updatedBoard = await boardsService.update(
+      req.params.id, 
+      Board.fromRequest(req.params.body)
+    );
 
-router.route('/:boardId').put(async (req, res) => {
-  const board = await boardsService.update(
-    req.params.boardId,
-    req.body,
-  );
+    res
+      .status(200)
+      .json(Board.toResponse(updatedBoard));
+  })
+);
 
-  res.status(200).json(board);
-});
-
-router.route('/:boardId').delete(async (req, res) => {
-  await boardsService.remove(req.params.boardId);
-
-  res.sendStatus(200);
-});
+router.route('/:boardId').delete(
+  catchRouteError(async (req, res) => {
+    await boardsService.remove(req.params.id);
+    
+    res
+      .status(204)
+      .send('Board deleted');
+  })
+);
 
 module.exports = router;
