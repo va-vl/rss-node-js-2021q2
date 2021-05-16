@@ -13,8 +13,8 @@ class Task {
    */
   constructor({
     id = uuid.v4(),
-    title = "Task Title",
-    description = "A default task description",
+    title = 'Task Title',
+    description = 'A default task description',
     userId = null,
     boardId = null,
     columnId = null,
@@ -30,16 +30,20 @@ class Task {
   }
 
   /**
-   * @param {Object} task 
+   * @param {Object} task
    * @returns {Task}
    */
   static toResponse(task) {
-    const { 
-      id, title, order, description, userId, boardId, columnId
-    } = task;
+    const { id, title, order, description, userId, boardId, columnId } = task;
 
-    return { 
-      id, title, order, description, userId, boardId, columnId 
+    return {
+      id,
+      title,
+      order,
+      description,
+      userId,
+      boardId,
+      columnId,
     };
   }
 }

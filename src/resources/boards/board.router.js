@@ -1,26 +1,22 @@
 const router = require('express').Router();
-// 
+//
 const boardsService = require('./board.service');
-const catchRouteError = require("../../utils/catch-route-error");
+const catchRouteError = require('../../utils/catch-route-error');
 
-router.route("/").get(
+router.route('/').get(
   catchRouteError(async (req, res) => {
     const boards = await boardsService.getAll();
 
-    res
-      .status(200)
-      .json(boards);
+    res.status(200).json(boards);
   })
 );
 
-router.route("/:id").get(
+router.route('/:id').get(
   catchRouteError(async (req, res) => {
     const { id } = req.params;
     const board = await boardsService.getById(id);
 
-    res
-      .status(200)
-      .json(board);
+    res.status(200).json(board);
   })
 );
 
@@ -29,9 +25,7 @@ router.route('/').post(
     const props = req.body;
     const board = await boardsService.create(props);
 
-    res
-      .status(201)
-      .json(board);
+    res.status(201).json(board);
   })
 );
 
@@ -41,9 +35,7 @@ router.route('/:id').put(
     const props = req.body;
     const board = await boardsService.update(id, props);
 
-    res
-      .status(200)
-      .json(board);
+    res.status(200).json(board);
   })
 );
 
@@ -52,10 +44,8 @@ router.route('/:id').delete(
     const { id } = req.params;
 
     await boardsService.remove(req.params.id);
-    
-    res
-      .status(204)
-      .send(`Board ${id} successfully removed.`);
+
+    res.status(204).send(`Board ${id} successfully removed.`);
   })
 );
 

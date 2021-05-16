@@ -1,5 +1,5 @@
-const db = require("../../db/db.memory");
-const EntityNotFoundError = require("../../errors/entity-not-found-error");
+const db = require('../../db/db.memory');
+const EntityNotFoundError = require('../../errors/entity-not-found-error');
 
 const ENTITY_NAME = 'User';
 const TABLE_NAME = 'Users';
@@ -7,7 +7,7 @@ const TABLE_NAME = 'Users';
 const getAll = async () => db.getAllEntities(TABLE_NAME);
 
 /**
- * @param {String} id 
+ * @param {String} id
  * @returns {User}
  */
 const getById = async (id) => {
@@ -21,15 +21,15 @@ const getById = async (id) => {
 };
 
 /**
- * @param {User} user 
+ * @param {User} user
  * @returns {User}
  */
 const create = async (user) => db.createEntity(TABLE_NAME, user);
 
 /**
- * 
- * @param {String} id 
- * @param {Object} props 
+ *
+ * @param {String} id
+ * @param {Object} props
  * @returns {User}
  */
 const update = async (id, props) => {
@@ -43,7 +43,7 @@ const update = async (id, props) => {
 };
 
 /**
- * @param {String} id 
+ * @param {String} id
  */
 const remove = async (id) => {
   const user = await db.deleteEntity(TABLE_NAME, id);
@@ -52,7 +52,6 @@ const remove = async (id) => {
     throw new EntityNotFoundError(ENTITY_NAME, id);
   }
 };
-
 
 module.exports = {
   getAll,

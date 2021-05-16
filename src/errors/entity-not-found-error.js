@@ -1,7 +1,7 @@
 class EntityNotFoundError extends Error {
   /**
-   * @param {String} entityName 
-   * @param {String} id 
+   * @param {String} entityName
+   * @param {String} id
    */
   constructor(entityName, id) {
     super(`Error: ${entityName} with id ${id} not found!`);

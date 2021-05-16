@@ -8,7 +8,7 @@ class Column {
    */
   constructor({
     id = uuid.v4(),
-    title = "Column Title",
+    title = 'Column Title',
     order = 0,
   } = {}) {
     this.id = id;

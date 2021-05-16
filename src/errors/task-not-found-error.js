@@ -1,7 +1,7 @@
 class TaskNotFoundError extends Error {
   /**
-   * @param {String} id 
-   * @param {String} boardId 
+   * @param {String} id
+   * @param {String} boardId
    */
   constructor(id, boardId) {
     super(`Error: Task with id ${id} on Board ${boardId} not found!`);

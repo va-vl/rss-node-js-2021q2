@@ -1,18 +1,19 @@
-const DB = require("../../db/db.memory");
-const Task = require("./task.model");
-const TaskNotFoundError = require("../../errors/task-not-found-error");
+const DB = require('../../db/db.memory');
+const Task = require('./task.model');
+const TaskNotFoundError = require('../../errors/task-not-found-error');
 
 const TABLE_NAME = 'Tasks';
 
 /**
- * @param {String} boardId 
+ * @param {String} boardId
  * @returns {<Task>}
  */
-const getAll = async (boardId) => DB.getEntitiesByProps(TABLE_NAME, { boardId });
+const getAll = async (boardId) =>
+  DB.getEntitiesByProps(TABLE_NAME, { boardId });
 
 /**
- * @param {String} boardId 
- * @param {String} id 
+ * @param {String} boardId
+ * @param {String} id
  * @returns {Task}
  */
 const getById = async (boardId, id) => {
@@ -26,15 +27,15 @@ const getById = async (boardId, id) => {
 };
 
 /**
- * @param {Object} task 
- * @returns {Task} 
+ * @param {Object} task
+ * @returns {Task}
  */
 const create = async (task) => DB.createEntity(TABLE_NAME, task);
 
 /**
- * @param {String} boardId 
- * @param {String} id 
- * @param {Object} props 
+ * @param {String} boardId
+ * @param {String} id
+ * @param {Object} props
  * @returns {Task}
  */
 const update = async (boardId, id, props) => {
@@ -48,8 +49,8 @@ const update = async (boardId, id, props) => {
 };
 
 /**
- * @param {String} boardId 
- * @param {String} id 
+ * @param {String} boardId
+ * @param {String} id
  */
 const remove = async (boardId, id) => {
   const removedTask = await DB.deleteEntity(TABLE_NAME, id);
@@ -60,7 +61,7 @@ const remove = async (boardId, id) => {
 };
 
 /**
- * @param {String} boardId 
+ * @param {String} boardId
  */
 const removeAllOnBoard = async (boardId) => {
   const removedTasks = await DB.getEntitiesByProps(TABLE_NAME, { boardId });
@@ -71,18 +72,14 @@ const removeAllOnBoard = async (boardId) => {
 };
 
 /**
- * @param {String} userId 
+ * @param {String} userId
  */
 const removeUserBinding = async (userId) => {
   const tasks = await DB.getAllEntities(TABLE_NAME);
 
   tasks.forEach(async (task) => {
-    if (task.userId === userId) {      
-      await update(
-        task.boardId,
-        task.id,
-        new Task({ ...task, userId: null })
-      );
+    if (task.userId === userId) {
+      await update(task.boardId, task.id, new Task({ ...task, userId: null }));
     }
   });
 };
