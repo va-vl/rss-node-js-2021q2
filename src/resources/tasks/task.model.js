@@ -34,7 +34,13 @@ class Task {
    * @returns {Task}
    */
   static toResponse(task) {
-    return {...task};
+    const { 
+      id, title, order, description, userId, boardId, columnId
+    } = task;
+
+    return { 
+      id, title, order, description, userId, boardId, columnId 
+    };
   }
 }
 
