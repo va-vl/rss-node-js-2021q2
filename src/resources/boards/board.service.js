@@ -19,7 +19,7 @@ const create = (props) => boardsRepo.create(new Board(props));
 /**
  * @param {String} id
  * @param {Object} props
- * @returns
+ * @returns {Board}
  */
 const update = (id, props) => boardsRepo.update(id, props);
 

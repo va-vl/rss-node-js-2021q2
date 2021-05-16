@@ -22,7 +22,7 @@ class User {
 
   /**
    * @param {User} user
-   * @returns
+   * @returns {Object}
    */
   static toResponse(user) {
     const { id, name, login } = user;

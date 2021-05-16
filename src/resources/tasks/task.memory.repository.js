@@ -1,6 +1,6 @@
 const DB = require('../../db/db.memory');
 const Task = require('./task.model');
-const TaskNotFoundError = require('../../errors/task-not-found-error');
+const { TaskNotFoundError } = require('../../errors');
 
 const TABLE_NAME = 'Tasks';
 

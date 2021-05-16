@@ -2,10 +2,10 @@ const router = require('express').Router();
 //
 const Task = require('./task.model');
 const tasksService = require('./task.service');
-const catchRouteError = require('../../utils/catch-route-error');
+const appErrorHandler = require('../../utils/router-error-handler');
 
 router.route('/:boardId/tasks').get(
-  catchRouteError(async (req, res) => {
+  appErrorHandler(async (req, res) => {
     const { boardId } = req.params;
     const tasks = await tasksService.getAll(boardId);
 
@@ -14,7 +14,7 @@ router.route('/:boardId/tasks').get(
 );
 
 router.route('/:boardId/tasks/:id').get(
-  catchRouteError(async (req, res) => {
+  appErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
     const task = await tasksService.getById(boardId, id);
 
@@ -23,7 +23,7 @@ router.route('/:boardId/tasks/:id').get(
 );
 
 router.route('/:boardId/tasks').post(
-  catchRouteError(async (req, res) => {
+  appErrorHandler(async (req, res) => {
     const { boardId } = req.params;
     const { body } = req;
     const task = await tasksService.create(boardId, body);
@@ -33,7 +33,7 @@ router.route('/:boardId/tasks').post(
 );
 
 router.route('/:boardId/tasks/:id').put(
-  catchRouteError(async (req, res) => {
+  appErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
     const { body } = req;
     const updatedTask = await tasksService.update(
@@ -47,7 +47,7 @@ router.route('/:boardId/tasks/:id').put(
 );
 
 router.route('/:boardId/tasks/:id').delete(
-  catchRouteError(async (req, res) => {
+  appErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
 
     await tasksService.remove(boardId, id);

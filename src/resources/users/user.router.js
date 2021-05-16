@@ -2,10 +2,10 @@ const router = require('express').Router();
 //
 const User = require('./user.model');
 const usersService = require('./user.service');
-const catchRouteError = require('../../utils/catch-route-error');
+const appErrorHandler = require('../../utils/router-error-handler');
 
 router.route('/').get(
-  catchRouteError(async (req, res) => {
+  appErrorHandler(async (req, res) => {
     const users = await usersService.getAll();
 
     res.status(200).json(users.map(User.toResponse));
@@ -13,7 +13,7 @@ router.route('/').get(
 );
 
 router.route('/:id').get(
-  catchRouteError(async (req, res) => {
+  appErrorHandler(async (req, res) => {
     const { id } = req.params;
     const user = await usersService.getById(id);
 
@@ -22,7 +22,7 @@ router.route('/:id').get(
 );
 
 router.route('/').post(
-  catchRouteError(async (req, res) => {
+  appErrorHandler(async (req, res) => {
     const { name, login, password } = req.body;
     const user = await usersService.create({ name, login, password });
 
@@ -31,7 +31,7 @@ router.route('/').post(
 );
 
 router.route('/:id').put(
-  catchRouteError(async (req, res) => {
+  appErrorHandler(async (req, res) => {
     const { id } = req.params;
     const { name, login, password } = req.body;
     const user = await usersService.update(id, { name, login, password });
@@ -41,7 +41,7 @@ router.route('/:id').put(
 );
 
 router.route('/:id').delete(
-  catchRouteError(async (req, res) => {
+  appErrorHandler(async (req, res) => {
     const { id } = req.params;
 
     await usersService.remove(id);

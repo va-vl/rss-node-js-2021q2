@@ -1,9 +1,11 @@
 const db = require('../../db/db.memory');
-const EntityNotFoundError = require('../../errors/entity-not-found-error');
+const { UserNotFoundError } = require('../../errors');
 
-const ENTITY_NAME = 'User';
 const TABLE_NAME = 'Users';
 
+/**
+ * @returns {<User>} 
+ */
 const getAll = async () => db.getAllEntities(TABLE_NAME);
 
 /**
@@ -14,7 +16,7 @@ const getById = async (id) => {
   const user = await db.getEntityById(TABLE_NAME, id);
 
   if (!user) {
-    throw new EntityNotFoundError(ENTITY_NAME, id);
+    throw new UserNotFoundError(id);
   }
 
   return user;
@@ -36,7 +38,7 @@ const update = async (id, props) => {
   const user = await db.updateEntity(TABLE_NAME, id, props);
 
   if (!user) {
-    throw new EntityNotFoundError(ENTITY_NAME, id);
+    throw new UserNotFoundError(id);
   }
 
   return user;
@@ -49,7 +51,7 @@ const remove = async (id) => {
   const user = await db.deleteEntity(TABLE_NAME, id);
 
   if (!user) {
-    throw new EntityNotFoundError(ENTITY_NAME, id);
+    throw new UserNotFoundError(id);
   }
 };
 

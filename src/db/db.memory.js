@@ -1,6 +1,7 @@
 const Board = require('../resources/boards/board.model');
 const Task = require('../resources/tasks/task.model');
 const User = require('../resources/users/user.model');
+const { DataCorruptedError } = require('../errors');
 
 const db = {
   Tasks: [],
@@ -36,7 +37,7 @@ const getEntityById = async (tableName, id) => {
   const entities = db[tableName].filter((item) => id === item.id);
 
   if (entities.length > 1) {
-    throw new Error('Data corrupted! More than one id present!');
+    throw new DataCorruptedError(tableName, id);
   }
 
   return entities[0];
@@ -57,7 +58,7 @@ const getEntityByIdAndProps = async (tableName, id, props) => {
   });
 
   if (entities.length > 1) {
-    throw new Error('Data corrupted! More than one id present!');
+    throw new DataCorruptedError(tableName, id);
   }
 
   return entities[0];

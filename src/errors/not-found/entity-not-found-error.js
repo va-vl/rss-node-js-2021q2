@@ -5,8 +5,8 @@ class EntityNotFoundError extends Error {
    */
   constructor(entityName, id) {
     super(`Error: ${entityName} with id ${id} not found!`);
-    this.name = 'EntityNotFoundError';
     this.code = 'ERR_ENTITY_NOT_FOUND';
+    this.name = this.constructor.name;
   }
 }
 

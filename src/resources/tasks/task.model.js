@@ -30,8 +30,8 @@ class Task {
   }
 
   /**
-   * @param {Object} task
-   * @returns {Task}
+   * @param {Task} task
+   * @returns {Object}
    */
   static toResponse(task) {
     const { id, title, order, description, userId, boardId, columnId } = task;
