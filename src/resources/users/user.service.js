@@ -15,14 +15,14 @@ const getById = (id) => usersRepo.getById(id);
 
 /**
  * @param {String} user 
- * @returns {Object}
+ * @returns {User}
  */
 const create = (props) => usersRepo.create(new User(props));
 
 /**
  * @param {String} id 
  * @param {Object} user 
- * @returns 
+ * @returns {User}
  */
 const update = (id, props) => usersRepo.update(id, props);
 
@@ -31,7 +31,7 @@ const update = (id, props) => usersRepo.update(id, props);
  */
 const remove = async (id) => {
   await usersRepo.remove(id);
-  await taskService.unassignUser(id);
+  await taskService.removeUserBinding(id);
 }
 
 module.exports = { 

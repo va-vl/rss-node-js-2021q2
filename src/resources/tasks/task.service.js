@@ -3,21 +3,21 @@ const tasksRepo = require('./task.memory.repository');
 
 /**
  * @param {String} boardId 
- * @returns {Array}
+ * @returns {<Task>}
  */
 const getAll = (boardId) => tasksRepo.getAll(boardId);
 
 /**
  * @param {String} boardId 
  * @param {String} id 
- * @returns {Object}
+ * @returns {Task}
  */
 const getById = (boardId, id) => tasksRepo.getById(boardId, id);
 
 /**
  * @param {String} boardId 
  * @param {Object} task 
- * @returns {Object}
+ * @returns {Task}
  */
 const create = (boardId, task) => tasksRepo.create(new Task({...task, boardId}));
 
@@ -25,13 +25,13 @@ const create = (boardId, task) => tasksRepo.create(new Task({...task, boardId}))
  * @param {String} boardId 
  * @param {String} id 
  * @param {Object} task 
- * @returns {Object}
+ * @returns {Task}
  */
 const update = (boardId, id, task) => tasksRepo.update(boardId, id, task);
 
 /**
- * @param {*} boardId 
- * @param {*} id 
+ * @param {String} boardId 
+ * @param {String} id 
  */
 const remove = (boardId, id) => tasksRepo.remove(boardId, id);
 
@@ -43,7 +43,7 @@ const removeAllOnBoard = (boardId) => tasksRepo.removeAllOnBoard(boardId);
 /**
  * @param {String} userId 
  */
-const unassignUser = (userId) => tasksRepo.unassignUser(userId);
+const removeUserBinding = (userId) => tasksRepo.removeUserBinding(userId);
 
 module.exports = {
   getAll,
@@ -52,5 +52,5 @@ module.exports = {
   update,
   remove,
   removeAllOnBoard,
-  unassignUser,
+  removeUserBinding,
 };

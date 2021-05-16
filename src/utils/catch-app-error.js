@@ -1,5 +1,5 @@
 const catchAppError = (err, req, res, next) => {
-  if (err.name === 'MissingError') {
+  if (err.code === 'ERR_ENTITY_NOT_FOUND') {
     res.status(404).send('Something is missing')
   } else {
     next(err);

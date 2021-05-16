@@ -1,26 +1,25 @@
 const DB = require("../../db/db.memory");
 const Task = require("./task.model");
-const MissingError = require("../../errors/missing-error");
+const TaskNotFoundError = require("../../errors/task-not-found-error");
 
-const ENTITY_NAME = 'Task';
 const TABLE_NAME = 'Tasks';
 
 /**
  * @param {String} boardId 
- * @returns {Array}
+ * @returns {<Task>}
  */
 const getAll = async (boardId) => DB.getEntitiesByProps(TABLE_NAME, { boardId });
 
 /**
  * @param {String} boardId 
  * @param {String} id 
- * @returns {Array}
+ * @returns {Task}
  */
 const getById = async (boardId, id) => {
   const task = await DB.getEntityByIdAndProps(TABLE_NAME, id, { boardId });
 
   if (!task) {
-    throw new MissingError(ENTITY_NAME, id, `Board id: ${boardId}`);
+    throw new TaskNotFoundError(id, boardId);
   }
 
   return task;
@@ -35,14 +34,14 @@ const create = async (task) => DB.createEntity(TABLE_NAME, task);
 /**
  * @param {String} boardId 
  * @param {String} id 
- * @param {Object} task 
- * @returns 
+ * @param {Object} props 
+ * @returns {Task}
  */
-const update = async (boardId, id, task) => {
-  const updatedTask = await DB.updateEntity(TABLE_NAME, id, task);
+const update = async (boardId, id, props) => {
+  const updatedTask = await DB.updateEntity(TABLE_NAME, id, props);
 
   if (!updatedTask) {
-    throw new MissingError(ENTITY_NAME, id, `Board id: ${boardId}`);
+    throw new TaskNotFoundError(id, boardId);
   }
 
   return updatedTask;
@@ -56,7 +55,7 @@ const remove = async (boardId, id) => {
   const removedTask = await DB.deleteEntity(TABLE_NAME, id);
 
   if (!removedTask) {
-    throw new MissingError(ENTITY_NAME, id, `Board id: ${boardId}`);
+    throw new TaskNotFoundError(id, boardId);
   }
 };
 
@@ -74,7 +73,7 @@ const removeAllOnBoard = async (boardId) => {
 /**
  * @param {String} userId 
  */
-const unassignUser = async (userId) => {
+const removeUserBinding = async (userId) => {
   const tasks = await DB.getAllEntities(TABLE_NAME);
 
   tasks.forEach(async (task) => {
@@ -95,5 +94,5 @@ module.exports = {
   update,
   remove,
   removeAllOnBoard,
-  unassignUser,
+  removeUserBinding,
 };

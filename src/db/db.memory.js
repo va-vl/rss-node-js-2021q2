@@ -126,7 +126,7 @@ const deleteEntity = async (tableName, id) => {
   }));
 
   db.Tasks.push(new Task({
-    title: 'Test task',
+    title: '0',
     userId: db.Users[0].id,
     boardId: db.Boards[0].id,
     columnId: db.Boards[0].columns[0].id,

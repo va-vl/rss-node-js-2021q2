@@ -49,11 +49,13 @@ router.route('/:id').put(
 
 router.route('/:id').delete(
   catchRouteError(async (req, res) => {
+    const { id } = req.params;
+
     await boardsService.remove(req.params.id);
     
     res
       .status(204)
-      .send('Board removed!');
+      .send(`Board ${id} successfully removed.`);
   })
 );
 
