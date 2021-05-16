@@ -15,20 +15,6 @@ class Column {
     this.title = title;
     this.order = order;
   }
-
-  /**
-   * @param {Object} task 
-   */
-  addTask(task) {
-    this.tasks.push(task);
-  }
-
-  /**
-   * @param {String} taskId 
-   */
-  removeTaskById(taskId) {
-    this.tasks = this.tasks.filter((task) => task.id !== taskId);
-  }
 }
 
 module.exports = Column;
