@@ -1,3 +1,7 @@
+/**
+ * Task repository
+ * @module task/repository
+ */
 const DB = require('../../db/db.memory');
 const Task = require('./task.model');
 const { TaskNotFoundError } = require('../../errors');

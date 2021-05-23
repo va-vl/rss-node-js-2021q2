@@ -36,11 +36,7 @@ router.route('/:boardId/tasks/:id').put(
   appErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
     const { body } = req;
-    const updatedTask = await tasksService.update(
-      boardId,
-      id,
-      body,
-    );
+    const updatedTask = await tasksService.update(boardId, id, body);
 
     res.status(200).json(Task.toResponse(updatedTask));
   })
