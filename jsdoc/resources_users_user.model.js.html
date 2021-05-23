@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>resources/users/user.model.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BoardNotFoundError.html">BoardNotFoundError</a></li><li><a href="DataCorruptedError.html">DataCorruptedError</a></li><li><a href="EntityNotFoundError.html">EntityNotFoundError</a></li><li><a href="module-board_model-Board.html">Board</a></li><li><a href="module-board_model-Column.html">Column</a></li><li><a href="module-task_model-Task.html">Task</a><ul class='methods'><li data-type='method'><a href="module-task_model-Task.html#.toResponse">toResponse</a></li></ul></li><li><a href="TaskNotFoundError.html">TaskNotFoundError</a></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#.toResponse">toResponse</a></li></ul></li><li><a href="UserNotFoundError.html">UserNotFoundError</a></li></ul><h3>Modules</h3><ul><li><a href="module-board_model.html">board/model</a></li><li><a href="module-board_repository.html">board/repository</a><ul class='methods'><li data-type='method'><a href="module-board_repository.html#~create">create</a></li><li data-type='method'><a href="module-board_repository.html#~getAll">getAll</a></li><li data-type='method'><a href="module-board_repository.html#~getById">getById</a></li><li data-type='method'><a href="module-board_repository.html#~remove">remove</a></li><li data-type='method'><a href="module-board_repository.html#~update">update</a></li></ul></li><li><a href="module-board_service.html">board/service</a><ul class='methods'><li data-type='method'><a href="module-board_service.html#~create">create</a></li><li data-type='method'><a href="module-board_service.html#~getById">getById</a></li><li data-type='method'><a href="module-board_service.html#~update">update</a></li></ul></li><li><a href="module-task_model.html">task/model</a></li><li><a href="module-task_repository.html">task/repository</a><ul class='methods'><li data-type='method'><a href="module-task_repository.html#~create">create</a></li><li data-type='method'><a href="module-task_repository.html#~getAll">getAll</a></li><li data-type='method'><a href="module-task_repository.html#~getById">getById</a></li><li data-type='method'><a href="module-task_repository.html#~remove">remove</a></li><li data-type='method'><a href="module-task_repository.html#~removeAllOnBoard">removeAllOnBoard</a></li><li data-type='method'><a href="module-task_repository.html#~removeUserBinding">removeUserBinding</a></li><li data-type='method'><a href="module-task_repository.html#~update">update</a></li></ul></li><li><a href="module-task_service.html">task/service</a><ul class='methods'><li data-type='method'><a href="module-task_service.html#~create">create</a></li><li data-type='method'><a href="module-task_service.html#~getAll">getAll</a></li><li data-type='method'><a href="module-task_service.html#~getById">getById</a></li><li data-type='method'><a href="module-task_service.html#~remove">remove</a></li><li data-type='method'><a href="module-task_service.html#~removeAllOnBoard">removeAllOnBoard</a></li><li data-type='method'><a href="module-task_service.html#~removeUserBinding">removeUserBinding</a></li><li data-type='method'><a href="module-task_service.html#~update">update</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#create">create</a></li><li><a href="global.html#createEntity">createEntity</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteEntity">deleteEntity</a></li><li><a href="global.html#getAll">getAll</a></li><li><a href="global.html#getAllEntities">getAllEntities</a></li><li><a href="global.html#getById">getById</a></li><li><a href="global.html#getEntitiesByProps">getEntitiesByProps</a></li><li><a href="global.html#getEntityById">getEntityById</a></li><li><a href="global.html#getEntityByIdAndProps">getEntityByIdAndProps</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updateEntity">updateEntity</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">resources/users/user.model.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const uuid = require('uuid');
+
+class User {
+  /**
+   * @param {Object} params
+   * @param {String} params.id
+   * @param {String} params.name
+   * @param {Sting} params.login
+   * @param {String} params.password
+   */
+  constructor({
+    id = uuid.v4(),
+    name = 'USER',
+    login = 'user',
+    password = 'P@55w0rd',
+  } = {}) {
+    this.id = id;
+    this.name = name;
+    this.login = login;
+    this.password = password;
+  }
+
+  /**
+   * @param {User} user
+   * @returns {Object}
+   */
+  static toResponse(user) {
+    const { id, name, login } = user;
+
+    return { id, name, login };
+  }
+}
+
+module.exports = User;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Sun May 23 2021 23:12:42 GMT+0500 (Екатеринбург, стандартное время) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

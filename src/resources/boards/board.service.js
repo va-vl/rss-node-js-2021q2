@@ -1,3 +1,7 @@
+/**
+ * Board service
+ * @module board/service
+ */
 const boardsRepo = require('./board.memory.repository');
 const tasksService = require('../tasks/task.service');
 const Board = require('./board.model');

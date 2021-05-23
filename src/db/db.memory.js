@@ -3,6 +3,11 @@ const Task = require('../resources/tasks/task.model');
 const User = require('../resources/users/user.model');
 const { DataCorruptedError } = require('../errors');
 
+/**
+ * An in-memory database object
+ * @type {Object}
+ * @property {Array<Board>} boards - an array of existing Board instances
+ */
 const db = {
   Tasks: [],
   Users: [],
