@@ -1,10 +1,10 @@
-const router = require('express').Router();
+const router = require('express').Router({ mergeParams: true });
 //
 const Task = require('./task.model');
 const tasksService = require('./task.service');
 const appErrorHandler = require('../../utils/router-error-handler');
 
-router.route('/:boardId/tasks').get(
+router.route('/tasks').get(
   appErrorHandler(async (req, res) => {
     const { boardId } = req.params;
     const tasks = await tasksService.getAll(boardId);
@@ -13,7 +13,7 @@ router.route('/:boardId/tasks').get(
   })
 );
 
-router.route('/:boardId/tasks/:id').get(
+router.route('/tasks/:id').get(
   appErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
     const task = await tasksService.getById(boardId, id);
@@ -22,7 +22,7 @@ router.route('/:boardId/tasks/:id').get(
   })
 );
 
-router.route('/:boardId/tasks').post(
+router.route('/tasks').post(
   appErrorHandler(async (req, res) => {
     const { boardId } = req.params;
     const { body } = req;
@@ -32,7 +32,7 @@ router.route('/:boardId/tasks').post(
   })
 );
 
-router.route('/:boardId/tasks/:id').put(
+router.route('/tasks/:id').put(
   appErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
     const { body } = req;
@@ -42,7 +42,7 @@ router.route('/:boardId/tasks/:id').put(
   })
 );
 
-router.route('/:boardId/tasks/:id').delete(
+router.route('/tasks/:id').delete(
   appErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
 
