@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>task/service - Documentation</title>
+    <title>database/memory - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">task/service</h1>
+    <h1 class="page-title">database/memory</h1>
     
 
     
@@ -55,7 +55,7 @@
         <div class="container-overview">
         
             
-                <div class="description usertext"><p>Task service</p></div>
+                <div class="description usertext"><p>In-memory database</p></div>
             
 
             
@@ -69,7 +69,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="resources_tasks_task.service.js.html">resources/tasks/task.service.js</a>, <a href="resources_tasks_task.service.js.html#line1">line 1</a>
+        <a href="db_db.memory.js.html">db/db.memory.js</a>, <a href="db_db.memory.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -153,6 +153,181 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="~db"><span class="type-signature">(inner, constant) </span>db<span class="type-signature"> :Object</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="db_db.memory.js.html">db/db.memory.js</a>, <a href="db_db.memory.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>Tasks</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Task></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array of existing Task instances</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Users</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;User></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array of existing User instances</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Boards</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Board></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array of existing Board instances</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description usertext">
+    <p>An in-memory database object</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -162,7 +337,7 @@
 
     
 
-    <h4 class="name" id="~create"><span class="type-signature">(inner) </span>create<span class="signature">(boardId, task)</span><span class="type-signature"> &rarr; {Task}</span></h4>
+    <h4 class="name" id="~createEntity"><span class="type-signature">(async, inner) </span>createEntity<span class="signature">(tableName, entity)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -174,7 +349,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="resources_tasks_task.service.js.html">resources/tasks/task.service.js</a>, <a href="resources_tasks_task.service.js.html#line26">line 26</a>
+        <a href="db_db.memory.js.html">db/db.memory.js</a>, <a href="db_db.memory.js.html#line91">line 91</a>
     </li></ul></dd>
     
 
@@ -248,7 +423,7 @@
 
         <tr>
             
-                <td class="name"><code>boardId</code></td>
+                <td class="name"><code>tableName</code></td>
             
 
             <td class="type">
@@ -271,7 +446,7 @@
 
         <tr>
             
-                <td class="name"><code>task</code></td>
+                <td class="name"><code>entity</code></td>
             
 
             <td class="type">
@@ -320,7 +495,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Task</span>
+<span class="param-type">Promise</span>
 
 
     </dd>
@@ -335,7 +510,7 @@
 
     
 
-    <h4 class="name" id="~getAll"><span class="type-signature">(inner) </span>getAll<span class="signature">(boardId)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~deleteEntity"><span class="type-signature">(async, inner) </span>deleteEntity<span class="signature">(tableName, id)</span><span class="type-signature"> &rarr; {Promise.&lt;Boolean>}</span></h4>
 
     
 
@@ -347,7 +522,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="resources_tasks_task.service.js.html">resources/tasks/task.service.js</a>, <a href="resources_tasks_task.service.js.html#line12">line 12</a>
+        <a href="db_db.memory.js.html">db/db.memory.js</a>, <a href="db_db.memory.js.html#line129">line 129</a>
     </li></ul></dd>
     
 
@@ -386,143 +561,9 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>boardId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~getById"><span class="type-signature">(inner) </span>getById<span class="signature">(boardId, id)</span><span class="type-signature"> &rarr; {Task}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="resources_tasks_task.service.js.html">resources/tasks/task.service.js</a>, <a href="resources_tasks_task.service.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
+<div class="description usertext">
+    <p>Removes an entity</p>
+</div>
 
 
 
@@ -559,7 +600,7 @@
 
         <tr>
             
-                <td class="name"><code>boardId</code></td>
+                <td class="name"><code>tableName</code></td>
             
 
             <td class="type">
@@ -575,7 +616,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>'Tasks', 'Users', or 'Boards'</p></td>
         </tr>
 
     
@@ -598,7 +639,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>entity id</p></td>
         </tr>
 
     
@@ -618,11 +659,48 @@
 
 
 
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <ul>
+<li>rejects if more than one entity with given id found</li>
+</ul>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">DataCorruptedError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
 
 
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    <ul>
+<li>returns a promise resolving to true if entity was found, false - if wasn't</li>
+</ul>
+</div>
+
 
 
 <dl class="param-type">
@@ -631,7 +709,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Task</span>
+<span class="param-type">Promise.&lt;Boolean></span>
 
 
     </dd>
@@ -646,7 +724,7 @@
 
     
 
-    <h4 class="name" id="~remove"><span class="type-signature">(inner) </span>remove<span class="signature">(boardId, id)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~getAllEntities"><span class="type-signature">(async, inner) </span>getAllEntities<span class="signature">(tableName)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;(Task|User|Board)>>}</span></h4>
 
     
 
@@ -658,7 +736,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="resources_tasks_task.service.js.html">resources/tasks/task.service.js</a>, <a href="resources_tasks_task.service.js.html#line41">line 41</a>
+        <a href="db_db.memory.js.html">db/db.memory.js</a>, <a href="db_db.memory.js.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -697,6 +775,10 @@
 
 
 
+<div class="description usertext">
+    <p>Retrieves all instances of tableName</p>
+</div>
+
 
 
 
@@ -732,7 +814,7 @@
 
         <tr>
             
-                <td class="name"><code>boardId</code></td>
+                <td class="name"><code>tableName</code></td>
             
 
             <td class="type">
@@ -748,30 +830,7 @@
 
             
 
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
+            <td class="description last"><p>'Tasks', 'Users', or 'Boards'</p></td>
         </tr>
 
     
@@ -793,6 +852,30 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>returns a promise resolving to an array of all instances of a given tableName</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Array.&lt;(Task|User|Board)>></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -801,7 +884,7 @@
 
     
 
-    <h4 class="name" id="~removeAllOnBoard"><span class="type-signature">(inner) </span>removeAllOnBoard<span class="signature">(boardId)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~getEntitiesByProps"><span class="type-signature">(async, inner) </span>getEntitiesByProps<span class="signature">(tableName, props)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;(Task|User|Board)>>}</span></h4>
 
     
 
@@ -813,7 +896,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="resources_tasks_task.service.js.html">resources/tasks/task.service.js</a>, <a href="resources_tasks_task.service.js.html#line46">line 46</a>
+        <a href="db_db.memory.js.html">db/db.memory.js</a>, <a href="db_db.memory.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
@@ -852,137 +935,9 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>boardId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~removeUserBinding"><span class="type-signature">(inner) </span>removeUserBinding<span class="signature">(userId)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="resources_tasks_task.service.js.html">resources/tasks/task.service.js</a>, <a href="resources_tasks_task.service.js.html#line51">line 51</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
+<div class="description usertext">
+    <p>Retrieves all instances that fit search criteria defined in props</p>
+</div>
 
 
 
@@ -1019,7 +974,7 @@
 
         <tr>
             
-                <td class="name"><code>userId</code></td>
+                <td class="name"><code>tableName</code></td>
             
 
             <td class="type">
@@ -1035,169 +990,14 @@
 
             
 
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~update"><span class="type-signature">(inner) </span>update<span class="signature">(boardId, id, task)</span><span class="type-signature"> &rarr; {Task}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="resources_tasks_task.service.js.html">resources/tasks/task.service.js</a>, <a href="resources_tasks_task.service.js.html#line35">line 35</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>boardId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
+            <td class="description last"><p>'Tasks', 'Users', or 'Boards'</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>task</code></td>
+                <td class="name"><code>props</code></td>
             
 
             <td class="type">
@@ -1213,7 +1013,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>an object of key: value pairs</p></td>
         </tr>
 
     
@@ -1238,6 +1038,12 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    <ul>
+<li>returns a promise resolving to an array of entities</li>
+</ul>
+</div>
+
 
 
 <dl class="param-type">
@@ -1246,7 +1052,695 @@
     </dt>
     <dd>
         
-<span class="param-type">Task</span>
+<span class="param-type">Promise.&lt;Array.&lt;(Task|User|Board)>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~getEntityById"><span class="type-signature">(async, inner) </span>getEntityById<span class="signature">(tableName, id)</span><span class="type-signature"> &rarr; {Promise.&lt;(Task|User|Board|undefined)>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="db_db.memory.js.html">db/db.memory.js</a>, <a href="db_db.memory.js.html#line52">line 52</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Retrieves an entity by provided tableName and id</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tableName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>'Tasks', 'Users', or 'Boards'</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>entity id</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <ul>
+<li>rejects if more than one entity with given id found</li>
+</ul>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">DataCorruptedError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>returns a promise resolving to entity or undefined</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;(Task|User|Board|undefined)></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~getEntityByIdAndProps"><span class="type-signature">(async, inner) </span>getEntityByIdAndProps<span class="signature">(tableName, id, props)</span><span class="type-signature"> &rarr; {Promise.&lt;(Task|User|Board|undefined)>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="db_db.memory.js.html">db/db.memory.js</a>, <a href="db_db.memory.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Retrieves an entity by provided tableName, id, and props</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tableName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>'Tasks', 'Users', or 'Boards'</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>entity id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>an object of key: value pairs</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <ul>
+<li>rejects if more than one entity with given id found</li>
+</ul>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">DataCorruptedError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>returns a promise resolving to entity or undefined</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;(Task|User|Board|undefined)></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~updateEntity"><span class="type-signature">(async, inner) </span>updateEntity<span class="signature">(tableName, id, props)</span><span class="type-signature"> &rarr; {Promise.&lt;(Task|User|Board|undefined)>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="db_db.memory.js.html">db/db.memory.js</a>, <a href="db_db.memory.js.html#line105">line 105</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Finds an entity by tableName and id, overwrites it with new props</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tableName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>'Tasks', 'Users', or 'Boards'</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>entity id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>collection of key: value pairs</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <ul>
+<li>rejects if more than one entity with given id found</li>
+</ul>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">DataCorruptedError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>returns a promise resolving to entity or undefined</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;(Task|User|Board|undefined)></span>
 
 
     </dd>

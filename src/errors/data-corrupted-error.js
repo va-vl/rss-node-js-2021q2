@@ -1,7 +1,12 @@
+/**
+ * Class representing DataCorruptedError error
+ * @description Thrown when database is corrupted
+ * @augments Error
+ */
 class DataCorruptedError extends Error {
   /**
-   * @param {String} entity
-   * @param {String} id
+   * @param {String} entity - 'Board', 'User', or 'Task'
+   * @param {String} id - entity id
    */
   constructor(entity, id) {
     super(`Corrupted Database: More than one ${entity} with id ${id} present.`);
