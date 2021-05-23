@@ -2,22 +2,26 @@
  * User repository
  * @module user/repository
  */
-const db = require('../../db/db.memory');
+const DB = require('../../db/db.memory');
 const { UserNotFoundError } = require('../../errors');
 
 const TABLE_NAME = 'Users';
 
 /**
- * @returns {<User>}
+ * Retrieves all users in database
+ * @returns {Promise<Array<User>>} - a promise resolving to an array of User instances
  */
-const getAll = async () => db.getAllEntities(TABLE_NAME);
+const getAll = async () => DB.getAllEntities(TABLE_NAME);
 
 /**
- * @param {String} id
- * @returns {User}
+ * Retrieves a user by id
+ * @param {String} id - user id
+ * @throws {DataCorruptedError} - rejects if more than one user with id found
+ * @throws {UserNotFoundError} - rejects if no User found
+ * @returns {Promise<User>} - a promise resolving to User instance
  */
 const getById = async (id) => {
-  const user = await db.getEntityById(TABLE_NAME, id);
+  const user = await DB.getEntityById(TABLE_NAME, id);
 
   if (!user) {
     throw new UserNotFoundError(id);
@@ -27,19 +31,23 @@ const getById = async (id) => {
 };
 
 /**
- * @param {User} user
- * @returns {User}
+ * Sends a User instance to database
+ * @param {User} userInstance - an instance of User class
+ * @throws {DataCorruptedError} - rejects if more than one user with id found
+ * @returns {Promise<User>} - a promise resolving to User instance
  */
-const create = async (user) => db.createEntity(TABLE_NAME, user);
+const create = async (user) => DB.createEntity(TABLE_NAME, user);
 
 /**
- *
- * @param {String} id
- * @param {Object} props
- * @returns {User}
+ * Forwards props with new values to database to create a new User
+ * @param {String} id - user id
+ * @param {Object} props - a collection of key: value pairs
+ * @throws {DataCorruptedError} - rejects if more than one user with id found
+ * @throws {UserNotFoundError} - rejects if no User found
+ * @returns {Promise<User>} - a promise resolving to User instance
  */
 const update = async (id, props) => {
-  const user = await db.updateEntity(TABLE_NAME, id, props);
+  const user = await DB.updateEntity(TABLE_NAME, id, props);
 
   if (!user) {
     throw new UserNotFoundError(id);
@@ -49,10 +57,14 @@ const update = async (id, props) => {
 };
 
 /**
- * @param {String} id
+ * Removes user by id
+ * @param {String} id - user id
+ * @throws {DataCorruptedError} - rejects if more than one user with id found
+ * @throws {UserNotFoundError} - rejects if no User found
+ * @returns {void}
  */
 const remove = async (id) => {
-  const user = await db.deleteEntity(TABLE_NAME, id);
+  const user = await DB.deleteEntity(TABLE_NAME, id);
 
   if (!user) {
     throw new UserNotFoundError(id);
