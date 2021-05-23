@@ -1,3 +1,7 @@
+/**
+ * User service
+ * @module user/service
+ */
 const User = require('./user.model');
 const usersRepo = require('./user.memory.repository');
 const taskService = require('../tasks/task.service');

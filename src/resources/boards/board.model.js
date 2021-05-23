@@ -18,7 +18,7 @@ const Column = require('./board.column.model');
 class Board {
   /**
    * creates a board instance
-   * @param {boardProps} - an object containing Board properties
+   * @param {boardProps} [props] - an object containing Board properties
    */
   constructor({
     id = uuid.v4(),

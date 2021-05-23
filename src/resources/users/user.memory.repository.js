@@ -1,10 +1,14 @@
+/**
+ * User repository
+ * @module user/repository
+ */
 const db = require('../../db/db.memory');
 const { UserNotFoundError } = require('../../errors');
 
 const TABLE_NAME = 'Users';
 
 /**
- * @returns {<User>} 
+ * @returns {<User>}
  */
 const getAll = async () => db.getAllEntities(TABLE_NAME);
 

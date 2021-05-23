@@ -17,7 +17,7 @@ const uuid = require('uuid');
 class Column {
   /**
    * Creates a column instance
-   * @param {columnProps} props - an object containing Column properties
+   * @param {columnProps} [props] - an object containing Column properties
    */
   constructor({ id = uuid.v4(), title = 'Column Title', order = 0 } = {}) {
     /**
