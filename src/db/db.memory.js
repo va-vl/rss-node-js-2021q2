@@ -23,7 +23,7 @@ const db = {
 /**
  * Retrieves all instances of tableName
  * @param {String} tableName - 'Tasks', 'Users', or 'Boards'
- * @returns {Promise<Array<Task|User|Board>>} - returns a promise resolving to an array of all instances of a given tableName
+ * @returns {Promise<Array<Task|User|Board>>} - a promise resolving to an array of all instances of a given tableName
  */
 const getAllEntities = async (tableName) =>
   db[tableName].filter((entity) => entity);
@@ -32,7 +32,7 @@ const getAllEntities = async (tableName) =>
  * Retrieves all instances that fit search criteria defined in props
  * @param {String} tableName - 'Tasks', 'Users', or 'Boards'
  * @param {Object} props - an object of key: value pairs
- * @returns {Promise<Array<Task|User|Board>>} - returns a promise resolving to an array of entities
+ * @returns {Promise<Array<Task|User|Board>>} - a promise resolving to an array of entities
  */
 const getEntitiesByProps = async (tableName, props) => {
   const keys = Object.keys(props);
@@ -47,7 +47,7 @@ const getEntitiesByProps = async (tableName, props) => {
  * @param {String} tableName - 'Tasks', 'Users', or 'Boards'
  * @param {String} id - entity id
  * @throws {DataCorruptedError} - rejects if more than one entity with given id found
- * @returns {Promise<Task|User|Board|undefined>} - returns a promise resolving to entity or undefined
+ * @returns {Promise<Task|User|Board|undefined>} - a promise resolving to entity or undefined
  */
 const getEntityById = async (tableName, id) => {
   const entities = db[tableName].filter((item) => id === item.id);
@@ -65,7 +65,7 @@ const getEntityById = async (tableName, id) => {
  * @param {String} id - entity id
  * @param {Object} props - an object of key: value pairs
  * @throws {DataCorruptedError} - rejects if more than one entity with given id found
- * @returns {Promise<Task|User|Board|undefined>} - returns a promise resolving to entity or undefined
+ * @returns {Promise<Task|User|Board|undefined>} - a promise resolving to entity or undefined
  */
 const getEntityByIdAndProps = async (tableName, id, props) => {
   const keys = Object.keys(props);
@@ -84,9 +84,11 @@ const getEntityByIdAndProps = async (tableName, id, props) => {
 };
 
 /**
- * @param {String} tableName
- * @param {Object} entity
- * @returns {Promise}
+ * Pushes an entity to its collection
+ * @param {String} tableName - 'Tasks', 'Users', or 'Boards'
+ * @param {Board|Task|User} entity - an instance of entity
+ * @throws {DataCorruptedError} - rejects if more than one entity with given id found
+ * @returns {Promise<Board|Task|User>} - a promise resolving to entity
  */
 const createEntity = async (tableName, entity) => {
   db[tableName].push(entity);
@@ -100,7 +102,7 @@ const createEntity = async (tableName, entity) => {
  * @param {String} id - entity id
  * @param {Object} props - collection of key: value pairs
  * @throws {DataCorruptedError} - rejects if more than one entity with given id found
- * @returns {Promise<Task|User|Board|undefined>} - returns a promise resolving to entity or undefined
+ * @returns {Promise<Task|User|Board|undefined>} - a promise resolving to entity or undefined
  */
 const updateEntity = async (tableName, id, props) => {
   const entity = await getEntityById(tableName, id);
@@ -124,7 +126,7 @@ const updateEntity = async (tableName, id, props) => {
  * @param {String} tableName - 'Tasks', 'Users', or 'Boards'
  * @param {String} id - entity id
  * @throws {DataCorruptedError} - rejects if more than one entity with given id found
- * @returns {Promise<Boolean>} - returns a promise resolving to true if entity was found, false - if wasn't
+ * @returns {Promise<Boolean>} - a promise resolving to true if entity was found, false - if wasn't
  */
 const deleteEntity = async (tableName, id) => {
   const entity = await getEntityById(tableName, id);
