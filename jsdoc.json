@@ -2,7 +2,7 @@
   "source": {
     "include": ["src"],
     "includePattern": ".js$",
-    "excludePattern": "(node_modules/|jsdoc)"
+    "excludePattern": "(node_modules/|out/)"
   },
   "compilerOptions": {
     "checkJs": true

@@ -8,6 +8,16 @@ const { UserNotFoundError } = require('../../errors');
 const TABLE_NAME = 'Users';
 
 /**
+ * User instance type
+ * @typedef {Object} User
+ * @ignore
+ * @property {String} id user id
+ * @property {String} name user name
+ * @property {String} login user login
+ * @property {String} password user password
+ */
+
+/**
  * Retrieves all users in database
  * @returns {Promise<Array<User>>}  a promise resolving to an array of users
  */

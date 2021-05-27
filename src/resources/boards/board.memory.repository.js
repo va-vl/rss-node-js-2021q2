@@ -9,7 +9,12 @@ const { BoardNotFoundError } = require('../../errors');
 const TABLE_NAME = 'Boards';
 
 /**
- * @typedef {@link module:board/model} Board
+ * Board instance type
+ * @typedef {Object} Board
+ * @ignore
+ * @property {String} id board id
+ * @property {String} title board title
+ * @property {Array<Column>} columns an array of Column instances
  */
 
 /**

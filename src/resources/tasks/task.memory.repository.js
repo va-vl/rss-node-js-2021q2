@@ -8,6 +8,19 @@ const { TaskNotFoundError } = require('../../errors');
 const TABLE_NAME = 'Tasks';
 
 /**
+ * Task instance type
+ * @typedef {Object} Task
+ * @ignore
+ * @property {String} id id
+ * @property {String} title title
+ * @property {String} description description
+ * @property {String|null} userId id of the user assigned to this instance
+ * @property {String|null} boardId id of the board this instance belongs to
+ * @property {String|null} columnId id of the column this instance belongs to
+ * @property {Number} order order of this instance within its Column
+ */
+
+/**
  * Retrieves all Tasks from a given boardId
  * @param {String} boardId id of a board the task belongs to
  * @returns {Promise<Array<Task>>} promise resolving to array tasks
