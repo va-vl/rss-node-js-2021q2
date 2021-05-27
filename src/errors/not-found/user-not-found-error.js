@@ -7,7 +7,7 @@ const EntityNotFoundError = require('./entity-not-found-error');
  */
 class UserNotFoundError extends EntityNotFoundError {
   /**
-   * @param {String} id - user id
+   * @param {String} id user id
    */
   constructor(id) {
     super('User', id);

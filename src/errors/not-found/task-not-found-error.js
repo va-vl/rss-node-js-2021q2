@@ -7,8 +7,8 @@ const EntityNotFoundError = require('./entity-not-found-error');
  */
 class TaskNotFoundError extends EntityNotFoundError {
   /**
-   * @param {String} id - task id
-   * @param {String} boardId - id of a board the task was supposed to be on
+   * @param {String} id task id
+   * @param {String} boardId id of a board the task was supposed to be on
    */
   constructor(id, boardId) {
     super();

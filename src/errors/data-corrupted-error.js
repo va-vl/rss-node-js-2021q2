@@ -5,8 +5,8 @@
  */
 class DataCorruptedError extends Error {
   /**
-   * @param {String} entity - 'Board', 'User', or 'Task'
-   * @param {String} id - entity id
+   * @param {String} entity 'Board', 'User', or 'Task'
+   * @param {String} id entity id
    */
   constructor(entity, id) {
     super(`Corrupted Database: More than one ${entity} with id ${id} present.`);
