@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { StatusCodes } = require('http-status-codes');
 //
 const User = require('./user.model');
 const usersService = require('./user.service');
@@ -8,7 +9,7 @@ router.route('/').get(
   asyncErrorHandler(async (req, res) => {
     const users = await usersService.getAll();
 
-    res.status(200).json(users.map(User.toResponse));
+    res.status(StatusCodes.OK).json(users.map(User.toResponse));
   })
 );
 
@@ -17,7 +18,7 @@ router.route('/:id').get(
     const { id } = req.params;
     const user = await usersService.getById(id);
 
-    res.status(200).json(User.toResponse(user));
+    res.status(StatusCodes.OK).json(User.toResponse(user));
   })
 );
 
@@ -26,7 +27,7 @@ router.route('/').post(
     const { name, login, password } = req.body;
     const user = await usersService.create({ name, login, password });
 
-    res.status(201).json(User.toResponse(user));
+    res.status(StatusCodes.CREATED).json(User.toResponse(user));
   })
 );
 
@@ -36,7 +37,7 @@ router.route('/:id').put(
     const { name, login, password } = req.body;
     const user = await usersService.update(id, { name, login, password });
 
-    res.status(200).json(User.toResponse(user));
+    res.status(StatusCodes.OK).json(User.toResponse(user));
   })
 );
 
@@ -46,7 +47,7 @@ router.route('/:id').delete(
 
     await usersService.remove(id);
 
-    res.status(204).send('User removed');
+    res.status(StatusCodes.NO_CONTENT).send('User removed');
   })
 );
 

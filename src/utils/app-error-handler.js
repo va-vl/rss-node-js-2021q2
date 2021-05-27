@@ -1,3 +1,5 @@
+const { StatusCodes } = require('http-status-codes');
+
 /**
  * Sends known errors, forwards other errors with next()
  * @param {Object} err error object
@@ -8,11 +10,11 @@
 const appErrorHandler = (err, req, res, next) => {
   switch (err.code) {
     case 'ERR_ENTITY_NOT_FOUND': {
-      res.status(404).send(err.message);
+      res.status(StatusCodes.NOT_FOUND).send(err.message);
       break;
     }
     case 'ERR_DATA_CORRUPTED': {
-      res.status(500).send(err.message);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err.message);
       break;
     }
     default: {
