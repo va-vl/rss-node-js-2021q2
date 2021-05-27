@@ -4,7 +4,7 @@
  */
 const uuid = require('uuid');
 //
-const Column = require('./board.column.model');
+const Column = require('./column.model');
 
 /**
  * A JavaScript object containing properties for the Board instance

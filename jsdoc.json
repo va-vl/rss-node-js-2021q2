@@ -16,7 +16,6 @@
   },
   "opts": {
     "recurse": true,
-    "destination": "./jsdoc/",
     "readme": "./README.md",
     "template": "node_modules/docdash"
   }
