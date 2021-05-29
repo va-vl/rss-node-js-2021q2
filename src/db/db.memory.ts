@@ -28,6 +28,7 @@ const validateArray = (
   return arr.length > 0;
 }
 
+//#region users
 const getAllUsers = async (): Promise<User[]> => db.Users.map((user: User): User => user);
 
 const getUserById = async (id: string): Promise<User|undefined> => {
@@ -77,7 +78,9 @@ const removeUser = async (id: string) => {
 
   return true;
 }
+//#endregion
 
+//#region boards
 const getAllBoards = async (): Promise<Board[]> => db.Boards.map((board: Board): Board => board);
 
 const getBoardById = async (id: string): Promise<Board|undefined> => {
@@ -120,21 +123,23 @@ const removeBoard = async (id: string): Promise<boolean> => {
     return false;
   } 
 
-  db.Boards = db.Boards.filter((board: Board): boolean => board.id !== id);
+  db.Boards = db.Boards.filter((board: Board): boolean => board !== unwantedBoard);
   db.Tasks = db.Tasks.filter((task: Task): boolean => task.boardId !== id);
 
   return true;
 }
+//#endregion
 
-const getAllTasks = async (
-  boardId: string
-): Promise<Task[]> => db.Tasks.filter((task: Task): boolean => task.boardId === boardId);
+//#region tasks
+const getAllTasks = async (boardId: string): Promise<Task[]> => 
+  db.Tasks.filter((task: Task): boolean => task.boardId === boardId);
 
-const getTaskById = async (
-  boardId: string, 
-  id: string
-): Promise<Task|undefined> => {
-  const tasks = db.Tasks.filter((task: Task): boolean => task.boardId === boardId && task.id === id);
+const getTaskById = async (boardId: string, id: string): Promise<Task|undefined> => {
+  const tasks = db.Tasks.filter((task: Task): boolean => {
+    const isOnBoard = task.boardId === boardId;
+    const isTask = task.id === id;
+    return isOnBoard && isTask;
+  });
 
   return validateArray(tasks, `Task on Board ${boardId}`, id)
     ? tasks[0]
@@ -153,7 +158,7 @@ const createTask = async (
     }
   }
 
-  const task = new Task(props);
+  const task = new Task({ ...props, boardId });
   db.Tasks.push(task);
   return task;
 };
@@ -182,10 +187,11 @@ const removeTask = async (
     return false;
   } 
 
-  db.Tasks = db.Tasks.filter((task: Task): boolean => task.boardId !== boardId && task.id !== id);
+  db.Tasks = db.Tasks.filter((task: Task): boolean => task !== unwantedTask);
 
   return true;
 }
+//#endregion
 
 /* #region init db for postman testing */
 (() => {

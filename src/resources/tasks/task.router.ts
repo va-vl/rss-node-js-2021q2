@@ -26,7 +26,7 @@ router.route('/:boardId/tasks/:id').get(async (req, res, next) => {
   }
 });
 
-router.route('/:boardId/tasks/:id').post(async (req, res, next) => {
+router.route('/:boardId/tasks').post(async (req, res, next) => {
   try {
     const { boardId } = req.params;
     const { body } = req;
