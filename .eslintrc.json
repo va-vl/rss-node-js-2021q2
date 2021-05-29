@@ -39,6 +39,7 @@
     "linebreak-style": "off",
     "import/extensions": "off",
     "no-underscore-dangle": "off",
+    "no-unused-vars": "error",
     "import/prefer-default-export": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "node/no-missing-import": [
@@ -47,7 +48,6 @@
         "tryExtensions": [".js", ".json", ".ts"]
       }
     ],
-    "@typescript-eslint/no-unused-vars": 0,
-    "@typescript-eslint/require-await": 0
+    "@typescript-eslint/no-unused-vars": "error"
   }
 }
