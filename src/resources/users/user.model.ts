@@ -1,6 +1,6 @@
-import uuid = require('uuid');
+import * as uuid from 'uuid';
 // 
-import IUserProps = require('./user.types');
+import IUserProps from './user.types';
 
 class User {
   id: string;
@@ -32,4 +32,4 @@ class User {
   }
 }
 
-export = User;
+export default User;

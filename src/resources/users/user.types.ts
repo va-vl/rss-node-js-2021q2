@@ -5,4 +5,4 @@ interface IUserProps {
   password?: string;
 }
 
-export = IUserProps;
+export default IUserProps;

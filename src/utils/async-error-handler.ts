@@ -1,4 +1,4 @@
-import express = require('express');
+import express from 'express';
 
 const asyncErrorHandler = (func: Function): Function => (
   req: express.Request, 
@@ -10,4 +10,4 @@ const asyncErrorHandler = (func: Function): Function => (
       .catch((err: Error) => { next(err); });
   };
 
-export = asyncErrorHandler;
+export default asyncErrorHandler;

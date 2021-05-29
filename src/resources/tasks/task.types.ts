@@ -8,4 +8,4 @@ interface ITaskProps {
   order?: number,
 }
 
-export = ITaskProps;
+export default ITaskProps;

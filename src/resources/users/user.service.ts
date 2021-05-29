@@ -1,6 +1,6 @@
-import usersRepo = require('./user.memory.repository');
-import User = require('./user.model');
-import IUserProps = require('./user.types');
+import usersRepo from './user.memory.repository';
+import User from './user.model';
+import IUserProps from './user.types';
 
 const getAll = async (): Promise<User[]> => usersRepo.getAll();
 
@@ -16,7 +16,7 @@ const remove = async (id: string): Promise<void> => {
   await usersRepo.remove(id);
 };
 
-export = {
+export default {
   getAll,
   getById,
   create,

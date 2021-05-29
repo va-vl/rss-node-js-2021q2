@@ -1,6 +1,5 @@
-import express = require('express');
-import httpStatusCodes = require('http-status-codes');
-const { StatusCodes } = httpStatusCodes;
+import express from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 const appErrorHandler = (
   err: { code?: string, message: string }, 
@@ -23,4 +22,4 @@ const appErrorHandler = (
   }
 };
 
-export = appErrorHandler;
+export default appErrorHandler;

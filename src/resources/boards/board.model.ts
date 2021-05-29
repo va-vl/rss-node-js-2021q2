@@ -1,9 +1,9 @@
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 //
 import Column from './column.model';
 import IBoardProps from './board.types';
 
-export default class Board {
+class Board {
   id: string;
   title: string;
   columns: Column[];
@@ -18,3 +18,5 @@ export default class Board {
     this.columns = columns;
   }
 };
+
+export default Board;

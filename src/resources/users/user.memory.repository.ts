@@ -1,9 +1,7 @@
-import DB = require('../../db/db.memory');
-import User = require('./user.model');
-import IUserProps = require('./user.types');
-import errors = require('../../errors');
-
-const { UserNotFoundError } = errors;
+import * as DB from '../../db/db.memory';
+import User from './user.model';
+import IUserProps from './user.types';
+import { UserNotFoundError } from '../../errors';
 
 const getAll = async (): Promise<User[]> => DB.getAllUsers();
 
@@ -40,7 +38,7 @@ const remove = async (id: string): Promise<void> => {
   }
 };
 
-export = {
+export default {
   getAll,
   getById,
   create,
