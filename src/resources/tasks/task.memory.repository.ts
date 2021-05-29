@@ -6,10 +6,7 @@ import { TaskNotFoundError } from '../../errors';
 const getAll = async (boardId: string): Promise<Task[]> =>
   DB.getAllTasks(boardId);
 
-const getById = async (
-  boardId: string, 
-  id: string
-): Promise<Task> => {
+const getById = async (boardId: string, id: string): Promise<Task> => {
   const task = await DB.getTaskById(boardId, id);
 
   if (task === undefined) {
@@ -19,15 +16,12 @@ const getById = async (
   return task;
 };
 
-const create = async (
-  boardId: string, 
-  props: ITaskProps
-): Promise<Task> =>
+const create = async (boardId: string, props: ITaskProps): Promise<Task> =>
   DB.createTask(boardId, props);
 
 const update = async (
-  boardId: string, 
-  id: string, 
+  boardId: string,
+  id: string,
   props: ITaskProps
 ): Promise<Task> => {
   const updatedTask = await DB.updateTask(boardId, id, props);
@@ -39,10 +33,7 @@ const update = async (
   return updatedTask;
 };
 
-const remove = async (
-  boardId: string, 
-  id: string
-): Promise<void> => {
+const remove = async (boardId: string, id: string): Promise<void> => {
   const isRemoved = await DB.removeTask(boardId, id);
 
   if (!isRemoved) {

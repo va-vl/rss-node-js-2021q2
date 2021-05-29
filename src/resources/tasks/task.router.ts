@@ -6,7 +6,7 @@ import tasksService from './task.service';
 
 const router = express.Router({ mergeParams: true });
 
-router.route('/:boardId/tasks').get(async (req, res,next ) => {
+router.route('/:boardId/tasks').get(async (req, res, next) => {
   try {
     const { boardId } = req.params;
     const tasks = await tasksService.getAll(boardId);

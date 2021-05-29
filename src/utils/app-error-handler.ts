@@ -2,9 +2,9 @@ import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 const appErrorHandler = (
-  err: { code?: string, message: string }, 
-  _req: express.Request, 
-  res: express.Response, 
+  err: { code?: string; message: string },
+  _req: express.Request,
+  res: express.Response,
   next: express.NextFunction
 ): void => {
   switch (err.code) {

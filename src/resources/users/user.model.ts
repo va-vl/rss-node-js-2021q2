@@ -1,11 +1,14 @@
 import * as uuid from 'uuid';
-// 
+//
 import IUserProps from './user.types';
 
 class User {
   id: string;
+
   name: string;
+
   login: string;
+
   password: string;
 
   constructor({
@@ -20,11 +23,12 @@ class User {
     this.password = password;
   }
 
-  
-  static toResponse(user: User): {
-    id: string,
-    name: string,
-    login: string
+  static toResponse(
+    user: User
+  ): {
+    id: string;
+    name: string;
+    login: string;
   } {
     const { id, name, login } = user;
 

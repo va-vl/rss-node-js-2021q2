@@ -43,7 +43,7 @@ router.route('/:id').put(async (req, res, next) => {
     res.status(StatusCodes.OK).json(User.toResponse(user));
   } catch (err) {
     next(err);
-  }  
+  }
 });
 
 router.route('/:id').delete(async (req, res, next) => {

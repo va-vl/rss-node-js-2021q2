@@ -1,7 +1,7 @@
 interface IColumnProps {
-  id?: string,
-  title?: string,
-  order?: number
+  id?: string;
+  title?: string;
+  order?: number;
 }
 
 export default IColumnProps;

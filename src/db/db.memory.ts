@@ -7,9 +7,9 @@ import User from '../resources/users/user.model';
 import { DataCorruptedError } from '../errors';
 
 const db: {
-  Users: User[],
-  Boards: Board[],
-  Tasks: Task[],
+  Users: User[];
+  Boards: Board[];
+  Tasks: Task[];
 } = {
   Tasks: [],
   Users: [],
@@ -19,23 +19,24 @@ const db: {
 const validateArray = (
   arr: User[] | Board[] | Task[],
   name: string,
-  id: string,
+  id: string
 ): boolean => {
   if (arr.length > 1) {
     throw new DataCorruptedError(name, id);
   }
 
   return arr.length > 0;
-}
+};
 
-//#region users
-const getAllUsers = async (): Promise<User[]> => db.Users.map((user: User): User => user);
+// #region users
+const getAllUsers = async (): Promise<User[]> =>
+  db.Users.map((user: User): User => user);
 
-const getUserById = async (id: string): Promise<User|undefined> => {
+const getUserById = async (id: string): Promise<User | undefined> => {
   const users = db.Users.filter((user: User): boolean => user.id === id);
 
   return validateArray(users, 'User', id) ? users[0] : undefined;
-} 
+};
 
 const createUser = async (props: IUserProps): Promise<User> => {
   if (props.id !== undefined) {
@@ -49,22 +50,22 @@ const createUser = async (props: IUserProps): Promise<User> => {
   const user = new User(props);
   db.Users.push(user);
   return user;
-}
+};
 
 const updateUser = async (
-  id: string, 
+  id: string,
   props: IUserProps
-): Promise<User|undefined> => {
+): Promise<User | undefined> => {
   const existingUser = await getUserById(id);
 
   if (existingUser === undefined) {
     return undefined;
   }
 
-  return Object.assign(existingUser, {...props});
-}
+  return Object.assign(existingUser, { ...props });
+};
 
-const removeUser = async (id: string) => {
+const removeUser = async (id: string): Promise<boolean> => {
   const unwantedUser = await getUserById(id);
 
   if (unwantedUser === undefined) {
@@ -72,18 +73,20 @@ const removeUser = async (id: string) => {
   }
 
   db.Users = db.Users.filter((user: User): boolean => user.id !== id);
-  db.Tasks = db.Tasks.map((task: Task): Task => (
-    task.userId !== id ? task : ({ ...task, userId: null })
-  ));
+  db.Tasks = db.Tasks.map(
+    (task: Task): Task =>
+      task.userId !== id ? task : { ...task, userId: null }
+  );
 
   return true;
-}
-//#endregion
+};
+// #endregion
 
-//#region boards
-const getAllBoards = async (): Promise<Board[]> => db.Boards.map((board: Board): Board => board);
+// #region boards
+const getAllBoards = async (): Promise<Board[]> =>
+  db.Boards.map((board: Board): Board => board);
 
-const getBoardById = async (id: string): Promise<Board|undefined> => {
+const getBoardById = async (id: string): Promise<Board | undefined> => {
   const boards = db.Boards.filter((board: Board): boolean => board.id === id);
 
   return validateArray(boards, 'Board', id) ? boards[0] : undefined;
@@ -92,7 +95,7 @@ const getBoardById = async (id: string): Promise<Board|undefined> => {
 const createBoard = async (props: IBoardProps): Promise<Board> => {
   if (props.id !== undefined) {
     const existingBoard = await getBoardById(props.id);
-    
+
     if (existingBoard !== undefined) {
       throw new DataCorruptedError('Board', props.id);
     }
@@ -104,37 +107,42 @@ const createBoard = async (props: IBoardProps): Promise<Board> => {
 };
 
 const updateBoard = async (
-  id: string, props: 
-  IBoardProps
-): Promise<Board|undefined> => {
+  id: string,
+  props: IBoardProps
+): Promise<Board | undefined> => {
   const existingBoard = await getBoardById(id);
 
   if (existingBoard === undefined) {
     return undefined;
   }
 
-  return Object.assign(existingBoard, {...props});
-}
+  return Object.assign(existingBoard, { ...props });
+};
 
 const removeBoard = async (id: string): Promise<boolean> => {
   const unwantedBoard = await getBoardById(id);
 
   if (unwantedBoard === undefined) {
     return false;
-  } 
+  }
 
-  db.Boards = db.Boards.filter((board: Board): boolean => board !== unwantedBoard);
+  db.Boards = db.Boards.filter(
+    (board: Board): boolean => board !== unwantedBoard
+  );
   db.Tasks = db.Tasks.filter((task: Task): boolean => task.boardId !== id);
 
   return true;
-}
-//#endregion
+};
+// #endregion
 
-//#region tasks
-const getAllTasks = async (boardId: string): Promise<Task[]> => 
+// #region tasks
+const getAllTasks = async (boardId: string): Promise<Task[]> =>
   db.Tasks.filter((task: Task): boolean => task.boardId === boardId);
 
-const getTaskById = async (boardId: string, id: string): Promise<Task|undefined> => {
+const getTaskById = async (
+  boardId: string,
+  id: string
+): Promise<Task | undefined> => {
   const tasks = db.Tasks.filter((task: Task): boolean => {
     const isOnBoard = task.boardId === boardId;
     const isTask = task.id === id;
@@ -144,11 +152,11 @@ const getTaskById = async (boardId: string, id: string): Promise<Task|undefined>
   return validateArray(tasks, `Task on Board ${boardId}`, id)
     ? tasks[0]
     : undefined;
-}
+};
 
 const createTask = async (
   boardId: string,
-  props: ITaskProps,
+  props: ITaskProps
 ): Promise<Task> => {
   if (props.id !== undefined) {
     const existingTask = await getTaskById(boardId, props.id);
@@ -166,8 +174,8 @@ const createTask = async (
 const updateTask = async (
   boardId: string,
   id: string,
-  props: ITaskProps,
-): Promise<Task|undefined> => {
+  props: ITaskProps
+): Promise<Task | undefined> => {
   const existingTask = await getTaskById(boardId, id);
 
   if (existingTask === undefined) {
@@ -175,23 +183,20 @@ const updateTask = async (
   }
 
   return Object.assign(existingTask, { ...props });
-}
+};
 
-const removeTask = async (
-  boardId: string,
-  id: string,
-): Promise<boolean> => {
+const removeTask = async (boardId: string, id: string): Promise<boolean> => {
   const unwantedTask = await getTaskById(boardId, id);
 
   if (unwantedTask === undefined) {
     return false;
-  } 
+  }
 
   db.Tasks = db.Tasks.filter((task: Task): boolean => task !== unwantedTask);
 
   return true;
-}
-//#endregion
+};
+// #endregion
 
 /* #region init db for postman testing */
 (() => {
@@ -229,7 +234,7 @@ const removeTask = async (
         boardId: db.Boards[0].id,
         columnId: db.Boards[0].columns[0].id,
         order: 1,
-      }),
+      })
     );
   }
 
@@ -240,9 +245,9 @@ const removeTask = async (
         title: 'Test Task',
         userId: db.Users[1].id,
         boardId: db.Boards[1].id,
-        columnId: db.Boards[1].columns[0].id
+        columnId: db.Boards[1].columns[0].id,
       })
-    )
+    );
   }
 })();
 /* #endregion */
@@ -253,13 +258,13 @@ export {
   createUser,
   updateUser,
   removeUser,
-  // 
+  //
   getAllBoards,
   getBoardById,
   createBoard,
   updateBoard,
   removeBoard,
-  // 
+  //
   getAllTasks,
   getTaskById,
   createTask,

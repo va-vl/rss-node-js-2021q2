@@ -17,10 +17,7 @@ const getById = async (id: string): Promise<User> => {
 
 const create = async (props: IUserProps): Promise<User> => DB.createUser(props);
 
-const update = async (
-  id: string, 
-  props: IUserProps
-): Promise<User> => {
+const update = async (id: string, props: IUserProps): Promise<User> => {
   const user = await DB.updateUser(id, props);
 
   if (user === undefined) {

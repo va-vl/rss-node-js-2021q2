@@ -49,7 +49,9 @@ router.route('/:id').delete(async (req, res, next) => {
   try {
     const { id } = req.params;
     await boardsService.remove(id);
-    res.status(StatusCodes.NO_CONTENT).send(`Board ${id} successfully removed.`);
+    res
+      .status(StatusCodes.NO_CONTENT)
+      .send(`Board ${id} successfully removed.`);
   } catch (err) {
     next(err);
   }

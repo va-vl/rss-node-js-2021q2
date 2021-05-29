@@ -4,7 +4,9 @@ import IColumnProps from './column.types';
 
 class Column {
   id: string;
+
   title: string;
+
   order: number;
 
   constructor({ 

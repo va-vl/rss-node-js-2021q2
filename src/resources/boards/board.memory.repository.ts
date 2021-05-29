@@ -1,7 +1,7 @@
-import * as DB from  '../../db/db.memory';
-import IBoardProps from  './board.types';
-import Board from  './board.model';
-import { BoardNotFoundError } from  '../../errors';
+import * as DB from '../../db/db.memory';
+import IBoardProps from './board.types';
+import Board from './board.model';
+import { BoardNotFoundError } from '../../errors';
 
 const getAll = async (): Promise<Board[]> => DB.getAllBoards();
 
@@ -15,12 +15,10 @@ const getById = async (id: string): Promise<Board> => {
   return board;
 };
 
-const create = async (props: IBoardProps): Promise<Board> => DB.createBoard(props);
+const create = async (props: IBoardProps): Promise<Board> =>
+  DB.createBoard(props);
 
-const update = async (
-  id: string, 
-  props: IBoardProps
-): Promise<Board> => {
+const update = async (id: string, props: IBoardProps): Promise<Board> => {
   const board = await DB.updateBoard(id, props);
 
   if (board === undefined) {

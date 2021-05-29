@@ -5,7 +5,9 @@ import IBoardProps from './board.types';
 
 class Board {
   id: string;
+
   title: string;
+
   columns: Column[];
 
   constructor({
@@ -17,6 +19,6 @@ class Board {
     this.title = title;
     this.columns = columns;
   }
-};
+}
 
 export default Board;
