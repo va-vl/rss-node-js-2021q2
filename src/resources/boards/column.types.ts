@@ -4,4 +4,4 @@ interface IColumnProps {
   order?: number
 }
 
-export = IColumnProps
+export default IColumnProps;

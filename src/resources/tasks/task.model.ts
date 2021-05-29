@@ -1,4 +1,6 @@
-import uuid = require('uuid');
+import uuid from 'uuid';
+// 
+import ITaskProps from './task.types';
 
 class Task {
   id: string;
@@ -17,7 +19,7 @@ class Task {
     boardId = null,
     columnId = null,
     order = 0,
-  } = {}) {
+  }: ITaskProps = {}) {
     this.id = id;
     this.title = title;
     this.description = description;
@@ -50,4 +52,4 @@ class Task {
   }
 }
 
-export = Task;
+export default Task;

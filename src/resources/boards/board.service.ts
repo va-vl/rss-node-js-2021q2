@@ -1,6 +1,6 @@
-import boardsRepo = require('./board.memory.repository');
-import Board = require('./board.model');
-import IBoardProps = require('./board.types');
+import boardsRepo from './board.memory.repository';
+import Board from './board.model';
+import IBoardProps from './board.types';
 
 const getAll = async (): Promise<Board[]> => boardsRepo.getAll();
 
@@ -17,7 +17,7 @@ const remove = async (id: string): Promise<void> => {
   await boardsRepo.remove(id)
 };
 
-export = {
+export default {
   getAll,
   getById,
   create,

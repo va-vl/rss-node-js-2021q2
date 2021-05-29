@@ -1,6 +1,6 @@
-import uuid = require('uuid');
+import * as uuid from 'uuid';
 // 
-import IColumnProps = require('./column.types');
+import IColumnProps from './column.types';
 
 class Column {
   id: string;
@@ -18,4 +18,4 @@ class Column {
   }
 }
 
-export = Column;
+export default Column;

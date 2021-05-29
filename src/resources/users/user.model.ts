@@ -1,4 +1,6 @@
 import uuid = require('uuid');
+// 
+import IUserProps = require('./user.types');
 
 class User {
   id: string;
@@ -11,7 +13,7 @@ class User {
     name = 'USER',
     login = 'user',
     password = 'P@55w0rd',
-  } = {}) {
+  }: IUserProps = {}) {
     this.id = id;
     this.name = name;
     this.login = login;

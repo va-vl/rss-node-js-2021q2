@@ -1,9 +1,9 @@
-import uuid = require('uuid');
+import uuid from 'uuid';
 //
-import Column = require('./column.model');
-import IBoardProps = require('./board.types');
+import Column from './column.model';
+import IBoardProps from './board.types';
 
-class Board {
+export default class Board {
   id: string;
   title: string;
   columns: Column[];
@@ -17,6 +17,4 @@ class Board {
     this.title = title;
     this.columns = columns;
   }
-}
-
-export = Board;
+};

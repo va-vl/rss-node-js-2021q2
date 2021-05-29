@@ -1,4 +1,4 @@
-import Column = require('./column.model');
+import Column from './column.model';
 
 interface IBoardProps {
   id?: string;
@@ -6,4 +6,4 @@ interface IBoardProps {
   columns?: Column[];
 }
 
-export = IBoardProps;
+export default IBoardProps;

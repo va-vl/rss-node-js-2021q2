@@ -1,9 +1,7 @@
-import DB = require('../../db/db.memory');
-import IBoardProps = require('./board.types');
-import Board = require('./board.model');
-import errors = require('../../errors');
-
-const { BoardNotFoundError } = errors;
+import * as DB from  '../../db/db.memory';
+import IBoardProps from  './board.types';
+import Board from  './board.model';
+import { BoardNotFoundError } from  '../../errors';
 
 const getAll = async (): Promise<Board[]> => DB.getAllBoards();
 
@@ -40,7 +38,7 @@ const remove = async (id: string): Promise<void> => {
   }
 };
 
-export = {
+export default {
   getAll,
   getById,
   create,

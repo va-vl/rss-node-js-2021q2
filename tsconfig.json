@@ -21,7 +21,8 @@
     "target": "ES3",
     "module": "CommonJS",
     "sourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "allowSyntheticDefaultImports": true, 
   },
   "exclude": [
     "node_modules/"
