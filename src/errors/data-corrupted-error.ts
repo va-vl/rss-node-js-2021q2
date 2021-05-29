@@ -1,4 +1,4 @@
-import CustomError = require('./custom-error');
+import CustomError from './custom-error';
 
 class DataCorruptedError extends CustomError {
   code: string;
@@ -9,4 +9,4 @@ class DataCorruptedError extends CustomError {
   }
 }
 
-export = DataCorruptedError;
+export default DataCorruptedError;

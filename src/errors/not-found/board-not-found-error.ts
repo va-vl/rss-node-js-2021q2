@@ -1,4 +1,4 @@
-import CustomError = require('../custom-error');
+import CustomError from '../custom-error';
 
 class BoardNotFoundError extends CustomError {
   code: string;
@@ -9,4 +9,4 @@ class BoardNotFoundError extends CustomError {
   }
 }
 
-export = BoardNotFoundError;
+export default BoardNotFoundError;

@@ -1,9 +1,9 @@
-import BoardNotFoundError = require('./not-found/board-not-found-error');
-import TaskNotFoundError = require('./not-found/task-not-found-error');
-import UserNotFoundError = require('./not-found/user-not-found-error');
-import DataCorruptedError = require('./data-corrupted-error');
+import BoardNotFoundError from './not-found/board-not-found-error';
+import TaskNotFoundError from './not-found/task-not-found-error';
+import UserNotFoundError from './not-found/user-not-found-error';
+import DataCorruptedError from './data-corrupted-error';
 
-export = {
+export {
   BoardNotFoundError,
   TaskNotFoundError,
   UserNotFoundError,

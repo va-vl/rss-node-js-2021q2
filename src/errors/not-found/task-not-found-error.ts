@@ -1,4 +1,4 @@
-import CustomError = require('../custom-error');
+import CustomError from '../custom-error';
 
 class TaskNotFoundError extends CustomError {
   code: string;
@@ -9,4 +9,4 @@ class TaskNotFoundError extends CustomError {
   }
 }
 
-export = TaskNotFoundError;
+export default TaskNotFoundError;

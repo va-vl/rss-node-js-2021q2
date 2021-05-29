@@ -1,4 +1,4 @@
-import CustomError = require('../custom-error');
+import CustomError from '../custom-error';
 
 class UserNotFoundError extends CustomError {
   code: string;
@@ -9,4 +9,4 @@ class UserNotFoundError extends CustomError {
   }
 }
 
-export = UserNotFoundError;
+export default UserNotFoundError;
