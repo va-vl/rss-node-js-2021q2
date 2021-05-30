@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "allowJs": false,
+    "target": "ES3",
+    "module": "CommonJS",
     "outDir": "./build",
     "rootDir": "./src",
     "downlevelIteration": false,
@@ -17,17 +19,8 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    // changed / added settings
-    "target": "ES3",
-    "module": "CommonJS",
-    "sourceMap": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true, 
+    "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "node_modules/"
-  ],
-  "include": [
-    "./src/**/*.ts"
-  ],
+  "exclude": ["node_modules/"],
+  "include": ["./src/**/*.ts"]
 }
