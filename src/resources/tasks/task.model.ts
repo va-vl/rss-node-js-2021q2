@@ -1,20 +1,14 @@
 import * as uuid from 'uuid';
-// 
-import ITaskProps from './task.types';
+//
+import { ITaskProps } from './task.types';
 
 class Task {
   id: string;
-
   title: string;
-
   description: string;
-
   userId: string | null;
-
   boardId: string | null;
-
   columnId: string | null;
-
   order: number;
 
   constructor({
@@ -35,14 +29,16 @@ class Task {
     this.order = order;
   }
 
-  static toResponse(task: Task): {
+  static toResponse(
+    task: Task
+  ): {
     id: string;
     title: string;
     description: string;
     userId: string | null;
     boardId: string | null;
     columnId: string | null;
-    order: number
+    order: number;
   } {
     const { id, title, description, userId, boardId, columnId, order } = task;
 

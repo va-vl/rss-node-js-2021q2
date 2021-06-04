@@ -1,14 +1,11 @@
 import * as uuid from 'uuid';
 //
-import IUserProps from './user.types';
+import { IUserProps } from './user.types';
 
 class User {
   id: string;
-
   name: string;
-
   login: string;
-
   password: string;
 
   constructor({

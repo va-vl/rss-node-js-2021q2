@@ -6,7 +6,7 @@ import usersService from './user.service';
 
 const router = express.Router();
 
-router.route('/').get(async (_req, res, next) => {
+router.get('/', async (_req, res, next) => {
   try {
     const users = await usersService.getAll();
     res.status(StatusCodes.OK).json(users.map(User.toResponse));
@@ -15,7 +15,7 @@ router.route('/').get(async (_req, res, next) => {
   }
 });
 
-router.route('/:id').get(async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await usersService.getById(id);
@@ -25,7 +25,7 @@ router.route('/:id').get(async (req, res, next) => {
   }
 });
 
-router.route('/').post(async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const { name, login, password } = req.body;
     const user = await usersService.create({ name, login, password });
@@ -35,7 +35,7 @@ router.route('/').post(async (req, res, next) => {
   }
 });
 
-router.route('/:id').put(async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const { name, login, password } = req.body;
@@ -46,7 +46,7 @@ router.route('/:id').put(async (req, res, next) => {
   }
 });
 
-router.route('/:id').delete(async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     await usersService.remove(id);

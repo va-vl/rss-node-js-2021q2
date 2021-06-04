@@ -17,7 +17,7 @@
   "settings": {
     "noInlineConfig": true,
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts"]
+      "@typescript-eslint/parser": [".ts", ".d.ts"]
     },
     "import/resolver": {
       "typescript": {
@@ -36,7 +36,13 @@
   "plugins": ["@typescript-eslint", "import"],
   "parser": "@typescript-eslint/parser",
   "rules": {
+    "dot-notation": "off",
     "linebreak-style": "off",
+    "lines-between-class-members": [
+      "error",
+      "always",
+      { "exceptAfterSingleLine": true }
+    ],
     "import/extensions": "off",
     "no-underscore-dangle": "off",
     "no-unused-vars": "error",
@@ -45,9 +51,10 @@
     "node/no-missing-import": [
       "error",
       {
-        "tryExtensions": [".js", ".json", ".ts"]
+        "tryExtensions": [".js", ".json", ".ts", ".d.ts"]
       }
     ],
-    "@typescript-eslint/no-unused-vars": "error"
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/dot-notation": ["error"]
   }
 }

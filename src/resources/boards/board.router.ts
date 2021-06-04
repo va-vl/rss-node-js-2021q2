@@ -5,7 +5,7 @@ import boardsService from './board.service';
 
 const router = express.Router();
 
-router.route('/').get(async (_req, res, next) => {
+router.get('/', async (_req, res, next) => {
   try {
     const boards = await boardsService.getAll();
     res.status(StatusCodes.OK).json(boards);
@@ -14,7 +14,7 @@ router.route('/').get(async (_req, res, next) => {
   }
 });
 
-router.route('/:id').get(async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const board = await boardsService.getById(id);
@@ -24,7 +24,7 @@ router.route('/:id').get(async (req, res, next) => {
   }
 });
 
-router.route('/').post(async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const props = req.body;
     const board = await boardsService.create(props);
@@ -34,7 +34,7 @@ router.route('/').post(async (req, res, next) => {
   }
 });
 
-router.route('/:id').put(async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const props = req.body;
@@ -45,7 +45,7 @@ router.route('/:id').put(async (req, res, next) => {
   }
 });
 
-router.route('/:id').delete(async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     await boardsService.remove(id);

@@ -1,6 +1,6 @@
 import boardsRepo from './board.memory.repository';
 import Board from './board.model';
-import IBoardProps from './board.types';
+import { IBoardProps } from './board.types';
 
 const getAll = async (): Promise<Board[]> => boardsRepo.getAll();
 

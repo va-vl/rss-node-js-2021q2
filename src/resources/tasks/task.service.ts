@@ -1,6 +1,6 @@
 import tasksRepo from './task.memory.repository';
 import Task from './task.model';
-import ITaskProps from './task.types';
+import { ITaskProps } from './task.types';
 
 const getAll = async (boardId: string): Promise<Task[]> =>
   tasksRepo.getAll(boardId);
@@ -17,8 +17,9 @@ const update = async (
   props: ITaskProps
 ): Promise<Task> => tasksRepo.update(boardId, id, props);
 
-const remove = async (boardId: string, id: string): Promise<void> =>
+const remove = async (boardId: string, id: string): Promise<void> => {
   tasksRepo.remove(boardId, id);
+};
 
 export default {
   getAll,

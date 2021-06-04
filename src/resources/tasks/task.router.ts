@@ -6,7 +6,7 @@ import tasksService from './task.service';
 
 const router = express.Router({ mergeParams: true });
 
-router.route('/:boardId/tasks').get(async (req, res, next) => {
+router.get('/:boardId/tasks', async (req, res, next) => {
   try {
     const { boardId } = req.params;
     const tasks = await tasksService.getAll(boardId);
@@ -16,7 +16,7 @@ router.route('/:boardId/tasks').get(async (req, res, next) => {
   }
 });
 
-router.route('/:boardId/tasks/:id').get(async (req, res, next) => {
+router.get('/:boardId/tasks/:id', async (req, res, next) => {
   try {
     const { boardId, id } = req.params;
     const task = await tasksService.getById(boardId, id);
@@ -26,7 +26,7 @@ router.route('/:boardId/tasks/:id').get(async (req, res, next) => {
   }
 });
 
-router.route('/:boardId/tasks').post(async (req, res, next) => {
+router.post('/:boardId/tasks', async (req, res, next) => {
   try {
     const { boardId } = req.params;
     const { body } = req;
@@ -37,7 +37,7 @@ router.route('/:boardId/tasks').post(async (req, res, next) => {
   }
 });
 
-router.route('/:boardId/tasks/:id').put(async (req, res, next) => {
+router.put('/:boardId/tasks/:id', async (req, res, next) => {
   try {
     const { boardId, id } = req.params;
     const { body } = req;
@@ -48,7 +48,7 @@ router.route('/:boardId/tasks/:id').put(async (req, res, next) => {
   }
 });
 
-router.route('/:boardId/tasks/:id').delete(async (req, res, next) => {
+router.delete('/:boardId/tasks/:id', async (req, res, next) => {
   try {
     const { boardId, id } = req.params;
     await tasksService.remove(boardId, id);

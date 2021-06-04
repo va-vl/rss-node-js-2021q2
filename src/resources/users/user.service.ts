@@ -1,6 +1,6 @@
 import usersRepo from './user.memory.repository';
 import User from './user.model';
-import IUserProps from './user.types';
+import { IUserProps } from './user.types';
 
 const getAll = async (): Promise<User[]> => usersRepo.getAll();
 

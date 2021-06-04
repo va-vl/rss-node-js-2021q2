@@ -1,4 +1,4 @@
-interface ITaskProps {
+export interface ITaskProps {
   id?: string;
   title?: string;
   description?: string;
@@ -7,5 +7,3 @@ interface ITaskProps {
   columnId?: string | null;
   order?: number;
 }
-
-export default ITaskProps;
