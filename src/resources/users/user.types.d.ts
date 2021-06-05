@@ -4,3 +4,9 @@ export interface IUserProps {
   login?: string;
   password?: string;
 }
+
+export interface IUserToResponse {
+  id: string;
+  name: string;
+  login: string;
+}

@@ -1,6 +1,6 @@
 import * as uuid from 'uuid';
 //
-import { IUserProps } from './user.types';
+import { IUserProps, IUserToResponse } from './user.types';
 
 class User {
   id: string;
@@ -20,13 +20,7 @@ class User {
     this.password = password;
   }
 
-  static toResponse(
-    user: User
-  ): {
-    id: string;
-    name: string;
-    login: string;
-  } {
+  static toResponse(user: User): IUserToResponse {
     const { id, name, login } = user;
 
     return { id, name, login };
