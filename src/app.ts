@@ -7,7 +7,11 @@ import pe from 'pretty-error';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
-import { appErrorHandler, appRequestLogger } from './middleware';
+import {
+  appErrorHandler,
+  appRequestLogger,
+  resourceNotFoundHandler,
+} from './middleware';
 
 pe.start();
 
@@ -32,15 +36,17 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId', taskRouter);
 
-app.use((_, res, next) => {
-  if (res.statusCode !== 404) {
-    next();
-  }
+app.use(resourceNotFoundHandler);
+app.use(appErrorHandler);
 
-  setImmediate(() => {
-    console.log('Resource cannot be accessed!');
+process.on('uncaughtException', () => {
+  process.stderr.write('exception caught');
+});
+
+process.on('unhandledRejection', (_reason, promise) => {
+  promise.catch(() => {
+    process.stderr.write('rejection handled');
   });
 });
-app.use(appErrorHandler);
 
 export default app;

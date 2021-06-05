@@ -1,9 +1,8 @@
-import { writeFileSync } from 'fs';
 import { finished } from 'stream';
 //
 import express from 'express';
 //
-import { logCreator } from '../utils';
+import { createLogStrings, logMessage } from './_service';
 
 const appRequestLogger: express.RequestHandler = (req, res, next) => {
   const requestStart = new Date();
@@ -17,24 +16,16 @@ const appRequestLogger: express.RequestHandler = (req, res, next) => {
     const requestDuration = Date.now() - +requestStart;
     const logDateTime = `${requestStart.toLocaleDateString()} ${requestStart.toLocaleTimeString()}`;
     const logRequest = `${method} ${url} ${statusCode} [${requestDuration} ms]`;
-    const logParams = `URL params: ${JSON.stringify(params)}`;
-    const logQuery = `Query params: ${JSON.stringify(query)}`;
-    const logBody = `Request body: ${JSON.stringify(body)}`;
 
-    const [logPlain, logColorized] = logCreator([
+    const [logPlain, logColorized] = createLogStrings([
       [logDateTime, 'yellow'],
       [logRequest, 'yellow'],
-      [logParams],
-      [logQuery],
-      [logBody],
+      [`URL params: ${JSON.stringify(params)}`],
+      [`Query params: ${JSON.stringify(query)}`],
+      [`Request body: ${JSON.stringify(body)}`],
     ]);
 
-    process.stdout.write(logColorized);
-
-    writeFileSync('request-log.txt', logPlain, {
-      encoding: 'utf-8',
-      flag: 'a',
-    });
+    logMessage(logPlain, logColorized);
   });
 };
 
