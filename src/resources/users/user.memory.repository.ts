@@ -11,7 +11,7 @@ const create = async (props: IUserProps): Promise<User> => DB.createUser(props);
 const update = async (id: string, props: IUserProps): Promise<User> =>
   DB.updateUser(id, props);
 
-const remove = async (id: string): Promise<true> => DB.removeUser(id);
+const remove = async (id: string): Promise<void> => DB.removeUser(id);
 
 export default {
   getAll,

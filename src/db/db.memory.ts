@@ -5,11 +5,15 @@ import { IBoardProps } from '../resources/boards/board.types';
 import Board from '../resources/boards/board.model';
 import Task from '../resources/tasks/task.model';
 import User from '../resources/users/user.model';
-import { DataCorruptedError, EntityNotFoundError } from '../errors';
+import {
+  DataCorruptedError,
+  EntityNotFoundError,
+  InvalidOperationError,
+} from '../errors';
 
 const db = {
-  Users: new DBStorage<User>('User'),
-  Boards: new DBStorage<Board>('Board'),
+  Users: new DBStorage<User, IUserProps>('User'),
+  Boards: new DBStorage<Board, IBoardProps>('Board'),
   Tasks: [] as Task[],
 };
 
@@ -25,20 +29,13 @@ export const createUser = async (props: IUserProps): Promise<User> =>
 export const updateUser = async (
   id: string,
   props: IUserProps
-): Promise<User> => {
-  const existingUser = await getUserById(id);
-  return Object.assign(existingUser, { ...props });
-};
+): Promise<User> => db.Users.update(id, props);
 
-export const removeUser = async (id: string): Promise<true> => {
-  const existingUser = await getUserById(id);
-
-  db.Users.remove(existingUser);
+export const removeUser = async (id: string): Promise<void> => {
+  db.Users.remove(id);
   db.Tasks = db.Tasks.map((task) =>
     task.userId !== id ? task : new Task({ ...task, userId: null })
   );
-
-  return true;
 };
 // #endregion
 
@@ -54,18 +51,11 @@ export const createBoard = async (props: IBoardProps): Promise<Board> =>
 export const updateBoard = async (
   id: string,
   props: IBoardProps
-): Promise<Board> => {
-  const existingBoard = await getBoardById(id);
-  return Object.assign(existingBoard, { ...props });
-};
+): Promise<Board> => db.Boards.update(id, props);
 
-export const removeBoard = async (id: string): Promise<true> => {
-  const existingBoard = await getBoardById(id);
-
-  db.Boards.remove(existingBoard);
+export const removeBoard = async (id: string): Promise<void> => {
+  db.Boards.remove(id);
   db.Tasks = db.Tasks.filter((task) => task.boardId !== id);
-
-  return true;
 };
 // #endregion
 
@@ -116,19 +106,38 @@ export const updateTask = async (
   id: string,
   props: ITaskProps
 ): Promise<Task> => {
-  const existingTask = await getTaskById(boardId, id);
-  return Object.assign(existingTask, { ...props });
+  const existingTasks = db.Tasks.filter(
+    (task) => task.boardId === boardId && task.id === id
+  );
+
+  if (existingTasks.length > 1) {
+    throw new DataCorruptedError(`Task on Board ${boardId}`, id);
+  }
+
+  if (existingTasks[0] === undefined) {
+    throw new InvalidOperationError('Task', id, 'Update', { boardId });
+  }
+
+  return Object.assign(existingTasks[0], { ...props });
 };
 
 export const removeTask = async (
   boardId: string,
   id: string
-): Promise<true> => {
-  const existingTask = await getTaskById(boardId, id);
+): Promise<void> => {
+  const existingTasks = db.Tasks.filter(
+    (task) => task.boardId === boardId && task.id === id
+  );
 
-  db.Tasks = db.Tasks.filter((task) => task !== existingTask);
+  if (existingTasks.length > 1) {
+    throw new DataCorruptedError(`Task on Board ${boardId}`, id);
+  }
 
-  return true;
+  if (existingTasks[0] === undefined) {
+    throw new InvalidOperationError('Task', id, 'Remove', { boardId });
+  }
+
+  db.Tasks = db.Tasks.filter((task) => task !== existingTasks[0]);
 };
 // #endregion
 

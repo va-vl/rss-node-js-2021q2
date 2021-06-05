@@ -12,9 +12,7 @@ const create = async (props: IBoardProps): Promise<Board> =>
 const update = async (id: string, props: IBoardProps): Promise<Board> =>
   boardsRepo.update(id, props);
 
-const remove = async (id: string): Promise<void> => {
-  await boardsRepo.remove(id);
-};
+const remove = async (id: string): Promise<void> => boardsRepo.remove(id);
 
 export default {
   getAll,

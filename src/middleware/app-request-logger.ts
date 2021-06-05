@@ -24,7 +24,6 @@ const appRequestLogger: express.RequestHandler = (req, res, next) => {
     const [logPlain, logColorized] = logCreator([
       [logDateTime, 'yellow'],
       [logRequest, 'yellow'],
-      ['----------', 'yellow'],
       [logParams],
       [logQuery],
       [logBody],

@@ -17,7 +17,7 @@ const update = async (
   props: ITaskProps
 ): Promise<Task> => DB.updateTask(boardId, id, props);
 
-const remove = async (boardId: string, id: string): Promise<true> =>
+const remove = async (boardId: string, id: string): Promise<void> =>
   DB.removeTask(boardId, id);
 
 export default {

@@ -1,8 +1,20 @@
-import { DataCorruptedError, EntityNotFoundError } from '../errors';
+import {
+  DataCorruptedError,
+  EntityNotFoundError,
+  InvalidOperationError,
+} from '../errors';
 
-class DBStorage<T extends { id: string }> {
-  store: T[] = [];
+interface EntityType {
+  id: string;
+}
+
+interface PropType {
+  id?: string;
+}
+
+class DBStorage<T extends EntityType, P extends PropType> {
   private entityName: string;
+  store: T[] = [];
 
   constructor(name: string) {
     this.entityName = name;
@@ -12,12 +24,18 @@ class DBStorage<T extends { id: string }> {
     return [...this.store];
   }
 
-  getById(id: string): T {
-    const items = this.getAllById(id);
+  getAllById(id: string): T[] {
+    const items = this.store.filter((item) => item.id === id);
 
     if (items.length > 1) {
       throw new DataCorruptedError(this.entityName, id);
     }
+
+    return items;
+  }
+
+  getById(id: string): T {
+    const items = this.getAllById(id);
 
     if (items[0] === undefined) {
       throw new EntityNotFoundError(this.entityName, id);
@@ -39,12 +57,25 @@ class DBStorage<T extends { id: string }> {
     return this.getById(entity.id);
   }
 
-  remove(entity: T): void {
-    this.store = this.store.filter((item) => item !== entity);
+  // TODO: fix props type to Props of some sort
+  update(id: string, props: P): T {
+    const existingEntities = this.getAllById(id);
+
+    if (existingEntities[0] === undefined) {
+      throw new InvalidOperationError(this.entityName, id, 'Update');
+    }
+
+    return Object.assign(existingEntities[0], { ...props });
   }
 
-  private getAllById(id: string): T[] {
-    return this.store.filter((item) => item.id === id);
+  remove(id: string): void {
+    const existingEntities = this.getAllById(id);
+
+    if (existingEntities[0] === undefined) {
+      throw new InvalidOperationError(this.entityName, id, 'Remove');
+    }
+
+    this.store = this.store.filter((item) => item !== existingEntities[0]);
   }
 }
 
