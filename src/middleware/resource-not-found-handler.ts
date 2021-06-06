@@ -1,36 +1,32 @@
-import { writeFileSync } from 'fs';
 import { finished } from 'stream';
 //
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 //
-import { createLogStrings, createErrorLogHeading } from './_service';
+import { createRequestErrorLogs, writeToFile } from '../logger';
 
-const logStyle = 'red.bold';
+const message = 'Not Found: Resource does not exist.';
 
 const resourceNotFoundHandler: express.RequestHandler = (req, res, next) => {
   if (res.statusCode !== StatusCodes.NOT_FOUND) {
     next();
   }
 
-  const [dateTime, network] = createErrorLogHeading(req, StatusCodes.NOT_FOUND);
-  const [logPlain, logColorized] = createLogStrings([
-    [dateTime, logStyle],
-    [network, logStyle],
-    [`Not Found: Resource does not exist.`, logStyle],
-  ]);
+  const { method, url } = req;
+  const { statusCode } = res;
+  const [plainLog, colorizedLog] = createRequestErrorLogs(
+    method,
+    url,
+    statusCode,
+    message
+  );
 
-  res.status(StatusCodes.NOT_FOUND).send(logPlain);
-
-  writeFileSync('error-log.txt', logPlain, {
-    encoding: 'utf-8',
-    flag: 'a',
-  });
+  res.status(StatusCodes.NOT_FOUND).send(plainLog);
 
   finished(res, () => {
-    setImmediate(() => {
-      process.stdout.write(logColorized);
-    });
+    writeToFile('./logs/combined.log', plainLog);
+    writeToFile('./logs/request-errors.log', plainLog);
+    process.stdout.write(colorizedLog);
   });
 };
 

@@ -9,7 +9,7 @@
   "description": "REST service starter for RS School",
   "main": "src/server.js",
   "scripts": {
-    "start": "tsc build/server.js",
+    "start": "node build/server.js",
     "lint": "eslint --ext .js,.ts --fix src/",
     "build": "tsc --project tsconfig.json",
     "dev": "nodemon src/server.ts",
@@ -46,12 +46,12 @@
     ]
   },
   "dependencies": {
+    "@types/node": "^15.12.1",
     "chalk": "^4.1.1",
     "cross-env": "7.0.3",
     "dotenv": "9.0.0",
     "express": "4.17.1",
     "http-status-codes": "^2.1.4",
-    "pretty-error": "^3.0.3",
     "swagger-ui-express": "4.1.6",
     "uuid": "8.3.2",
     "yamljs": "0.3.0"

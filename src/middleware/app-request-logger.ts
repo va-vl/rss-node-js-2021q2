@@ -2,30 +2,28 @@ import { finished } from 'stream';
 //
 import express from 'express';
 //
-import { createLogStrings, logMessage } from './_service';
+import { writeToFile, createRequestLogs } from '../logger';
 
 const appRequestLogger: express.RequestHandler = (req, res, next) => {
   const requestStart = new Date();
-  const { method, url, body } = req;
 
   next();
 
   finished(res, () => {
-    const { params, query } = req;
+    const { method, url, body, params, query } = req;
     const { statusCode } = res;
-    const requestDuration = Date.now() - +requestStart;
-    const logDateTime = `${requestStart.toLocaleDateString()} ${requestStart.toLocaleTimeString()}`;
-    const logRequest = `${method} ${url} ${statusCode} [${requestDuration} ms]`;
+    const [plainLog, colorizedLog] = createRequestLogs(
+      requestStart,
+      method,
+      url,
+      statusCode,
+      JSON.stringify(params),
+      JSON.stringify(query),
+      JSON.stringify(body)
+    );
 
-    const [logPlain, logColorized] = createLogStrings([
-      [logDateTime, 'yellow'],
-      [logRequest, 'yellow'],
-      [`URL params: ${JSON.stringify(params)}`],
-      [`Query params: ${JSON.stringify(query)}`],
-      [`Request body: ${JSON.stringify(body)}`],
-    ]);
-
-    logMessage(logPlain, logColorized);
+    writeToFile('./logs/combined.log', plainLog);
+    process.stdout.write(colorizedLog);
   });
 };
 
