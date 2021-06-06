@@ -58,7 +58,7 @@ const createFatalErrorLogs = (
   type: 'Exception' | 'Rejection'
 ): [string, string] => {
   const dateTime = service.createDateTimeLine(new Date());
-  const message = `${type} occured! ${err.message}`;
+  const message = `Fatal Error: ${type} occurred! ${err.message}`;
   const stack = `Stack: ${err.stack}`;
 
   const plainLog = service.createPlainLog([[dateTime, message], [stack]]);
@@ -82,7 +82,7 @@ export const logRequestError = (
   colorizedLog: string
 ): void => {
   writeToFile('log-combined.log', plainLog);
-  writeToFile('log-request-errors.log', plainLog);
+  writeToFile('log-errors.log', plainLog);
   process.stdout.write(colorizedLog);
 };
 
@@ -93,7 +93,7 @@ export const logFatalError = (
   const [plainLog, colorizedLog] = createFatalErrorLogs(err, type);
 
   writeToFile('log-combined.log', plainLog);
-  writeToFile('fatal-errors.log', plainLog);
+  writeToFile('log-errors.log', plainLog);
   process.stderr.write(colorizedLog);
   process.exit(1);
 };
