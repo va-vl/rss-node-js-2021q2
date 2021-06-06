@@ -12,8 +12,8 @@ import {
 } from '../errors';
 
 const db = {
-  Users: new DBStorage<User, IUserProps>('User'),
-  Boards: new DBStorage<Board, IBoardProps>('Board'),
+  Users: new DBStorage<User>('User'),
+  Boards: new DBStorage<Board>('Board'),
   Tasks: [] as Task[],
 };
 
@@ -29,7 +29,18 @@ export const createUser = async (props: IUserProps): Promise<User> =>
 export const updateUser = async (
   id: string,
   props: IUserProps
-): Promise<User> => db.Users.update(id, props);
+): Promise<User> => {
+  const existingUsers = db.Users.getAllById(id);
+
+  if (existingUsers[0] === undefined) {
+    throw new InvalidOperationError('User', id, 'Update');
+  }
+
+  return db.Users.replace(
+    existingUsers[0],
+    new User({ ...existingUsers[0], ...props })
+  );
+};
 
 export const removeUser = async (id: string): Promise<void> => {
   db.Users.remove(id);
@@ -51,7 +62,18 @@ export const createBoard = async (props: IBoardProps): Promise<Board> =>
 export const updateBoard = async (
   id: string,
   props: IBoardProps
-): Promise<Board> => db.Boards.update(id, props);
+): Promise<Board> => {
+  const existingBoards = db.Boards.getAllById(id);
+
+  if (existingBoards[0] === undefined) {
+    throw new InvalidOperationError('User', id, 'Update');
+  }
+
+  return db.Boards.replace(
+    existingBoards[0],
+    new Board({ ...existingBoards[0], ...props })
+  );
+};
 
 export const removeBoard = async (id: string): Promise<void> => {
   db.Boards.remove(id);
@@ -118,7 +140,9 @@ export const updateTask = async (
     throw new InvalidOperationError('Task', id, 'Update', { boardId });
   }
 
-  return Object.assign(existingTasks[0], { ...props });
+  const newTask = new Task({ ...existingTasks[0], ...props });
+  db.Tasks[db.Tasks.indexOf(existingTasks[0])] = newTask;
+  return newTask;
 };
 
 export const removeTask = async (

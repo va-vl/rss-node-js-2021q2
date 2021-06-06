@@ -27,8 +27,8 @@ const appErrorHandler = (
     res.status(code).send(plainLog);
 
     finished(res, () => {
-      writeToFile('./logs/combined.log', plainLog);
-      writeToFile('./logs/request-errors.log', plainLog);
+      writeToFile('log-combined.log', plainLog);
+      writeToFile('log-request-errors.log', plainLog);
       process.stdout.write(colorizedLog);
     });
   };

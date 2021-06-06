@@ -23,7 +23,7 @@ const appRequestLogger: express.RequestHandler = (req, res, next) => {
       JSON.stringify(body)
     );
 
-    writeToFile('./logs/combined.log', plainLog);
+    writeToFile('log-combined.log', plainLog);
     process.stdout.write(colorizedLog);
   });
 };

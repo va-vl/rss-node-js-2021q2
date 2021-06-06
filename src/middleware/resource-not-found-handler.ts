@@ -26,8 +26,8 @@ const resourceNotFoundHandler: express.RequestHandler = (req, res, next) => {
 
   finished(res, () => {
     setImmediate(() => {
-      writeToFile('./logs/combined.log', plainLog);
-      writeToFile('./logs/request-errors.log', plainLog);
+      writeToFile('log-combined.log', plainLog);
+      writeToFile('log-request-errors.log', plainLog);
       process.stdout.write(colorizedLog);
     });
   });

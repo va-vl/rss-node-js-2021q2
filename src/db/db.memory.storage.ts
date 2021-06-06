@@ -8,11 +8,7 @@ interface EntityType {
   id: string;
 }
 
-interface PropType {
-  id?: string;
-}
-
-class DBStorage<T extends EntityType, P extends PropType> {
+class DBStorage<T extends EntityType> {
   private entityName: string;
   store: T[] = [];
 
@@ -57,15 +53,9 @@ class DBStorage<T extends EntityType, P extends PropType> {
     return this.getById(entity.id);
   }
 
-  // TODO: fix props type to Props of some sort
-  update(id: string, props: P): T {
-    const existingEntities = this.getAllById(id);
-
-    if (existingEntities[0] === undefined) {
-      throw new InvalidOperationError(this.entityName, id, 'Update');
-    }
-
-    return Object.assign(existingEntities[0], { ...props });
+  replace(existingEntity: T, newEntity: T): T {
+    this.store[this.store.indexOf(existingEntity)] = newEntity;
+    return newEntity;
   }
 
   remove(id: string): void {
