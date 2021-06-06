@@ -54,7 +54,7 @@ router.delete(
   asyncErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
     await tasksService.remove(boardId as string, id as string);
-    res.status(StatusCodes.NO_CONTENT).send('Task removed!');
+    res.status(StatusCodes.NO_CONTENT).send();
   })
 );
 

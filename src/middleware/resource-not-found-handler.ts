@@ -5,7 +5,8 @@ import { StatusCodes } from 'http-status-codes';
 //
 import { createRequestErrorLogs, writeToFile } from '../logger';
 
-const message = 'Not Found: Resource does not exist.';
+const createMessage = (method: string, url: string): string =>
+  `Not Found: Resource ${method} ${url} does not exist.`;
 
 const resourceNotFoundHandler: express.RequestHandler = (req, res, next) => {
   if (res.statusCode !== StatusCodes.NOT_FOUND) {
@@ -18,15 +19,17 @@ const resourceNotFoundHandler: express.RequestHandler = (req, res, next) => {
     method,
     url,
     statusCode,
-    message
+    createMessage(method, url)
   );
 
   res.status(StatusCodes.NOT_FOUND).send(plainLog);
 
   finished(res, () => {
-    writeToFile('./logs/combined.log', plainLog);
-    writeToFile('./logs/request-errors.log', plainLog);
-    process.stdout.write(colorizedLog);
+    setImmediate(() => {
+      writeToFile('./logs/combined.log', plainLog);
+      writeToFile('./logs/request-errors.log', plainLog);
+      process.stdout.write(colorizedLog);
+    });
   });
 };
 

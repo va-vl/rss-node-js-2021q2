@@ -46,11 +46,9 @@ const appErrorHandler = (
     case 'ERR_DATA_CORRUPTED':
     default: {
       handleError(StatusCodes.INTERNAL_SERVER_ERROR);
-      break;
+      next();
     }
   }
-
-  next();
 };
 
 export default appErrorHandler;

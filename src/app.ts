@@ -11,9 +11,15 @@ import {
   appRequestLogger,
   resourceNotFoundHandler,
 } from './middleware';
-import fatalLogger from './fatal-logger';
+import { logFatalError } from './logger';
 
-fatalLogger();
+process.on('uncaughtException', (err) => {
+  logFatalError(err);
+});
+
+process.on('unhandledRejection', (_, promise) => {
+  promise.catch((err) => logFatalError(err));
+});
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));

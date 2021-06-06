@@ -52,7 +52,7 @@ router.delete(
   asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     await usersService.remove(id as string);
-    res.status(StatusCodes.NO_CONTENT).send('User removed');
+    res.status(StatusCodes.NO_CONTENT).send();
   })
 );
 

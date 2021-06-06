@@ -1,6 +1,5 @@
-import { resolve } from 'path';
-import { writeFileSync } from 'fs';
-//
+import { resolve, dirname } from 'path';
+import { mkdirSync, writeFileSync } from 'fs';
 import chalk from 'chalk';
 
 type LogsConfig = [string, string?][];
@@ -20,7 +19,9 @@ export const createPlainLog = (arr: string[][]): string =>
   )}\n`;
 
 export const writeToFile = (filePath: string, text: string): void => {
-  writeFileSync(resolve(filePath), text, {
+  const resolvedFilePath = resolve(filePath);
+  mkdirSync(dirname(resolvedFilePath), { recursive: true });
+  writeFileSync(resolvedFilePath, text, {
     encoding: 'utf-8',
     flag: 'a',
   });

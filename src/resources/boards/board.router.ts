@@ -47,9 +47,7 @@ router.delete(
   asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     await boardsService.remove(id as string);
-    res
-      .status(StatusCodes.NO_CONTENT)
-      .send(`Board ${id} successfully removed.`);
+    res.status(StatusCodes.NO_CONTENT).send();
   })
 );
 
