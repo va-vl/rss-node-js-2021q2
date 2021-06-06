@@ -14,11 +14,11 @@ import {
 import { logFatalError } from './logger';
 
 process.on('uncaughtException', (err) => {
-  logFatalError(err);
+  logFatalError(err, 'Exception');
 });
 
 process.on('unhandledRejection', (_, promise) => {
-  promise.catch((err) => logFatalError(err));
+  promise.catch((err) => logFatalError(err, 'Rejection'));
 });
 
 const app = express();

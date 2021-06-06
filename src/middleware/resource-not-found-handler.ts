@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 import { createRequestErrorLogs, logRequestError } from '../logger';
 
 const createMessage = (method: string, url: string): string =>
-  `Not Found: Resource ${method} ${url} does not exist.`;
+  `Not Found: Endpoint ${method} ${url} does not exist.`;
 
 const resourceNotFoundHandler: express.RequestHandler = (req, res, next) => {
   if (res.statusCode !== StatusCodes.NOT_FOUND) {
@@ -14,11 +14,10 @@ const resourceNotFoundHandler: express.RequestHandler = (req, res, next) => {
   }
 
   const { method, url } = req;
-  const { statusCode } = res;
   const [plainLog, colorizedLog] = createRequestErrorLogs(
     method,
     url,
-    statusCode,
+    StatusCodes.NOT_FOUND,
     createMessage(method, url)
   );
 
