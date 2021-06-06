@@ -4,11 +4,13 @@ import { StatusCodes } from 'http-status-codes';
 import Task from './task.model';
 import tasksService from './task.service';
 import { asyncErrorHandler } from '../../utils';
+import { routeParamPreserver } from '../../middleware';
 
 const router = express.Router({ mergeParams: true });
 
 router.get(
   '/tasks',
+  routeParamPreserver,
   asyncErrorHandler(async (req, res) => {
     const { boardId } = req.params;
     const tasks = await tasksService.getAll(boardId as string);
@@ -18,6 +20,7 @@ router.get(
 
 router.get(
   '/tasks/:id',
+  routeParamPreserver,
   asyncErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
     const task = await tasksService.getById(boardId as string, id as string);
@@ -27,6 +30,7 @@ router.get(
 
 router.post(
   '/tasks',
+  routeParamPreserver,
   asyncErrorHandler(async (req, res) => {
     const { boardId } = req.params;
     const { body } = req;
@@ -37,6 +41,7 @@ router.post(
 
 router.put(
   '/tasks/:id',
+  routeParamPreserver,
   asyncErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
     const { body } = req;
@@ -51,6 +56,7 @@ router.put(
 
 router.delete(
   '/tasks/:id',
+  routeParamPreserver,
   asyncErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
     await tasksService.remove(boardId as string, id as string);

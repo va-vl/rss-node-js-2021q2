@@ -3,7 +3,7 @@ import { finished } from 'stream';
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 //
-import { createRequestErrorLogs, writeToFile } from '../logger';
+import { createRequestErrorLogs, logRequestError } from '../logger';
 
 const createMessage = (method: string, url: string): string =>
   `Not Found: Resource ${method} ${url} does not exist.`;
@@ -26,9 +26,7 @@ const resourceNotFoundHandler: express.RequestHandler = (req, res, next) => {
 
   finished(res, () => {
     setImmediate(() => {
-      writeToFile('log-combined.log', plainLog);
-      writeToFile('log-request-errors.log', plainLog);
-      process.stdout.write(colorizedLog);
+      logRequestError(plainLog, colorizedLog);
     });
   });
 };

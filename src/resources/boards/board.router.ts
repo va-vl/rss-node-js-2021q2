@@ -2,12 +2,14 @@ import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 //
 import boardsService from './board.service';
+import { routeParamPreserver } from '../../middleware';
 import { asyncErrorHandler } from '../../utils';
 
 const router = express.Router({ mergeParams: true });
 
 router.get(
   '/',
+  routeParamPreserver,
   asyncErrorHandler(async (_req, res) => {
     const boards = await boardsService.getAll();
     res.status(StatusCodes.OK).json(boards);
@@ -16,6 +18,7 @@ router.get(
 
 router.get(
   '/:id',
+  routeParamPreserver,
   asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const board = await boardsService.getById(id as string);
@@ -25,6 +28,7 @@ router.get(
 
 router.post(
   '/',
+  routeParamPreserver,
   asyncErrorHandler(async (req, res) => {
     const props = req.body;
     const board = await boardsService.create(props);
@@ -34,6 +38,7 @@ router.post(
 
 router.put(
   '/:id',
+  routeParamPreserver,
   asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const props = req.body;
@@ -44,6 +49,7 @@ router.put(
 
 router.delete(
   '/:id',
+  routeParamPreserver,
   asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     await boardsService.remove(id as string);

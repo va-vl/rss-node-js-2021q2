@@ -69,10 +69,25 @@ const createFatalErrorLogs = (err: Error): [string, string] => {
   return [plainLog, colorizedLog];
 };
 
+export const logRequest = (plainLog: string, colorizedLog: string): void => {
+  writeToFile('log-combined.log', plainLog);
+  process.stdout.write(colorizedLog);
+};
+
+export const logRequestError = (
+  plainLog: string,
+  colorizedLog: string
+): void => {
+  writeToFile('log-combined.log', plainLog);
+  writeToFile('log-request-errors.log', plainLog);
+  process.stdout.write(colorizedLog);
+};
+
 export const logFatalError = (err: Error): void => {
   const [plainLog, colorizedLog] = createFatalErrorLogs(err);
-  writeToFile('./logs/combined.log', plainLog);
-  writeToFile('./logs/fatal-errors.log', plainLog);
+
+  writeToFile('logs/combined.log', plainLog);
+  writeToFile('logs/fatal-errors.log', plainLog);
   process.stderr.write(colorizedLog);
   process.exit(1);
 };

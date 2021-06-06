@@ -3,7 +3,7 @@ import { finished } from 'stream';
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 //
-import { createRequestErrorLogs, writeToFile } from '../logger';
+import { createRequestErrorLogs, logRequestError } from '../logger';
 
 interface HandledError extends Error {
   code?: string;
@@ -27,9 +27,9 @@ const appErrorHandler = (
     res.status(code).send(plainLog);
 
     finished(res, () => {
-      writeToFile('log-combined.log', plainLog);
-      writeToFile('log-request-errors.log', plainLog);
-      process.stdout.write(colorizedLog);
+      setImmediate(() => {
+        logRequestError(plainLog, colorizedLog);
+      });
     });
   };
 

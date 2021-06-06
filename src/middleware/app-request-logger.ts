@@ -2,7 +2,7 @@ import { finished } from 'stream';
 //
 import express from 'express';
 //
-import { writeToFile, createRequestLogs } from '../logger';
+import { createRequestLogs, logRequest } from '../logger';
 
 const appRequestLogger: express.RequestHandler = (req, res, next) => {
   const requestStart = new Date();
@@ -11,7 +11,7 @@ const appRequestLogger: express.RequestHandler = (req, res, next) => {
   next();
 
   finished(res, () => {
-    const params = res.locals['params'] || req.params;
+    const params = res.locals['params'] ?? req.params;
     const { statusCode } = res;
     const [plainLog, colorizedLog] = createRequestLogs(
       requestStart,
@@ -23,8 +23,7 @@ const appRequestLogger: express.RequestHandler = (req, res, next) => {
       JSON.stringify(body)
     );
 
-    writeToFile('log-combined.log', plainLog);
-    process.stdout.write(colorizedLog);
+    logRequest(plainLog, colorizedLog);
   });
 };
 
