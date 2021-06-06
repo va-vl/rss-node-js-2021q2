@@ -40,12 +40,12 @@ router.put(
   asyncErrorHandler(async (req, res) => {
     const { boardId, id } = req.params;
     const { body } = req;
-    const updatedTask = await tasksService.update(
+    const task = await tasksService.update(
       boardId as string,
       id as string,
       body
     );
-    res.status(StatusCodes.OK).json(Task.toResponse(updatedTask));
+    res.status(StatusCodes.OK).json(Task.toResponse(task));
   })
 );
 
