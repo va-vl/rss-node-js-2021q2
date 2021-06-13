@@ -2,7 +2,7 @@ version: '3.8'
 services:
   app:
     build: .
-    env_file: .env
+    image: vasiliz/rss-node-js-2021-q2:app
     restart: always
     ports:
       - ${PORT}:${PORT}
@@ -13,10 +13,15 @@ services:
       - ./src:/usr/app/src
     networks:
       - app-bridge
+    environment:
+      PORT: ${PORT}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB}
 
   db:
     build: ./db/
-    env_file: .env
+    image: vasiliz/rss-node-js-2021-q2:db
     restart: always
     ports:
       - ${DB_PORT}:${DB_PORT}
@@ -24,6 +29,11 @@ services:
       - db-data:/var/lib/postgresql/data
     networks:
       - app-bridge
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PORT: ${DB_PORT}
+      POSTGRES_DB: ${DB}
 
 networks:
   app-bridge:

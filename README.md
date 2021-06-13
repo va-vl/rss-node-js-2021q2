@@ -4,6 +4,24 @@
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker - [Download & Install Docker](https://docs.docker.com/get-docker/);
+- Docker repository: [Download from DockerHub](https://hub.docker.com/r/vasiliz/rss-node-js-2021q2)
+
+## Using Docker
+
+1. Download git repository (`git clone` or as a ZIP folder);
+2. Open repository in terminal;
+3. Create a docker image and start the container (add `-d` for detached):
+
+- `docker compose up --build` - to create the image and run its containers;
+
+4. Shut down containers;
+
+- `docker compose down`;
+
+5. Check images for errors using _snyk_:
+
+- `docker scan [imageId]`;
 
 ## Downloading
 
