@@ -1,6 +1,6 @@
 import tasksRepo from './task.memory.repository';
 import Task from './task.model';
-import ITaskProps from './task.types';
+import { ITaskProps } from './task.types';
 
 const getAll = async (boardId: string): Promise<Task[]> =>
   tasksRepo.getAll(boardId);

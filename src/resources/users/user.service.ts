@@ -1,6 +1,6 @@
 import usersRepo from './user.memory.repository';
 import User from './user.model';
-import IUserProps from './user.types';
+import { IUserProps } from './user.types';
 
 const getAll = async (): Promise<User[]> => usersRepo.getAll();
 
@@ -12,9 +12,7 @@ const create = async (props: IUserProps): Promise<User> =>
 const update = async (id: string, props: IUserProps): Promise<User> =>
   usersRepo.update(id, props);
 
-const remove = async (id: string): Promise<void> => {
-  await usersRepo.remove(id);
-};
+const remove = async (id: string): Promise<void> => usersRepo.remove(id);
 
 export default {
   getAll,

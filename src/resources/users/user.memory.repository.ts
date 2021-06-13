@@ -1,39 +1,17 @@
 import * as DB from '../../db/db.memory';
 import User from './user.model';
-import IUserProps from './user.types';
-import { UserNotFoundError } from '../../errors';
+import { IUserProps } from './user.types';
 
 const getAll = async (): Promise<User[]> => DB.getAllUsers();
 
-const getById = async (id: string): Promise<User> => {
-  const user = await DB.getUserById(id);
-
-  if (user === undefined) {
-    throw new UserNotFoundError(id);
-  }
-
-  return user;
-};
+const getById = async (id: string): Promise<User> => DB.getUserById(id);
 
 const create = async (props: IUserProps): Promise<User> => DB.createUser(props);
 
-const update = async (id: string, props: IUserProps): Promise<User> => {
-  const user = await DB.updateUser(id, props);
+const update = async (id: string, props: IUserProps): Promise<User> =>
+  DB.updateUser(id, props);
 
-  if (user === undefined) {
-    throw new UserNotFoundError(id);
-  }
-
-  return user;
-};
-
-const remove = async (id: string): Promise<void> => {
-  const isRemoved = await DB.removeUser(id);
-
-  if (isRemoved === false) {
-    throw new UserNotFoundError(id);
-  }
-};
+const remove = async (id: string): Promise<void> => DB.removeUser(id);
 
 export default {
   getAll,

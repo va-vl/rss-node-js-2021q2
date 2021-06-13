@@ -1,13 +1,11 @@
 import * as uuid from 'uuid';
 //
 import Column from './column.model';
-import IBoardProps from './board.types';
+import { IBoardProps } from './board.types';
 
 class Board {
   id: string;
-
   title: string;
-
   columns: Column[];
 
   constructor({

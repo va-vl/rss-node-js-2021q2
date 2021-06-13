@@ -1,20 +1,12 @@
 import * as DB from '../../db/db.memory';
 import Task from './task.model';
-import ITaskProps from './task.types';
-import { TaskNotFoundError } from '../../errors';
+import { ITaskProps } from './task.types';
 
 const getAll = async (boardId: string): Promise<Task[]> =>
   DB.getAllTasks(boardId);
 
-const getById = async (boardId: string, id: string): Promise<Task> => {
-  const task = await DB.getTaskById(boardId, id);
-
-  if (task === undefined) {
-    throw new TaskNotFoundError(id, boardId);
-  }
-
-  return task;
-};
+const getById = async (boardId: string, id: string): Promise<Task> =>
+  DB.getTaskById(boardId, id);
 
 const create = async (boardId: string, props: ITaskProps): Promise<Task> =>
   DB.createTask(boardId, props);
@@ -23,23 +15,10 @@ const update = async (
   boardId: string,
   id: string,
   props: ITaskProps
-): Promise<Task> => {
-  const updatedTask = await DB.updateTask(boardId, id, props);
+): Promise<Task> => DB.updateTask(boardId, id, props);
 
-  if (updatedTask === undefined) {
-    throw new TaskNotFoundError(id, boardId);
-  }
-
-  return updatedTask;
-};
-
-const remove = async (boardId: string, id: string): Promise<void> => {
-  const isRemoved = await DB.removeTask(boardId, id);
-
-  if (!isRemoved) {
-    throw new TaskNotFoundError(id, boardId);
-  }
-};
+const remove = async (boardId: string, id: string): Promise<void> =>
+  DB.removeTask(boardId, id);
 
 export default {
   getAll,

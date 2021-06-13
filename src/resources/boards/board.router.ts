@@ -2,59 +2,59 @@ import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 //
 import boardsService from './board.service';
+import { routeParamPreserver } from '../../middleware';
+import { asyncErrorHandler } from '../../utils';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
-router.route('/').get(async (_req, res, next) => {
-  try {
+router.get(
+  '/',
+  routeParamPreserver,
+  asyncErrorHandler(async (_req, res) => {
     const boards = await boardsService.getAll();
     res.status(StatusCodes.OK).json(boards);
-  } catch (err) {
-    next(err);
-  }
-});
+  })
+);
 
-router.route('/:id').get(async (req, res, next) => {
-  try {
+router.get(
+  '/:id',
+  routeParamPreserver,
+  asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
-    const board = await boardsService.getById(id);
+    const board = await boardsService.getById(id as string);
     res.status(StatusCodes.OK).json(board);
-  } catch (err) {
-    next(err);
-  }
-});
+  })
+);
 
-router.route('/').post(async (req, res, next) => {
-  try {
+router.post(
+  '/',
+  routeParamPreserver,
+  asyncErrorHandler(async (req, res) => {
     const props = req.body;
     const board = await boardsService.create(props);
     res.status(StatusCodes.CREATED).json(board);
-  } catch (err) {
-    next(err);
-  }
-});
+  })
+);
 
-router.route('/:id').put(async (req, res, next) => {
-  try {
+router.put(
+  '/:id',
+  routeParamPreserver,
+  asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const props = req.body;
-    const board = await boardsService.update(id, props);
+    const board = await boardsService.update(id as string, props);
     res.status(StatusCodes.OK).json(board);
-  } catch (err) {
-    next(err);
-  }
-});
+  })
+);
 
-router.route('/:id').delete(async (req, res, next) => {
-  try {
+router.delete(
+  '/:id',
+  routeParamPreserver,
+  asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
-    await boardsService.remove(id);
-    res
-      .status(StatusCodes.NO_CONTENT)
-      .send(`Board ${id} successfully removed.`);
-  } catch (err) {
-    next(err);
-  }
-});
+    await boardsService.remove(id as string);
+    res.status(StatusCodes.NO_CONTENT).send();
+  })
+);
 
 export default router;
