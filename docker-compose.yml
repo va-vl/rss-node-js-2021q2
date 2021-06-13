@@ -9,28 +9,24 @@ services:
     depends_on:
       - db
     volumes:
-      - ./log:/app/log
-      - ./src:/app/src
+      - ./log:/usr/app/log
+      - ./src:/usr/app/src
     networks:
-      - usernet
+      - app-bridge
 
   db:
     build: ./db/
     env_file: .env
     restart: always
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB}
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
-      - usernet
+      - app-bridge
 
 networks:
-  usernet:
+  app-bridge:
     driver: bridge
 
 volumes:
