@@ -3,5 +3,6 @@
   "ext": "ts, tsx, json",
   "ignore": ["src/**/*.spec.ts"],
   "require": "dotenv/config",
-  "exec": "ts-node src/server.ts"
+  "exec": "ts-node src/server.ts",
+  "exitcrash": true
 }

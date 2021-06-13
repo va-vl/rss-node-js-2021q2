@@ -1,21 +1,37 @@
-version: '3.6'
+version: '3.8'
 services:
   app:
     build: .
-    ports:
-      - 4000:4000
     env_file: .env
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
     depends_on:
       - db
+    volumes:
+      - ./log:/app/log
+      - ./src:/app/src
+    networks:
+      - usernet
+
   db:
-    image: postgres:10.16
+    build: ./db/
+    env_file: .env
+    restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgres
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB}
     ports:
-      - 5432:5432
+      - ${DB_PORT}:${DB_PORT}
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - usernet
+
+networks:
+  usernet:
+    driver: bridge
+
 volumes:
   db-data:
