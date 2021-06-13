@@ -2,4 +2,5 @@ node_modules/
 out/
 build/
 log/
+db/pgdata/
 *.log
