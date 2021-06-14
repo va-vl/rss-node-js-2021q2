@@ -45,4 +45,6 @@ app.use('/boards/:boardId', taskRouter);
 app.use(resourceNotFoundHandler);
 app.use(appErrorHandler);
 
+console.log('Hello world!');
+
 export default app;
