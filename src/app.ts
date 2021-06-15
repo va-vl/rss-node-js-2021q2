@@ -2,6 +2,7 @@ import path from 'path';
 import express from 'express';
 import swaggerUI from 'swagger-ui-express';
 import YAML from 'yamljs';
+import cors from 'cors';
 //
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
@@ -25,6 +26,8 @@ const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 app.use(appRequestLogger);
 

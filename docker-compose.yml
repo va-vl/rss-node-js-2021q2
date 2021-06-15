@@ -2,6 +2,7 @@ version: '3.8'
 services:
   app:
     build: .
+    command: npm run dev
     image: vasiliz/rss-node-js-2021-q2:app
     restart: always
     ports:
@@ -15,13 +16,13 @@ services:
       - app-bridge
     environment:
       PORT: ${PORT}
+      POSTGRES_DB: ${DB}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB}
 
   db:
     build: ./db/
-    image: vasiliz/rss-node-js-2021-q2:db
+    image: postgres:13.3-alpine
     restart: always
     ports:
       - ${DB_PORT}:${DB_PORT}
@@ -30,11 +31,11 @@ services:
     networks:
       - app-bridge
     environment:
+      POSTGRES_DB: ${DB}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_PORT: ${DB_PORT}
-      POSTGRES_DB: ${DB}
-      PGDATA: ${PGDATA}
+      PGDATA: ${DB_DATA}
 
 networks:
   app-bridge:

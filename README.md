@@ -11,7 +11,7 @@
 
 1. Download git repository (`git clone` or as a ZIP folder);
 2. Open repository in terminal;
-3. Create a docker image and start the container (add `-d` for detached):
+3. Create a docker image and start the container with hot reload (add `-d` for detached):
 
 - `docker compose up --build` - to create the image and run its containers;
 
@@ -21,7 +21,11 @@
 
 5. Check images for errors using _snyk_:
 
-- `docker scan [imageId]`;
+- `docker scan [image-id]`;
+
+6. To run the compiled app image without db / hot reload:
+
+- `docker run --env-file [env-file-path] [image-id]`
 
 ## Downloading
 
