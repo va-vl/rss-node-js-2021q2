@@ -1,23 +1,16 @@
-import usersRepo from './user.memory.repository';
-import User from './user.model';
-import { IUserProps } from './user.types';
+import * as usersRepo from './user.memory.repository';
+import User from '../../entities/user';
+import { UserDTO } from '../../common/types';
 
-const getAll = async (): Promise<User[]> => usersRepo.getAll();
+export const getAll = async (): Promise<User[]> => usersRepo.getAll();
 
-const getById = async (id: string): Promise<User> => usersRepo.getById(id);
+export const getById = async (id: string): Promise<User> =>
+  usersRepo.getById(id);
 
-const create = async (props: IUserProps): Promise<User> =>
-  usersRepo.create(props);
+export const create = async (dto: UserDTO): Promise<User> =>
+  usersRepo.create(dto);
 
-const update = async (id: string, props: IUserProps): Promise<User> =>
-  usersRepo.update(id, props);
+export const update = async (id: string, dto: UserDTO): Promise<User> =>
+  usersRepo.update(id, dto);
 
-const remove = async (id: string): Promise<void> => usersRepo.remove(id);
-
-export default {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
-};
+export const remove = async (id: string): Promise<void> => usersRepo.remove(id);

@@ -35,7 +35,7 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_PORT: ${DB_PORT}
-      PGDATA: ${DB_DATA}
+      PGDATA: ${DOCKER_DB_DATA}
 
 networks:
   app-bridge:

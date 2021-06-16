@@ -1,22 +1,38 @@
-import * as DB from '../../db/db.memory';
-import User from './user.model';
-import { IUserProps } from './user.types';
+import { getRepository } from 'typeorm';
+//
+import User from '../../entities/user';
+import { UserDTO } from '../../common/types';
+import { EntityNotFoundError } from '../../errors';
 
-const getAll = async (): Promise<User[]> => DB.getAllUsers();
+const repository = getRepository(User);
+const columnsToResponse: (keyof User)[] = ['id', 'login', 'name'];
 
-const getById = async (id: string): Promise<User> => DB.getUserById(id);
+export const getAll = async (): Promise<User[]> =>
+  repository.find({ select: columnsToResponse });
 
-const create = async (props: IUserProps): Promise<User> => DB.createUser(props);
+export const getById = async (id: string): Promise<User> => {
+  const user = await repository.findOne(id, { select: columnsToResponse });
 
-const update = async (id: string, props: IUserProps): Promise<User> =>
-  DB.updateUser(id, props);
+  if (user === undefined) {
+    throw new EntityNotFoundError('User', id);
+  }
 
-const remove = async (id: string): Promise<void> => DB.removeUser(id);
+  return user;
+};
 
-export default {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
+export const create = async (dto: UserDTO): Promise<User> =>
+  repository.save(repository.create(dto));
+
+export const update = async (id: string, dto: UserDTO): Promise<User> => {
+  const user = await repository.findOne(id);
+
+  if (user === undefined) {
+    throw new EntityNotFoundError('User', id);
+  }
+
+  return repository.save({ ...user, ...dto });
+};
+
+export const remove = async (id: string): Promise<void> => {
+  await repository.delete({ id });
 };

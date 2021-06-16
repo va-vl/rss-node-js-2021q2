@@ -1,10 +1,8 @@
 import DBStorage from './db.memory.storage';
-import { IUserProps } from '../resources/users/user.types';
 import { ITaskProps } from '../resources/tasks/task.types';
 import { IBoardProps } from '../resources/boards/board.types';
 import Board from '../resources/boards/board.model';
 import Task from '../resources/tasks/task.model';
-import User from '../resources/users/user.model';
 import {
   DataCorruptedError,
   EntityNotFoundError,
@@ -12,43 +10,9 @@ import {
 } from '../errors';
 
 const db = {
-  Users: new DBStorage<User>('User'),
   Boards: new DBStorage<Board>('Board'),
   Tasks: [] as Task[],
 };
-
-// #region users
-export const getAllUsers = async (): Promise<User[]> => db.Users.getAll();
-
-export const getUserById = async (id: string): Promise<User> =>
-  db.Users.getById(id);
-
-export const createUser = async (props: IUserProps): Promise<User> =>
-  db.Users.add(new User(props));
-
-export const updateUser = async (
-  id: string,
-  props: IUserProps
-): Promise<User> => {
-  const existingUsers = db.Users.getAllById(id);
-
-  if (existingUsers[0] === undefined) {
-    throw new InvalidOperationError('User', id, 'Update');
-  }
-
-  return db.Users.replace(
-    existingUsers[0],
-    new User({ ...existingUsers[0], ...props })
-  );
-};
-
-export const removeUser = async (id: string): Promise<void> => {
-  db.Users.remove(id);
-  db.Tasks = db.Tasks.map((task) =>
-    task.userId !== id ? task : new Task({ ...task, userId: null })
-  );
-};
-// #endregion
 
 // #region boards
 export const getAllBoards = async (): Promise<Board[]> => db.Boards.getAll();
@@ -164,63 +128,3 @@ export const removeTask = async (
   db.Tasks = db.Tasks.filter((task) => task !== existingTasks[0]);
 };
 // #endregion
-
-/* #region init db for postman testing */
-(() => {
-  const createString = (num = 1000) => String(Math.floor(Math.random() * num));
-
-  for (let i = 0; i < 5; i += 1) {
-    db.Users.add(
-      new User({
-        id: String(i),
-        name: createString(),
-        login: createString(10_000),
-        password: createString(100_000),
-      })
-    );
-  }
-
-  db.Boards.add(new Board({ id: '0', title: 'Test board' }));
-  db.Boards.add(new Board({ id: '1', title: 'Test board' }));
-
-  if (
-    db.Users.store[0] &&
-    db.Boards.store[0] &&
-    db.Boards.store[0].columns[0]
-  ) {
-    db.Tasks.push(
-      new Task({
-        id: '0',
-        title: 'Test Task',
-        userId: db.Users.store[0].id,
-        boardId: db.Boards.store[0].id,
-        columnId: db.Boards.store[0].columns[0].id,
-      }),
-      new Task({
-        id: '1',
-        title: 'Test Task',
-        userId: db.Users.store[0].id,
-        boardId: db.Boards.store[0].id,
-        columnId: db.Boards.store[0].columns[0].id,
-        order: 1,
-      })
-    );
-  }
-
-  if (
-    db.Users.store[1] &&
-    db.Boards.store[1] &&
-    db.Boards.store[1].columns[0]
-  ) {
-    db.Tasks.push(
-      new Task({
-        id: '0',
-        title: 'Test Task',
-        userId: db.Users.store[1].id,
-        boardId: db.Boards.store[1].id,
-        columnId: db.Boards.store[1].columns[0].id,
-      })
-    );
-  }
-})();
-/* #endregion */
