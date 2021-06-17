@@ -1,23 +1,17 @@
-import boardsRepo from './board.memory.repository';
-import Board from './board.model';
-import { IBoardProps } from './board.types';
+import * as boardsRepo from './board.repository';
+import Board from '../../entities/board';
+import { BoardDTO } from '../../common/types';
 
-const getAll = async (): Promise<Board[]> => boardsRepo.getAll();
+export const getAll = async (): Promise<Board[]> => boardsRepo.getAll();
 
-const getById = async (id: string): Promise<Board> => boardsRepo.getById(id);
+export const getById = async (id: string): Promise<Board> =>
+  boardsRepo.getById(id);
 
-const create = async (props: IBoardProps): Promise<Board> =>
-  boardsRepo.create(props);
+export const create = async (dto: BoardDTO): Promise<Board> =>
+  boardsRepo.create(dto);
 
-const update = async (id: string, props: IBoardProps): Promise<Board> =>
-  boardsRepo.update(id, props);
+export const update = async (id: string, dto: BoardDTO): Promise<Board> =>
+  boardsRepo.update(id, dto);
 
-const remove = async (id: string): Promise<void> => boardsRepo.remove(id);
-
-export default {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
-};
+export const remove = async (id: string): Promise<void> =>
+  boardsRepo.remove(id);

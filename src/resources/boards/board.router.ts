@@ -1,7 +1,7 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 //
-import boardsService from './board.service';
+import * as boardsService from './board.service';
 import { routeParamPreserver } from '../../middleware';
 import { asyncErrorHandler } from '../../utils';
 
