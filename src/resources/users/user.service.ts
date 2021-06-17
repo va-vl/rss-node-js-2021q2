@@ -1,4 +1,4 @@
-import * as usersRepo from './user.memory.repository';
+import * as usersRepo from './user.repository';
 import User from '../../entities/user';
 import { UserDTO } from '../../common/types';
 

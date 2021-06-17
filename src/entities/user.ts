@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import * as uuid from 'uuid';
 //
 import { IUser, UserDTO } from '../common/types';
