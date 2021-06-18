@@ -19,7 +19,8 @@ export const connectDB = async () => {
 
     process.stdout.write('Succesfully DB connected');
   } catch (error) {
-    process.stdout.write('Unable to connect to DB', error);
+    process.stdout.write('Unable to connect to DB');
+    process.stdout.write(String(error));
     process.exit(1);
   }
 };

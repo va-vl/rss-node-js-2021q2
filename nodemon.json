@@ -3,6 +3,5 @@
   "ext": "ts, tsx, json",
   "require": "dotenv/config",
   "exec": "ts-node src/server.ts",
-  "legacyWatch": true,
-  "exitcrash": true
+  "legacyWatch": true
 }

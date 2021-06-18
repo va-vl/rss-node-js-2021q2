@@ -16,9 +16,12 @@ services:
       - app-bridge
     environment:
       PORT: ${PORT}
-      POSTGRES_DB: ${DB}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
+      DB_SYNC: ${DB_SYNC}
+      DB_LOGGING: ${DB_LOGGING}
 
   db:
     build: ./db/

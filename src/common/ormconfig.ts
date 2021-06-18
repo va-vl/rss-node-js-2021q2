@@ -2,24 +2,32 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { ConnectionOptions } from 'typeorm';
 
-dotenv.config({
-  path: path.join(__dirname, '../../.env'),
-});
-
 const isCompiled = path.extname(__filename).includes('js');
+
+dotenv.config({ path: path.join(__dirname, '../../.env') });
+
+const {
+  DB,
+  DB_HOST,
+  DB_USER,
+  DB_PASSWORD,
+  DB_PORT,
+  DB_SYNC,
+  DB_LOGGING,
+} = process.env;
 
 export default {
   type: 'postgres',
   //
-  host: process.env['DB_HOST'] ?? 'localhost',
-  port: process.env['DB_PORT'] ? parseInt(process.env['DB_PORT'], 10) : 5432,
-  database: process.env['DB'] ?? 'db',
-  username: process.env['DB_USER'] ?? 'postgres',
-  password: process.env['DB_PASSWORD'] ?? 'postgres',
+  database: DB ?? 'postgres',
+  host: DB_HOST ?? 'localhost',
+  username: DB_USER ?? 'postgres',
+  password: DB_PASSWORD ?? 'postgres',
+  port: DB_PORT ? +DB_PORT : 5432,
   //
-  synchronize: process.env['DB_SYNC'] === 'true',
+  synchronize: DB_SYNC === 'true',
   //
-  logging: process.env['DB_LOGGING'] === 'true',
+  logging: DB_LOGGING === 'true',
   //
   autoReconnect: true,
   reconnectTries: Number.MAX_SAFE_INTEGER,
