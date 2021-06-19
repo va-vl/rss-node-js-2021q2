@@ -25,7 +25,9 @@ export const getById = async (id: string): Promise<User> => {
 
 export const create = async (dto: UserDTO): Promise<User> => {
   const userRepository = getUserRepository();
-  return getRepository(User).save(userRepository.create(dto));
+  const user = userRepository.create(dto);
+  await userRepository.save(user);
+  return getById(user.id);
 };
 
 export const update = async (id: string, dto: UserDTO): Promise<User> => {
@@ -36,7 +38,8 @@ export const update = async (id: string, dto: UserDTO): Promise<User> => {
     throw new EntityNotFoundError('User', id);
   }
 
-  return userRepository.save({ ...user, ...dto });
+  await userRepository.update(id, dto);
+  return getById(id);
 };
 
 export const remove = async (id: string): Promise<void> => {

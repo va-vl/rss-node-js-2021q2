@@ -1,26 +1,37 @@
 import { getConnection, createConnection } from 'typeorm';
 import ormconfig from '../common/ormconfig';
 
-export const connectDB = async () => {
+const tries = 10;
+const timeout = 1000;
+
+export const connectDB = async (): Promise<void> => {
   let connection = null;
+
+  process.stdout.write('Connecting to database!\n');
 
   try {
     connection = getConnection();
-  } catch (error) {
-    // handle error
+    process.stdout.write('Default connection found!\n');
+  } catch {
+    for (let i = 0; i < tries; i += 1) {
+      try {
+        connection = await createConnection(ormconfig);
+
+        if (connection) {
+          process.stdout.write('New connection established!\n');
+          return;
+        }
+      } catch (error) {
+        process.stdout.write(
+          `reconnecting: ${i + 1} / ${tries}; reason: ${error.message}\n`
+        );
+
+        await new Promise((resolve) => setTimeout(resolve, timeout));
+      }
+    }
   }
 
-  try {
-    if (connection && !connection.isConnected) {
-      await connection.connect();
-    } else {
-      await createConnection(ormconfig);
-    }
-
-    process.stdout.write('Succesfully DB connected');
-  } catch (error) {
-    process.stdout.write('Unable to connect to DB');
-    process.stdout.write(String(error));
-    process.exit(1);
+  if (!connection) {
+    throw new Error('Could not connect to database!');
   }
 };

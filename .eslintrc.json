@@ -55,6 +55,7 @@
       }
     ],
     "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/dot-notation": ["error"]
+    "@typescript-eslint/dot-notation": ["error"],
+    "no-await-in-loop": "off"
   }
 }

@@ -35,7 +35,7 @@ class Task implements ITask {
   @JoinColumn({ name: 'boardId' })
   boardId!: string | null;
 
-  @Column({ nullable: true })
+  @Column('text', { nullable: true })
   columnId!: string | null;
 
   @Column('integer')

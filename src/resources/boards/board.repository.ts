@@ -24,7 +24,9 @@ export const getById = async (id: string): Promise<Board> => {
 
 export const create = async (dto: BoardDTO): Promise<Board> => {
   const boardRepository = getBoardRepository();
-  return boardRepository.save(boardRepository.create(dto));
+  const board = boardRepository.create(dto);
+  await boardRepository.save(board);
+  return getById(board.id);
 };
 
 export const update = async (id: string, dto: BoardDTO): Promise<Board> => {

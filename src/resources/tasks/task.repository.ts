@@ -13,7 +13,10 @@ export const getAll = async (boardId: string): Promise<Task[]> => {
 
 export const getById = async (boardId: string, id: string): Promise<Task> => {
   const taskRepository = getTaskRepository();
-  const task = await taskRepository.findOne(id, { where: boardId });
+  const task = await taskRepository.findOne(id, {
+    where: { boardId },
+    loadRelationIds: true,
+  });
 
   if (task === undefined) {
     throw new EntityNotFoundError('Task', id, { boardId });
@@ -24,7 +27,9 @@ export const getById = async (boardId: string, id: string): Promise<Task> => {
 
 export const create = async (boardId: string, dto: TaskDTO): Promise<Task> => {
   const taskRepository = getTaskRepository();
-  return taskRepository.save(taskRepository.create({ ...dto, boardId }));
+  const task = taskRepository.create({ ...dto, boardId });
+  await taskRepository.save(task);
+  return getById(boardId, task.id);
 };
 
 export const update = async (
@@ -33,7 +38,9 @@ export const update = async (
   dto: TaskDTO
 ): Promise<Task> => {
   const taskRepository = getTaskRepository();
-  const task = await taskRepository.findOne(id, { where: boardId });
+  const task = await taskRepository.findOne(id, {
+    where: { boardId },
+  });
 
   if (task === undefined) {
     throw new EntityNotFoundError('Task', id, { boardId });
