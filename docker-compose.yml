@@ -16,7 +16,7 @@ services:
       - app-bridge
     environment:
       PORT: ${PORT}
-      DB_HOST: ${DB}
+      DB_HOST: ${DB_HOST_DOCKER}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_PORT: ${DB_PORT}

@@ -19,19 +19,20 @@ const {
 export default {
   type: 'postgres',
   //
-  database: DB ?? 'postgres',
-  host: DB_HOST ?? 'localhost',
-  username: DB_USER ?? 'postgres',
-  password: DB_PASSWORD ?? 'postgres',
-  port: DB_PORT ? +DB_PORT : 5432,
+  database: DB || 'postgres',
+  host: DB_HOST || 'localhost',
+  username: DB_USER || 'postgres',
+  password: DB_PASSWORD || 'postgres',
+  port: Number(DB_PORT) || 5432,
   //
   synchronize: DB_SYNC === 'true',
   //
   logging: DB_LOGGING === 'true',
   //
-  autoReconnect: true,
-  reconnectTries: Number.MAX_SAFE_INTEGER,
-  reconnectInterval: 2000,
-  //
   entities: [`../entities/**/*.${isCompiled ? 'js' : 'ts'}`],
+  migrations: [`../migrations/**/*.${isCompiled ? 'js' : 'ts'}`],
+  cli: {
+    entitiesDir: '../entities',
+    migrationsDir: '../migrations',
+  },
 } as ConnectionOptions;
