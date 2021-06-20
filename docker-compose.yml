@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    image: vasiliz/rss-node-js-2021-q2:app
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - db
+    volumes:
+      - ./log:/usr/app/log
+      - ./src:/usr/app/src
+    networks:
+      - app-bridge
+    environment:
+      PORT: ${PORT}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB}
+
+  db:
+    build: ./db/
+    image: vasiliz/rss-node-js-2021-q2:db
+    restart: always
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    networks:
+      - app-bridge
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PORT: ${DB_PORT}
+      POSTGRES_DB: ${DB}
+      PGDATA: ${PGDATA}
+
+networks:
+  app-bridge:
+    driver: bridge
+
+volumes:
+  db-data:
