@@ -8,13 +8,13 @@ class User implements IUser {
   id!: string;
 
   @Column('varchar', { length: 128 })
-  name!: string;
+  name = 'Default Name';
 
   @Column('varchar', { length: 128 })
-  login!: string;
+  login = 'defaultlogin';
 
   @Column('varchar', { length: 128 })
-  password!: string;
+  password = 'defaultpassword1';
 }
 
 export default User;

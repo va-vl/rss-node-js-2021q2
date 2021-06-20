@@ -8,10 +8,10 @@ class Board implements IBoard {
   id!: string;
 
   @Column('varchar', { length: 128 })
-  title!: string;
+  title = 'Default Board Title';
 
   @Column('json')
-  columns!: IColumn[];
+  columns: IColumn[] = [];
 }
 
 export default Board;

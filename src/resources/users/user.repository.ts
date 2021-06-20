@@ -5,16 +5,15 @@ import { UserDTO } from '../../common/types';
 import { EntityNotFoundError } from '../../errors';
 
 const getUserRepository = () => getRepository(User);
-const columnsToResponse: (keyof User)[] = ['id', 'login', 'name'];
 
 export const getAll = async (): Promise<User[]> => {
   const userRepository = getUserRepository();
-  return userRepository.find({ select: columnsToResponse });
+  return userRepository.find();
 };
 
 export const getById = async (id: string): Promise<User> => {
   const userRepository = getUserRepository();
-  const user = await userRepository.findOne(id, { select: columnsToResponse });
+  const user = await userRepository.findOne(id);
 
   if (user === undefined) {
     throw new EntityNotFoundError('User', id);

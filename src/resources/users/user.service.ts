@@ -1,16 +1,30 @@
 import * as usersRepo from './user.repository';
-import User from '../../entities/user';
-import { UserDTO } from '../../common/types';
+import { IUser, UserDTO } from '../../common/types';
 
-export const getAll = async (): Promise<User[]> => usersRepo.getAll();
+const filterPassword = (user: IUser): IUser => ({
+  id: user.id,
+  name: user.name,
+  login: user.login,
+});
 
-export const getById = async (id: string): Promise<User> =>
-  usersRepo.getById(id);
+export const getAll = async (): Promise<IUser[]> => {
+  const users = await usersRepo.getAll();
+  return users.map(filterPassword);
+};
 
-export const create = async (dto: UserDTO): Promise<User> =>
-  usersRepo.create(dto);
+export const getById = async (id: string): Promise<IUser> => {
+  const user = await usersRepo.getById(id);
+  return filterPassword(user);
+};
 
-export const update = async (id: string, dto: UserDTO): Promise<User> =>
-  usersRepo.update(id, dto);
+export const create = async (dto: UserDTO): Promise<IUser> => {
+  const user = await usersRepo.create(dto);
+  return filterPassword(user);
+};
+
+export const update = async (id: string, dto: UserDTO): Promise<IUser> => {
+  const user = await usersRepo.update(id, dto);
+  return filterPassword(user);
+};
 
 export const remove = async (id: string): Promise<void> => usersRepo.remove(id);

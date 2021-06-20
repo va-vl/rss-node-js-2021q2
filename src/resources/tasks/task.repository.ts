@@ -8,7 +8,7 @@ const getTaskRepository = () => getRepository(Task);
 
 export const getAll = async (boardId: string): Promise<Task[]> => {
   const taskRepository = getTaskRepository();
-  return taskRepository.find({ where: { boardId } });
+  return taskRepository.find({ where: { boardId }, loadRelationIds: true });
 };
 
 export const getById = async (boardId: string, id: string): Promise<Task> => {
