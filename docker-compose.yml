@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   app:
+    container_name: app
     build: .
     command: npm run dev
     image: vasiliz/rss-node-js-2021-q2:app
@@ -24,13 +25,14 @@ services:
       DB_LOGGING: ${DB_LOGGING}
 
   db:
+    container_name: db
     build: ./db/
     image: postgres:13.3-alpine
     restart: always
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${DB_OUTER_PORT}:${DB_PORT}
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - pgdata:${DOCKER_DB_DATA}
     networks:
       - app-bridge
     environment:
@@ -38,11 +40,29 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_PORT: ${DB_PORT}
+      POSTGRES_HOST: ${DB_HOST_DOCKER}
       PGDATA: ${DOCKER_DB_DATA}
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - ${PGADMIN_PORT}:80
+    depends_on:
+      - db
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    networks:
+      - app-bridge
+    logging:
+      driver: none
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
 
 networks:
   app-bridge:
     driver: bridge
 
 volumes:
-  db-data:
+  pgdata:
+  pgadmin:

@@ -3,4 +3,7 @@ out/
 build/
 log/
 db/pgdata/
+db/pgadmin*
+db/storage/
+db/sessions/
 *.log
