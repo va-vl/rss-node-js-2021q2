@@ -11,7 +11,7 @@
     "allowSyntheticDefaultImports": true,
     // compiling
     "allowJs": false,
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./build",
     "downlevelIteration": false,
     // strictness
@@ -24,6 +24,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules/"],
-  "include": ["./**/*.ts"]
+  "exclude": ["node_modules/", "build/"],
+  "include": ["./src/**/*.ts", "ormconfig.ts"]
 }

@@ -1,10 +1,6 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { ConnectionOptions } from 'typeorm';
-//
-import User from '../entities/user';
-import Board from '../entities/board';
-import Task from '../entities/task';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
@@ -21,7 +17,7 @@ export default {
   //
   logging: process.env['DB_LOGGING'] === 'true',
   //
-  entities: [User, Task, Board],
+  entities: ['./src/entities/**/*.ts'],
   migrations: ['./src/migrations/**/*.ts'],
   cli: {
     entitiesDir: './src/entities',

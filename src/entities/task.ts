@@ -10,7 +10,7 @@ import { ITask } from '../common/types';
 import User from './user';
 import Board from './board';
 
-@Entity()
+@Entity('task')
 class Task implements ITask {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

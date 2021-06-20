@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 //
 import { IBoard, IColumn } from '../common/types';
 
-@Entity()
+@Entity('board')
 class Board implements IBoard {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 //
 import { IUser } from '../common/types';
 
-@Entity()
+@Entity('user')
 class User implements IUser {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
