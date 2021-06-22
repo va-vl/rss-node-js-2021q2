@@ -1,15 +1,36 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({
-  path: path.join(__dirname, '../../.env'),
-});
+dotenv.config({ path: path.join(__dirname, '../../.env') });
 
-export const {
-  PORT,
+const {
   NODE_ENV,
-  MONGO_CONNECTION_STRING,
+  //
+  PORT,
   JWT_SECRET_KEY,
+  AUTH_MODE,
+  //
+  DB,
+  DB_PORT,
+  DB_HOST,
+  DB_USER,
+  DB_PASSWORD,
+  DB_SYNC,
+  DB_LOGGING,
 } = process.env;
 
-export const AUTH_MODE = process.env['AUTH_MODE'] === 'true';
+export default {
+  NODE_ENV,
+  //
+  PORT: Number(PORT) || 4000,
+  JWT_SECRET_KEY,
+  AUTH_MODE: AUTH_MODE === 'true',
+  //
+  DB: DB || 'postgres',
+  DB_PORT: Number(DB_PORT) || 5432,
+  DB_HOST: DB_HOST || 'postgres',
+  DB_USER: DB_USER || 'postgres',
+  DB_PASSWORD: DB_PASSWORD || 'postgres',
+  DB_SYNC: DB_SYNC === 'true',
+  DB_LOGGING: DB_LOGGING === 'true',
+};

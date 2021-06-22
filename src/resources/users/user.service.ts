@@ -1,5 +1,5 @@
 import * as usersRepo from './user.repository';
-import { IUser, UserDTO } from '../../common/types';
+import { IUser } from '../../entities/user';
 
 const filterPassword = (user: IUser): IUser => ({
   id: user.id,
@@ -17,12 +17,15 @@ export const getById = async (id: string): Promise<IUser> => {
   return filterPassword(user);
 };
 
-export const create = async (dto: UserDTO): Promise<IUser> => {
+export const create = async (dto: Partial<IUser>): Promise<IUser> => {
   const user = await usersRepo.create(dto);
   return filterPassword(user);
 };
 
-export const update = async (id: string, dto: UserDTO): Promise<IUser> => {
+export const update = async (
+  id: string,
+  dto: Partial<IUser>
+): Promise<IUser> => {
   const user = await usersRepo.update(id, dto);
   return filterPassword(user);
 };

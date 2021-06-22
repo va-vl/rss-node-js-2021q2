@@ -3,7 +3,7 @@ import { finished } from 'stream';
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 //
-import { createRequestErrorLogs, logRequestError } from '../logger';
+import { createRequestErrorResponseMessage, logRequestError } from '../logger';
 
 interface HandledError extends Error {
   code?: string;
@@ -17,18 +17,18 @@ const appErrorHandler = (
 ): void => {
   const handleError = (code: number): void => {
     const { method, url } = req;
-    const [plainLog, colorizedLog] = createRequestErrorLogs(
+    const message = createRequestErrorResponseMessage(
       method,
       url,
       code,
       err.message
     );
 
-    res.status(code).send(plainLog);
+    res.status(code).send(message);
 
     finished(res, () => {
       setImmediate(() => {
-        logRequestError(plainLog, colorizedLog);
+        logRequestError(message);
       });
     });
   };
@@ -43,7 +43,6 @@ const appErrorHandler = (
       break;
     }
     case 'ERR_CUSTOM_ERROR':
-    case 'ERR_DATA_CORRUPTED':
     default: {
       handleError(StatusCodes.INTERNAL_SERVER_ERROR);
       next();

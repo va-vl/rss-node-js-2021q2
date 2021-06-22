@@ -13,14 +13,28 @@ import {
   appRequestLogger,
   resourceNotFoundHandler,
 } from './middleware';
-import { logFatalError } from './logger';
+import { createFatalErrorLogMessage, logFatalError } from './logger';
 
 process.on('uncaughtException', (err) => {
-  logFatalError(err, 'Exception');
+  logFatalError(
+    createFatalErrorLogMessage(
+      'An exception has occurred!',
+      err.message,
+      String(err.stack)
+    )
+  );
 });
 
 process.on('unhandledRejection', (_, promise) => {
-  promise.catch((err) => logFatalError(err, 'Rejection'));
+  promise.catch((err) => {
+    logFatalError(
+      createFatalErrorLogMessage(
+        'A rejection was not handled!',
+        err.message,
+        String(err.stack)
+      )
+    );
+  });
 });
 
 const app = express();

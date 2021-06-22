@@ -16,7 +16,7 @@
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
-    "migration:generate": "npm run typeorm migration:generate -- -n migration --config ormconfig.ts",
+    "migration:generate": "npm run typeorm migration:generate -- -n migration --config src/common/ormconfig.ts",
     "migration:run": "npm run typeorm migration:run"
   },
   "keywords": [
@@ -52,7 +52,6 @@
     "@types/cors": "^2.8.10",
     "@types/es6-shim": "^0.31.41",
     "@types/node": "^15.12.1",
-    "chalk": "^4.1.1",
     "cors": "^2.8.5",
     "cross-env": "7.0.3",
     "dotenv": "9.0.0",
@@ -63,6 +62,7 @@
     "swagger-ui-express": "4.1.6",
     "typeorm": "^0.2.34",
     "uuid": "8.3.2",
+    "winston": "^3.3.3",
     "yamljs": "0.3.0"
   },
   "devDependencies": {

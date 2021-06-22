@@ -1,5 +1,5 @@
 import { getConnection, createConnection } from 'typeorm';
-import ormconfig from '../../ormconfig';
+import { ormconfig } from '../common';
 
 const tries = 10;
 const timeout = 1000;

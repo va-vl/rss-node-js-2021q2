@@ -1,7 +1,6 @@
 import { getRepository } from 'typeorm';
 //
-import Board from '../../entities/board';
-import { BoardDTO } from '../../common/types';
+import { Board } from '../../entities/board';
 import { EntityNotFoundError } from '../../errors';
 
 const getBoardRepository = () => getRepository(Board);
@@ -22,14 +21,17 @@ export const getById = async (id: string): Promise<Board> => {
   return board;
 };
 
-export const create = async (dto: BoardDTO): Promise<Board> => {
+export const create = async (dto: Partial<Board>): Promise<Board> => {
   const boardRepository = getBoardRepository();
   const board = boardRepository.create(dto);
   await boardRepository.save(board);
   return getById(board.id);
 };
 
-export const update = async (id: string, dto: BoardDTO): Promise<Board> => {
+export const update = async (
+  id: string,
+  dto: Partial<Board>
+): Promise<Board> => {
   const boardRepository = getBoardRepository();
   const board = await boardRepository.findOne(id);
 

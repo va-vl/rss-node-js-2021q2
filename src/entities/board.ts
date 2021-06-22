@@ -1,9 +1,19 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-//
-import { IBoard, IColumn } from '../common/types';
+
+export interface IColumn {
+  id: string;
+  title?: string;
+  order?: number;
+}
+
+export interface IBoard {
+  id: string;
+  title?: string;
+  columns?: IColumn[];
+}
 
 @Entity('board')
-class Board implements IBoard {
+export class Board implements IBoard {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -13,5 +23,3 @@ class Board implements IBoard {
   @Column('json')
   columns: IColumn[] = [];
 }
-
-export default Board;

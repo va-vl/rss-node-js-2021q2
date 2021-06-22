@@ -1,17 +1,16 @@
 import { getRepository } from 'typeorm';
 //
-import User from '../../entities/user';
-import { UserDTO } from '../../common/types';
+import { User, IUser } from '../../entities/user';
 import { EntityNotFoundError } from '../../errors';
 
 const getUserRepository = () => getRepository(User);
 
-export const getAll = async (): Promise<User[]> => {
+export const getAll = async (): Promise<IUser[]> => {
   const userRepository = getUserRepository();
   return userRepository.find();
 };
 
-export const getById = async (id: string): Promise<User> => {
+export const getById = async (id: string): Promise<IUser> => {
   const userRepository = getUserRepository();
   const user = await userRepository.findOne(id);
 
@@ -22,14 +21,17 @@ export const getById = async (id: string): Promise<User> => {
   return user;
 };
 
-export const create = async (dto: UserDTO): Promise<User> => {
+export const create = async (dto: Partial<IUser>): Promise<IUser> => {
   const userRepository = getUserRepository();
   const user = userRepository.create(dto);
   await userRepository.save(user);
   return getById(user.id);
 };
 
-export const update = async (id: string, dto: UserDTO): Promise<User> => {
+export const update = async (
+  id: string,
+  dto: Partial<IUser>
+): Promise<IUser> => {
   const userRepository = getUserRepository();
   const user = await userRepository.findOne(id);
 

@@ -1,99 +1,69 @@
-import * as service from './logger-service';
+import winston from 'winston';
 
-export const { writeToFile } = service;
-
-export const createRequestLogs = (
-  requestStart: Date,
-  method: string,
-  url: string,
-  statusCode: number,
-  urlParamsStr: string,
-  queryParamsStr: string,
-  bodyStr: string
-): [string, string] => {
-  const requestDuration = Date.now() - +requestStart;
-  const dateTime = service.createDateTimeLine(requestStart);
-  const networkData = `${method} ${url} ${statusCode} [${requestDuration} ms]`;
-  const urlParams = `URL params: ${urlParamsStr}`;
-  const queryParams = `Query params: ${queryParamsStr}`;
-  const body = `Request body: ${bodyStr}`;
-
-  const plainLog = service.createPlainLog([
-    [dateTime, networkData],
-    [urlParams, queryParams, body],
-  ]);
-
-  const colorizedLog = service.createColorizedLog([
-    [
-      service.createLogLine(dateTime, networkData),
-      service.STYLE.REQUEST_SUCCESS,
-    ],
-    [service.createLogLine(urlParams, queryParams, body)],
-  ]);
-
-  return [plainLog, colorizedLog];
+const CUSTOM_LEVELS = {
+  levels: {
+    fatal: 0,
+    error: 1,
+    info: 2,
+    debug: 3,
+    silly: 4,
+  },
+  colors: {
+    fatal: 'bold red',
+    error: 'italic yellow',
+    info: 'green',
+    debug: 'blue',
+    silly: 'magenta',
+  },
 };
 
-export const createRequestErrorLogs = (
-  method: string,
-  url: string,
-  statusCode: number,
-  message: string
-): [string, string] => {
-  const dateTime = service.createDateTimeLine(new Date());
-  const networkData = `${method} ${url} ${statusCode}`;
+winston.addColors(CUSTOM_LEVELS.colors);
 
-  const plainLog = service.createPlainLog([[dateTime, networkData], [message]]);
+const CUSTOM_FORMAT = winston.format.combine(
+  winston.format.timestamp({ format: 'MMMM DD YYYY hh:mm:ss' }),
+  winston.format.label({ label: '[logger]' }),
+  winston.format.printf(
+    (info) =>
+      `${info['label']} ${info['timestamp']} ${info.level}: ${info.message}`
+  )
+);
 
-  const colorizedLog = service.createColorizedLog([
-    [service.createLogLine(dateTime, networkData), service.STYLE.REQUEST_ERROR],
-    [message, service.STYLE.REQUEST_ERROR],
-  ]);
+const CUSTOM_TRANSPORTS = [
+  new winston.transports.File({
+    dirname: './log/',
+    filename: 'combined.log',
+    level: 'info',
+    format: winston.format.json(),
+  }),
+  new winston.transports.File({
+    dirname: './log/',
+    filename: 'errors.log',
+    level: 'error',
+    format: winston.format.json(),
+  }),
+  new winston.transports.Console({
+    level: 'info',
+    stderrLevels: ['fatal'],
+    format: winston.format.combine(winston.format.colorize({ all: true })),
+  }),
+];
 
-  return [plainLog, colorizedLog];
+const logger = winston.createLogger({
+  level: 'info',
+  levels: CUSTOM_LEVELS.levels,
+  transports: CUSTOM_TRANSPORTS,
+  format: CUSTOM_FORMAT,
+  exitOnError: true,
+});
+
+export const logRequest = (message: string): void => {
+  logger.log('info', message);
 };
 
-const createFatalErrorLogs = (
-  err: Error,
-  type: 'Exception' | 'Rejection'
-): [string, string] => {
-  const dateTime = service.createDateTimeLine(new Date());
-  const message = `Fatal Error: ${type} occurred! ${err.message}`;
-  const stack = `Stack: ${err.stack}`;
-
-  const plainLog = service.createPlainLog([[dateTime, message], [stack]]);
-
-  const colorizedLog = service.createColorizedLog([
-    [dateTime, service.STYLE.FATAL_ERROR],
-    [message, service.STYLE.FATAL_ERROR],
-    [stack, service.STYLE.FATAL_ERROR],
-  ]);
-
-  return [plainLog, colorizedLog];
+export const logRequestError = (message: string): void => {
+  logger.log('error', message);
 };
 
-export const logRequest = (plainLog: string, colorizedLog: string): void => {
-  writeToFile('log/combined.log', plainLog);
-  process.stdout.write(colorizedLog);
-};
-
-export const logRequestError = (
-  plainLog: string,
-  colorizedLog: string
-): void => {
-  writeToFile('log/combined.log', plainLog);
-  writeToFile('log/errors.log', plainLog);
-  process.stdout.write(colorizedLog);
-};
-
-export const logFatalError = (
-  err: Error,
-  type: 'Exception' | 'Rejection'
-): void => {
-  const [plainLog, colorizedLog] = createFatalErrorLogs(err, type);
-
-  writeToFile('log/combined.log', plainLog);
-  writeToFile('log/errors.log', plainLog);
-  process.stderr.write(colorizedLog);
-  process.exit(1);
+export const logFatalError = (message: string): void => {
+  logger.log('fatal', message);
 };

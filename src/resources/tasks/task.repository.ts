@@ -1,17 +1,16 @@
 import { getRepository } from 'typeorm';
 //
-import Task from '../../entities/task';
-import { TaskDTO } from '../../common/types';
+import { Task, ITask } from '../../entities/task';
 import { EntityNotFoundError } from '../../errors';
 
 const getTaskRepository = () => getRepository(Task);
 
-export const getAll = async (boardId: string): Promise<Task[]> => {
+export const getAll = async (boardId: string): Promise<ITask[]> => {
   const taskRepository = getTaskRepository();
   return taskRepository.find({ where: { boardId }, loadRelationIds: true });
 };
 
-export const getById = async (boardId: string, id: string): Promise<Task> => {
+export const getById = async (boardId: string, id: string): Promise<ITask> => {
   const taskRepository = getTaskRepository();
   const task = await taskRepository.findOne(id, {
     where: { boardId },
@@ -25,7 +24,10 @@ export const getById = async (boardId: string, id: string): Promise<Task> => {
   return task;
 };
 
-export const create = async (boardId: string, dto: TaskDTO): Promise<Task> => {
+export const create = async (
+  boardId: string,
+  dto: Partial<ITask>
+): Promise<ITask> => {
   const taskRepository = getTaskRepository();
   const task = taskRepository.create({ ...dto, boardId });
   await taskRepository.save(task);
@@ -35,8 +37,8 @@ export const create = async (boardId: string, dto: TaskDTO): Promise<Task> => {
 export const update = async (
   boardId: string,
   id: string,
-  dto: TaskDTO
-): Promise<Task> => {
+  dto: Partial<ITask>
+): Promise<ITask> => {
   const taskRepository = getTaskRepository();
   const task = await taskRepository.findOne(id, {
     where: { boardId },
