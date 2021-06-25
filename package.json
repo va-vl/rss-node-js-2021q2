@@ -11,12 +11,12 @@
   "scripts": {
     "start": "node build/server.js",
     "build": "rm -rf build && tsc --project tsconfig.json",
-    "dev": "npm run migration:run && nodemon",
+    "dev": "nodemon",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
-    "typeorm": "ts-node ./node_modules/typeorm/cli.js",
-    "migration:generate": "npm run typeorm migration:generate -- -n migration --config src/common/ormconfig.ts",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js --config src/common/ormconfig.ts",
+    "migration:generate": "npm run typeorm migration:generate -- -n migration",
     "migration:run": "npm run typeorm migration:run"
   },
   "keywords": [

@@ -31,4 +31,5 @@ export default {
     entitiesDir: 'src/entities',
     migrationsDir: 'src/migrations',
   },
+  migrationsRun: true,
 } as ConnectionOptions;

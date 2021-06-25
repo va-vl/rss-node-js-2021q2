@@ -38,8 +38,8 @@ const appErrorHandler = (
       handleError(StatusCodes.NOT_FOUND);
       break;
     }
-    case 'ERR_INVALID_OPERATION': {
-      handleError(StatusCodes.BAD_REQUEST);
+    case 'ERR_METHOD_NOT_ALLOWED': {
+      handleError(StatusCodes.METHOD_NOT_ALLOWED);
       break;
     }
     case 'ERR_CUSTOM_ERROR':
