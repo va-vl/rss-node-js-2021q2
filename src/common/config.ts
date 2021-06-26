@@ -23,7 +23,7 @@ export default {
   NODE_ENV,
   //
   PORT: Number(PORT) || 4000,
-  JWT_SECRET_KEY,
+  JWT_SECRET_KEY: JWT_SECRET_KEY || 'secret',
   AUTH_MODE: AUTH_MODE === 'true',
   //
   DB: DB || 'postgres',

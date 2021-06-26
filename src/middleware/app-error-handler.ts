@@ -42,6 +42,10 @@ const appErrorHandler = (
       handleError(StatusCodes.METHOD_NOT_ALLOWED);
       break;
     }
+    case 'ERR_ENTITY_FORBIDDEN': {
+      handleError(StatusCodes.FORBIDDEN);
+      break;
+    }
     case 'ERR_CUSTOM_ERROR':
     default: {
       handleError(StatusCodes.INTERNAL_SERVER_ERROR);
