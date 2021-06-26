@@ -1,8 +1,7 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 //
-import User from './user.model';
-import usersService from './user.service';
+import * as usersService from './user.service';
 import { asyncErrorHandler } from '../../utils';
 import { routeParamPreserver } from '../../middleware';
 
@@ -13,7 +12,7 @@ router.get(
   routeParamPreserver,
   asyncErrorHandler(async (_req, res) => {
     const users = await usersService.getAll();
-    res.status(StatusCodes.OK).json(users.map(User.toResponse));
+    res.status(StatusCodes.OK).json(users);
   })
 );
 
@@ -23,7 +22,7 @@ router.get(
   asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const user = await usersService.getById(id as string);
-    res.status(StatusCodes.OK).json(User.toResponse(user));
+    res.status(StatusCodes.OK).json(user);
   })
 );
 
@@ -33,7 +32,7 @@ router.post(
   asyncErrorHandler(async (req, res) => {
     const props = req.body;
     const user = await usersService.create(props);
-    res.status(StatusCodes.CREATED).json(User.toResponse(user));
+    res.status(StatusCodes.CREATED).json(user);
   })
 );
 
@@ -48,7 +47,7 @@ router.put(
       login,
       password,
     });
-    res.status(StatusCodes.OK).json(User.toResponse(user));
+    res.status(StatusCodes.OK).json(user);
   })
 );
 

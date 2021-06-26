@@ -1,49 +1,42 @@
 # RS School REST service
 
-## Prerequisites
+## Требуемые приложения:
 
-- Git - [Download & Install Git](https://git-scm.com/downloads).
-- Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Git - [Download & Install Git](https://git-scm.com/downloads);
+- Node.js & npm - [Download & Install Node.js](https://nodejs.org/en/download/);
 - Docker - [Download & Install Docker](https://docs.docker.com/get-docker/);
-- Docker repository: [Download from DockerHub](https://hub.docker.com/r/vasiliz/rss-node-js-2021q2)
+- PostgreSQL (опционально) - [Download & Install PostgreSQL](https://www.postgresql.org/download/)
 
-## Using Docker
+## Скачать этот репозиторий:
 
-1. Download git repository (`git clone` or as a ZIP folder);
-2. Open repository in terminal;
-3. Create a docker image and start the container (add `-d` for detached):
+- Zip архивом:
+  - Выбрать интересующую ветку;
+  - Нажать на кнопку **Code**, выбрать **Download ZIP**;
+- С помощью `git clone`:
+  - `git clone https://github.com/va-z/rss-node-js-2021q2.git <-b [branch_name]>`;
 
-- `docker compose up --build` - to create the image and run its containers;
+После успешного клонирования нужно перейти в директорию приложения - `cd ./rss-node-js-2021q2`. Открыть документацию при работающем приложении: `http://localhost:4000/doc/`. Локальные переменные находятся в файле `.env`.
 
-4. Shut down containers;
+## Работа в Docker:
 
-- `docker compose down`;
+1. Создать образы и запустить их контейнеры - `docker compose up --build`;
+2. Завершить работу контейнеров - `docker compose down`;
+3. Проверить образы с помощью _snyk_ - `docker scan [image-id]`;
+4. Все тесты запускаются из контейнеров, удобно использовать Docker Desktop;
+5. Запустить pgAdmin в браузере можно по адресу **localhost:8080**. Данные для входа и порт можно поменять в `.env`;
 
-5. Check images for errors using _snyk_:
+Миграции применяются автоматически при запуске приложения. Пересоздать миграцию - `npm run migration:generate`. Не забудьте удалить старую миграцию перед запуском приложения с новой миграцией!
 
-- `docker scan [imageId]`;
+Образ на DockerHub - [Download from DockerHub](https://hub.docker.com/r/vasiliz/rss-node-js-2021q2)
 
-## Downloading
+# Локальный запуск:
 
-```
-git clone {repository URL}
-```
-
-## Installing NPM modules
-
-```
-npm install
-```
-
-## Running application
-
-```
-npm start
-```
-
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
+1. `npm install`;
+2. Установите PosgreSQL, запустите pgAdmin;
+3. На порте 5432 создайте новую базу данных с именем `db` либо любым другим, указанным в переменной `DB` из `.env`;
+4. `npm run dev`;
+5. `npm run test`;
+6. `npm run lint`;
 
 ## Testing
 

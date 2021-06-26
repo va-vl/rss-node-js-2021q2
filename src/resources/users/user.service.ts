@@ -1,23 +1,30 @@
-import usersRepo from './user.memory.repository';
-import User from './user.model';
-import { IUserProps } from './user.types';
+import * as usersRepo from './user.repository';
+import { IUser, UserDTO } from '../../common/types';
 
-const getAll = async (): Promise<User[]> => usersRepo.getAll();
+const filterPassword = (user: IUser): IUser => ({
+  id: user.id,
+  name: user.name,
+  login: user.login,
+});
 
-const getById = async (id: string): Promise<User> => usersRepo.getById(id);
-
-const create = async (props: IUserProps): Promise<User> =>
-  usersRepo.create(props);
-
-const update = async (id: string, props: IUserProps): Promise<User> =>
-  usersRepo.update(id, props);
-
-const remove = async (id: string): Promise<void> => usersRepo.remove(id);
-
-export default {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
+export const getAll = async (): Promise<IUser[]> => {
+  const users = await usersRepo.getAll();
+  return users.map(filterPassword);
 };
+
+export const getById = async (id: string): Promise<IUser> => {
+  const user = await usersRepo.getById(id);
+  return filterPassword(user);
+};
+
+export const create = async (dto: UserDTO): Promise<IUser> => {
+  const user = await usersRepo.create(dto);
+  return filterPassword(user);
+};
+
+export const update = async (id: string, dto: UserDTO): Promise<IUser> => {
+  const user = await usersRepo.update(id, dto);
+  return filterPassword(user);
+};
+
+export const remove = async (id: string): Promise<void> => usersRepo.remove(id);

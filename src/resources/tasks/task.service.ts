@@ -1,29 +1,21 @@
-import tasksRepo from './task.memory.repository';
-import Task from './task.model';
-import { ITaskProps } from './task.types';
+import * as tasksRepo from './task.repository';
+import Task from '../../entities/task';
+import { TaskDTO } from '../../common/types';
 
-const getAll = async (boardId: string): Promise<Task[]> =>
+export const getAll = async (boardId: string): Promise<Task[]> =>
   tasksRepo.getAll(boardId);
 
-const getById = async (boardId: string, id: string): Promise<Task> =>
+export const getById = async (boardId: string, id: string): Promise<Task> =>
   tasksRepo.getById(boardId, id);
 
-const create = async (boardId: string, props: ITaskProps): Promise<Task> =>
-  tasksRepo.create(boardId, props);
+export const create = async (boardId: string, dto: TaskDTO): Promise<Task> =>
+  tasksRepo.create(boardId, dto);
 
-const update = async (
+export const update = async (
   boardId: string,
   id: string,
-  props: ITaskProps
-): Promise<Task> => tasksRepo.update(boardId, id, props);
+  dto: TaskDTO
+): Promise<Task> => tasksRepo.update(boardId, id, dto);
 
-const remove = async (boardId: string, id: string): Promise<void> =>
+export const remove = async (boardId: string, id: string): Promise<void> =>
   tasksRepo.remove(boardId, id);
-
-export default {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
-};
