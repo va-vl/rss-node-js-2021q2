@@ -12,6 +12,7 @@ import taskRouter from './resources/tasks/task.router';
 import {
   appErrorHandler,
   appRequestLogger,
+  appAuthVerifier,
   resourceNotFoundHandler,
 } from './middleware';
 import { createFatalErrorLogMessage, logFatalError } from './logger';
@@ -59,9 +60,9 @@ app.use('/', (req, res, next) => {
 
 app.use('/login', loginRouter);
 
-app.use('/users', userRouter);
-app.use('/boards', boardRouter);
-app.use('/boards/:boardId', taskRouter);
+app.use('/users', appAuthVerifier, userRouter);
+app.use('/boards', appAuthVerifier, boardRouter);
+app.use('/boards/:boardId', appAuthVerifier, taskRouter);
 
 app.use(resourceNotFoundHandler, appErrorHandler);
 

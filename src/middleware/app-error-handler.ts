@@ -42,6 +42,10 @@ const appErrorHandler = (
       handleError(StatusCodes.FORBIDDEN);
       break;
     }
+    case 'NotAuthorizedError': {
+      handleError(StatusCodes.UNAUTHORIZED);
+      break;
+    }
     case 'CustomError':
     default: {
       handleError(StatusCodes.INTERNAL_SERVER_ERROR);
