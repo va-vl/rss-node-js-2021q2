@@ -21,13 +21,25 @@ const appAuthVerifier = asyncErrorHandler(
       throw new NotAuthorizedError('Invalid auth scheme!');
     }
 
-    const { userId: id } = jwt.verify(token, JWT_SECRET_KEY) as JwtPayload;
+    let id;
+
+    try {
+      const { userId } = jwt.verify(token, JWT_SECRET_KEY) as JwtPayload;
+      id = userId;
+    } catch {
+      throw new EntityForbiddenError('Invalid signature!');
+    }
 
     if (typeof id !== 'string') {
+      throw new EntityForbiddenError('Invalid signature!');
+    }
+
+    try {
+      await usersRepo.getById(id);
+    } catch {
       throw new EntityForbiddenError('Invalid token!');
     }
 
-    await usersRepo.getById(id);
     next();
   }
 );

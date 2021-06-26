@@ -1,1 +1,1 @@
-export { default as loginRouter } from './login/loginRouter';
+export { default as loginRouter } from './login/login.router';
