@@ -5,12 +5,8 @@ import { StatusCodes } from 'http-status-codes';
 //
 import { createRequestErrorResponseMessage, logRequestError } from '../logger';
 
-interface HandledError extends Error {
-  code?: string;
-}
-
 const appErrorHandler = (
-  err: HandledError,
+  err: Error,
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -33,20 +29,20 @@ const appErrorHandler = (
     });
   };
 
-  switch (err.code) {
-    case 'ERR_ENTITY_NOT_FOUND': {
+  switch (err.name) {
+    case 'EntityNotFound': {
       handleError(StatusCodes.NOT_FOUND);
       break;
     }
-    case 'ERR_METHOD_NOT_ALLOWED': {
+    case 'MethodNotAllowedError': {
       handleError(StatusCodes.METHOD_NOT_ALLOWED);
       break;
     }
-    case 'ERR_ENTITY_FORBIDDEN': {
+    case 'EntityForbiddenError': {
       handleError(StatusCodes.FORBIDDEN);
       break;
     }
-    case 'ERR_CUSTOM_ERROR':
+    case 'CustomError':
     default: {
       handleError(StatusCodes.INTERNAL_SERVER_ERROR);
       next();
