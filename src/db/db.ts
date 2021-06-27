@@ -1,7 +1,9 @@
 import { getConnection, createConnection } from 'typeorm';
 //
 import { logDebug } from '../logger';
-import { ormconfig, constants } from '../common';
+import * as common from '../common';
+
+const { ormconfig, constants } = common;
 
 const { DB_RECONNECTION_TIMEOUT, DB_RECONNECTION_TRIES } = constants;
 
