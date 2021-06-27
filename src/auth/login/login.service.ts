@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { User } from '../../entities/user';
 import { config } from '../../common';
 import * as utils from '../../utils';
-import { EntityForbiddenError } from '../../errors';
+import { ForbiddenError } from '../../errors';
 
 const { JWT_SECRET_KEY } = config;
 
@@ -15,7 +15,7 @@ export const signToken = async (
   const user = await getRepository(User).findOne({ login });
 
   if (user === undefined) {
-    throw new EntityForbiddenError('Incorrect login / password!');
+    throw new ForbiddenError('Incorrect login / password!');
   }
 
   const isMatching = await utils.encryptor.checkPasswordHash(
@@ -24,7 +24,7 @@ export const signToken = async (
   );
 
   if (!isMatching) {
-    throw new EntityForbiddenError('Incorrect login / password!');
+    throw new ForbiddenError('Incorrect login / password!');
   }
 
   return jwt.sign({ userId: user.id, login }, JWT_SECRET_KEY);

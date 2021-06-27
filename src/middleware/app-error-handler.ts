@@ -38,7 +38,7 @@ const appErrorHandler = (
       handleError(StatusCodes.METHOD_NOT_ALLOWED);
       break;
     }
-    case 'EntityForbiddenError': {
+    case 'ForbiddenError': {
       handleError(StatusCodes.FORBIDDEN);
       break;
     }

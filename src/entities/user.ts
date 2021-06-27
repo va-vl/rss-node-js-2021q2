@@ -18,6 +18,6 @@ export class User implements IUser {
   @Column('varchar', { unique: true, length: 128 })
   login = 'defaultlogin';
 
-  @Column('varchar', { length: 128 })
+  @Column('text')
   password!: string;
 }

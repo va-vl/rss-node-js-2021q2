@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import * as usersRepo from '../resources/users/user.repository';
 import { asyncErrorHandler } from '../utils';
 import { config } from '../common';
-import { NotAuthorizedError, EntityForbiddenError } from '../errors';
+import { NotAuthorizedError } from '../errors';
 
 const { JWT_SECRET_KEY } = config;
 
@@ -27,17 +27,17 @@ const appAuthVerifier = asyncErrorHandler(
       const { userId } = jwt.verify(token, JWT_SECRET_KEY) as JwtPayload;
       id = userId;
     } catch {
-      throw new EntityForbiddenError('Invalid signature!');
+      throw new NotAuthorizedError('Invalid signature!');
     }
 
     if (typeof id !== 'string') {
-      throw new EntityForbiddenError('Invalid signature!');
+      throw new NotAuthorizedError('Invalid signature!');
     }
 
     try {
       await usersRepo.getById(id);
     } catch {
-      throw new EntityForbiddenError('Invalid token!');
+      throw new NotAuthorizedError('Invalid token!');
     }
 
     next();
