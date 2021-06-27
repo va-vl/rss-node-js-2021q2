@@ -24,7 +24,7 @@ export const signToken = async (
   );
 
   if (!isMatching) {
-    throw new EntityForbiddenError('Invalid JWT!');
+    throw new EntityForbiddenError('Incorrect login / password!');
   }
 
   return jwt.sign({ userId: user.id, login }, JWT_SECRET_KEY);

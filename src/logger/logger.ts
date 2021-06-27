@@ -46,6 +46,11 @@ const CUSTOM_TRANSPORTS = [
     stderrLevels: ['fatal'],
     format: winston.format.combine(winston.format.colorize({ all: true })),
   }),
+  new winston.transports.Console({
+    level: 'debug',
+    stderrLevels: ['fatal'],
+    format: winston.format.combine(winston.format.colorize({ all: true })),
+  }),
 ];
 
 const logger = winston.createLogger({
@@ -66,4 +71,8 @@ export const logRequestError = (message: string): void => {
 
 export const logFatalError = (message: string): void => {
   logger.log('fatal', message);
+};
+
+export const logDebug = (message: string): void => {
+  logger.log('debug', message);
 };

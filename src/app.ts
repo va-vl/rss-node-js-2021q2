@@ -60,9 +60,11 @@ app.use('/', (req, res, next) => {
 
 app.use('/login', loginRouter);
 
-app.use('/users', appAuthVerifier, userRouter);
-app.use('/boards', appAuthVerifier, boardRouter);
-app.use('/boards/:boardId', appAuthVerifier, taskRouter);
+app.use(appAuthVerifier);
+
+app.use('/users', userRouter);
+app.use('/boards', boardRouter);
+app.use('/boards/:boardId', taskRouter);
 
 app.use(resourceNotFoundHandler, appErrorHandler);
 
