@@ -20,7 +20,7 @@ export const signToken = async (
 
   const isMatching = await utils.encryptor.checkPasswordHash(
     password,
-    user.passwordHash
+    user.password
   );
 
   if (!isMatching) {

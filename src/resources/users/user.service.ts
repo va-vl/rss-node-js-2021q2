@@ -1,6 +1,6 @@
 import * as usersRepo from './user.repository';
 import * as utils from '../../utils';
-import { IUser, IUserDTO } from '../../entities/user';
+import { IUser } from '../../entities/user';
 
 const filterPassword = (user: IUser): IUser => ({
   id: user.id,
@@ -18,25 +18,28 @@ export const getById = async (id: string): Promise<IUser> => {
   return filterPassword(user);
 };
 
-export const create = async (dto: IUserDTO): Promise<IUser> => {
+export const create = async (dto: Partial<IUser>): Promise<IUser> => {
   let passwordHash;
 
   if (dto.password !== undefined) {
     passwordHash = await utils.encryptor.hashPassword(dto.password);
   }
 
-  const user = await usersRepo.create({ ...dto, passwordHash });
+  const user = await usersRepo.create({ ...dto, password: passwordHash });
   return filterPassword(user);
 };
 
-export const update = async (id: string, dto: IUserDTO): Promise<IUser> => {
+export const update = async (
+  id: string,
+  dto: Partial<IUser>
+): Promise<IUser> => {
   let passwordHash;
 
   if (dto.password !== undefined) {
     passwordHash = await utils.encryptor.hashPassword(dto.password);
   }
 
-  const user = await usersRepo.update(id, { ...dto, passwordHash });
+  const user = await usersRepo.update(id, { ...dto, password: passwordHash });
   return filterPassword(user);
 };
 

@@ -19,7 +19,7 @@ export default async (): Promise<void> => {
     .values({
       name: 'admin',
       login: 'admin',
-      passwordHash,
+      password: passwordHash,
     })
     .execute();
 };

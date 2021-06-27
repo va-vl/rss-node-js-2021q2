@@ -4,12 +4,6 @@ export interface IUser {
   id: string;
   name?: string;
   login?: string;
-  passwordHash?: string;
-}
-
-export interface IUserDTO {
-  name?: string;
-  login?: string;
   password?: string;
 }
 
@@ -25,5 +19,5 @@ export class User implements IUser {
   login = 'defaultlogin';
 
   @Column('varchar', { length: 128 })
-  passwordHash!: string;
+  password!: string;
 }
