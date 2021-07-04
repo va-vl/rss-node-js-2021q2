@@ -27,17 +27,23 @@ export class UserService {
 
   async update(id: string, updateUserDTO: UpdateUserDTO) {
     const user = await this.getById(id);
-    return user && this.userRepository.save({ ...user, ...updateUserDTO });
+
+    if (user === undefined) {
+      return user;
+    }
+
+    const newUser = this.userRepository.create({ ...user, ...updateUserDTO });
+    return this.userRepository.save(newUser);
   }
 
   async remove(id: string) {
     const user = await this.getById(id);
 
-    if (user) {
-      await this.userRepository.remove(user);
-      return true;
+    if (user === undefined) {
+      return false;
     }
 
-    return false;
+    await this.userRepository.remove(user);
+    return true;
   }
 }

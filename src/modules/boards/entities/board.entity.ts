@@ -8,8 +8,8 @@ export class Board {
   id!: string;
 
   @Column('varchar', { length: 128 })
-  title = 'Default Board Title';
+  title!: string;
 
   @Column('json')
-  columns: BoardColumn[] = [];
+  columns!: BoardColumn[];
 }

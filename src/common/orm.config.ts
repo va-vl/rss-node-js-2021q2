@@ -5,6 +5,7 @@ import config from './config';
 import { User } from '../modules/users/entities/user.entity';
 import { Board } from 'src/modules/boards/entities/board.entity';
 import { BoardColumn } from 'src/modules/boards/entities/board-column.entity';
+import { Task } from 'src/modules/tasks/entities/task.entity';
 
 export default registerAs('orm.config', (): TypeOrmModuleOptions => {
   const { DB, DB_HOST, DB_USER, DB_PASSWORD, DB_PORT } = config();
@@ -30,6 +31,6 @@ export default registerAs('orm.config', (): TypeOrmModuleOptions => {
     // },
     // migrationsRun: true,
     synchronize: true,
-    entities: [User, Board, BoardColumn],
+    entities: [User, Board, BoardColumn, Task],
   };
 });

@@ -29,17 +29,26 @@ export class BoardService {
 
   async update(id: string, updateBoardDTO: UpdateBoardDTO) {
     const board = await this.getById(id);
-    return board && this.boardRepository.save({ ...board, ...updateBoardDTO });
+
+    if (board === undefined) {
+      return board;
+    }
+
+    const newBoard = this.boardRepository.create({
+      ...board,
+      ...updateBoardDTO,
+    });
+    return this.boardRepository.save(newBoard);
   }
 
   async remove(id: string) {
     const board = await this.getById(id);
 
-    if (board) {
-      await this.boardRepository.remove(board);
-      return true;
+    if (board === undefined) {
+      return board;
     }
 
-    return false;
+    await this.boardRepository.remove(board);
+    return true;
   }
 }
