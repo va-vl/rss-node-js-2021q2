@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 //
-import { UserModule } from './users/user.module';
+import { UserModule } from './modules/users/user.module';
+import { BoardModule } from './modules/boards/board.module';
 //
-import { ormConfig } from './_common';
+import { ormConfig } from './common';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ormConfig } from './_common';
     }),
     TypeOrmModule.forRootAsync({ useFactory: ormConfig }),
     UserModule,
+    BoardModule,
   ],
   controllers: [AppController],
   providers: [AppService],

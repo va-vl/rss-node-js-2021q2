@@ -13,24 +13,24 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  public async getAll() {
+  async getAll() {
     return this.userRepository.find();
   }
 
-  public async getById(id: string) {
+  async getById(id: string) {
     return this.userRepository.findOne({ where: { id } });
   }
 
-  public async create(createUserDTO: CreateUserDTO) {
+  async create(createUserDTO: CreateUserDTO) {
     return this.userRepository.save(this.userRepository.create(createUserDTO));
   }
 
-  public async update(id: string, updateUserDTO: UpdateUserDTO) {
+  async update(id: string, updateUserDTO: UpdateUserDTO) {
     const user = await this.getById(id);
     return user && this.userRepository.save({ ...user, ...updateUserDTO });
   }
 
-  public async remove(id: string) {
+  async remove(id: string) {
     const user = await this.getById(id);
 
     if (user) {

@@ -19,7 +19,7 @@ import {
 import { CreateUserDTO } from './input/create-user.dto';
 import { UpdateUserDTO } from './input/update-user.dto';
 import { UserService } from './user.service';
-import { IDUser } from './input/id-user.input';
+import { UserID } from './input/user-id.input';
 
 @Controller('users')
 @SerializeOptions({ strategy: 'excludeAll' })
@@ -37,7 +37,7 @@ export class UserController {
 
   @Get(':id')
   @UseInterceptors(ClassSerializerInterceptor)
-  async getById(@Param() input: IDUser) {
+  async getById(@Param() input: UserID) {
     const user = await this.userService.getById(input.id);
 
     if (user === undefined) {
@@ -63,7 +63,7 @@ export class UserController {
 
   @Put(':id')
   @UseInterceptors(ClassSerializerInterceptor)
-  async update(@Param() input: IDUser, @Body() updateUserDTO: UpdateUserDTO) {
+  async update(@Param() input: UserID, @Body() updateUserDTO: UpdateUserDTO) {
     const user = await this.userService.update(input.id, updateUserDTO);
 
     if (user === undefined) {
@@ -75,7 +75,7 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param() input: IDUser) {
+  async remove(@Param() input: UserID) {
     const isUserRemoved = await this.userService.remove(input.id);
 
     if (!isUserRemoved) {
