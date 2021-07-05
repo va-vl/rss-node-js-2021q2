@@ -7,14 +7,14 @@ export class User {
   @Expose()
   id!: string;
 
-  @Column()
+  @Column('varchar')
   @Expose()
   name!: string;
 
-  @Column({ unique: true })
+  @Column('varchar', { unique: true })
   @Expose()
   login!: string;
 
-  @Column()
+  @Column('varchar')
   password!: string;
 }

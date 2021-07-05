@@ -4,7 +4,6 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
-  Generated,
   OneToOne,
 } from 'typeorm';
 //
@@ -17,10 +16,10 @@ export class Task {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column()
+  @Column('varchar')
   title!: string;
 
-  @Column()
+  @Column('varchar')
   description!: string;
 
   @ManyToOne(() => User, (user) => user.id, {
@@ -31,18 +30,19 @@ export class Task {
   userId!: string | null;
 
   @ManyToOne(() => Board, (board) => board.id, {
+    nullable: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'boardId' })
-  boardId!: string;
+  boardId!: string | null;
 
   @OneToOne(() => BoardColumn, (boardColumn) => boardColumn.id, {
-    nullable: true,
+    eager: true,
     onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'columnId' })
   columnId!: string | null;
 
-  @Generated('increment')
+  @Column('integer')
   order!: number;
 }

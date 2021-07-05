@@ -14,11 +14,17 @@ export class TaskService {
   ) {}
 
   async getAll(boardId: string) {
-    return this.taskRepository.find({ where: { boardId } });
+    return this.taskRepository.find({
+      where: { boardId },
+      loadRelationIds: true,
+    });
   }
 
   async getById(boardId: string, id: string) {
-    return this.taskRepository.findOne({ where: { boardId, id } });
+    return this.taskRepository.findOne({
+      where: { boardId, id },
+      loadRelationIds: true,
+    });
   }
 
   async create(boardId: string, createTaskDTO: CreateTaskDTO) {
@@ -35,7 +41,6 @@ export class TaskService {
     }
 
     const newTask = this.taskRepository.create({ ...task, ...updateTaskDTO });
-    console.log(newTask);
     return this.taskRepository.save(newTask);
   }
 
@@ -43,7 +48,7 @@ export class TaskService {
     const task = await this.getById(boardId, id);
 
     if (task === undefined) {
-      return task;
+      return false;
     }
 
     await this.taskRepository.remove(task);

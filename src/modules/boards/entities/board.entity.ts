@@ -7,7 +7,7 @@ export class Board {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column('varchar', { length: 128 })
+  @Column('varchar')
   title!: string;
 
   @Column('json')

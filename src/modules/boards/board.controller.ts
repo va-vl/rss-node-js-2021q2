@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Inject,
+  InternalServerErrorException,
   NotFoundException,
   Param,
   Post,
@@ -30,15 +31,23 @@ export class BoardController {
 
   @Get(':id')
   async getById(@Param() input: BoardId) {
-    return this.boardService.getById(input.id);
+    const board = await this.boardService.getById(input.id);
+
+    if (board === undefined) {
+      throw new NotFoundException();
+    }
+
+    return board;
   }
 
   @Post()
   async create(@Body() createBoardDTO: CreateBoardDTO) {
-    const board = await this.boardService.create(createBoardDTO);
+    let board;
 
-    if (board === undefined) {
-      throw new NotFoundException();
+    try {
+      board = await this.boardService.create(createBoardDTO);
+    } catch {
+      throw new InternalServerErrorException();
     }
 
     return board;

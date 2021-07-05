@@ -62,7 +62,10 @@ export class TaskController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param() input: TaskID) {
-    const isTaskRemoved = this.taskService.remove(input.boardId, input.id);
+    const isTaskRemoved = await this.taskService.remove(
+      input.boardId,
+      input.id,
+    );
 
     if (!isTaskRemoved) {
       throw new NotFoundException();
