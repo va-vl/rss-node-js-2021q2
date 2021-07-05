@@ -3,10 +3,7 @@ import { finished } from 'stream';
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 //
-import { createRequestErrorLogs, logRequestError } from '../logger';
-
-const createMessage = (method: string, url: string): string =>
-  `Not Found: Endpoint ${method} ${url} does not exist.`;
+import { createRequestErrorResponseMessage, logRequestError } from '../logger';
 
 const resourceNotFoundHandler: express.RequestHandler = (req, res, next) => {
   if (res.statusCode !== StatusCodes.NOT_FOUND) {
@@ -14,18 +11,18 @@ const resourceNotFoundHandler: express.RequestHandler = (req, res, next) => {
   }
 
   const { method, url } = req;
-  const [plainLog, colorizedLog] = createRequestErrorLogs(
+  const message = createRequestErrorResponseMessage(
     method,
     url,
     StatusCodes.NOT_FOUND,
-    createMessage(method, url)
+    `Not Found: Endpoint ${method} ${url} does not exist.`
   );
 
-  res.status(StatusCodes.NOT_FOUND).send(plainLog);
+  res.status(StatusCodes.NOT_FOUND).send(message);
 
   finished(res, () => {
     setImmediate(() => {
-      logRequestError(plainLog, colorizedLog);
+      logRequestError(message);
     });
   });
 };

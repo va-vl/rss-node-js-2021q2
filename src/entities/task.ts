@@ -6,12 +6,21 @@ import {
   JoinColumn,
 } from 'typeorm';
 //
-import { ITask } from '../common/types';
-import User from './user';
-import Board from './board';
+import { User } from './user';
+import { Board } from './board';
+
+export interface ITask {
+  id: string;
+  title?: string;
+  description?: string;
+  userId?: string | null;
+  boardId?: string | null;
+  columnId?: string | null;
+  order?: number;
+}
 
 @Entity('task')
-class Task implements ITask {
+export class Task implements ITask {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -41,5 +50,3 @@ class Task implements ITask {
   @Column('integer')
   order = 0;
 }
-
-export default Task;

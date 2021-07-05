@@ -1,37 +1,39 @@
 import { getConnection, createConnection } from 'typeorm';
-import ormconfig from '../../ormconfig';
+//
+import { logDebug } from '../logger';
+import * as common from '../common';
 
-const tries = 10;
-const timeout = 1000;
+const { ormconfig, constants } = common;
 
-export const connectDB = async (): Promise<void> => {
-  let connection = null;
+const { DB_RECONNECTION_TIMEOUT, DB_RECONNECTION_TRIES } = constants;
 
-  process.stdout.write('Connecting to database!\n');
+export const connectDB = async (name?: string): Promise<void> => {
+  logDebug('Please wait, connecting to database.');
 
   try {
-    connection = getConnection();
-    process.stdout.write('Default connection found!\n');
+    if (getConnection(name)) {
+      logDebug(`Using ${name || 'default'} connection.`);
+    }
   } catch {
-    for (let i = 0; i < tries; i += 1) {
-      try {
-        connection = await createConnection(ormconfig);
+    logDebug('Please wait, creating new connection.');
+  }
 
-        if (connection) {
-          process.stdout.write('New connection established!\n');
-          return;
-        }
-      } catch (error) {
-        process.stdout.write(
-          `reconnecting: ${i + 1} / ${tries}; reason: ${error.message}\n`
-        );
+  for (let i = 0; i < DB_RECONNECTION_TRIES; i += 1) {
+    try {
+      await createConnection(ormconfig);
+      return;
+    } catch (error) {
+      logDebug(
+        `reconnecting: ${i + 1} / ${DB_RECONNECTION_TRIES}; reason: ${
+          error.message
+        }`
+      );
 
-        await new Promise((resolve) => setTimeout(resolve, timeout));
-      }
+      await new Promise((resolve) =>
+        setTimeout(resolve, DB_RECONNECTION_TIMEOUT)
+      );
     }
   }
 
-  if (!connection) {
-    throw new Error('Could not connect to database!');
-  }
+  throw new Error('Could not connect to database!');
 };

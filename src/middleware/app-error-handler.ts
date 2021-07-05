@@ -3,47 +3,50 @@ import { finished } from 'stream';
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 //
-import { createRequestErrorLogs, logRequestError } from '../logger';
-
-interface HandledError extends Error {
-  code?: string;
-}
+import { createRequestErrorResponseMessage, logRequestError } from '../logger';
 
 const appErrorHandler = (
-  err: HandledError,
+  err: Error,
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
 ): void => {
   const handleError = (code: number): void => {
     const { method, url } = req;
-    const [plainLog, colorizedLog] = createRequestErrorLogs(
+    const message = createRequestErrorResponseMessage(
       method,
       url,
       code,
       err.message
     );
 
-    res.status(code).send(plainLog);
+    res.status(code).send(message);
 
     finished(res, () => {
       setImmediate(() => {
-        logRequestError(plainLog, colorizedLog);
+        logRequestError(message);
       });
     });
   };
 
-  switch (err.code) {
-    case 'ERR_ENTITY_NOT_FOUND': {
+  switch (err.name) {
+    case 'EntityNotFound': {
       handleError(StatusCodes.NOT_FOUND);
       break;
     }
-    case 'ERR_INVALID_OPERATION': {
-      handleError(StatusCodes.BAD_REQUEST);
+    case 'MethodNotAllowedError': {
+      handleError(StatusCodes.METHOD_NOT_ALLOWED);
       break;
     }
-    case 'ERR_CUSTOM_ERROR':
-    case 'ERR_DATA_CORRUPTED':
+    case 'ForbiddenError': {
+      handleError(StatusCodes.FORBIDDEN);
+      break;
+    }
+    case 'NotAuthorizedError': {
+      handleError(StatusCodes.UNAUTHORIZED);
+      break;
+    }
+    case 'CustomError':
     default: {
       handleError(StatusCodes.INTERNAL_SERVER_ERROR);
       next();

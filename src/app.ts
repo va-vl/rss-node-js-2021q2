@@ -5,22 +5,38 @@ import swaggerUI from 'swagger-ui-express';
 import YAML from 'yamljs';
 import cors from 'cors';
 //
+import { loginRouter } from './auth';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
 import {
   appErrorHandler,
   appRequestLogger,
+  appAuthVerifier,
   resourceNotFoundHandler,
 } from './middleware';
-import { logFatalError } from './logger';
+import { createFatalErrorLogMessage, logFatalError } from './logger';
 
 process.on('uncaughtException', (err) => {
-  logFatalError(err, 'Exception');
+  logFatalError(
+    createFatalErrorLogMessage(
+      'An exception has occurred!',
+      err.message,
+      String(err.stack)
+    )
+  );
 });
 
 process.on('unhandledRejection', (_, promise) => {
-  promise.catch((err) => logFatalError(err, 'Rejection'));
+  promise.catch((err) => {
+    logFatalError(
+      createFatalErrorLogMessage(
+        'A rejection was not handled!',
+        err.message,
+        String(err.stack)
+      )
+    );
+  });
 });
 
 const app = express();
@@ -42,11 +58,14 @@ app.use('/', (req, res, next) => {
   next();
 });
 
+app.use('/login', loginRouter);
+
+app.use(appAuthVerifier);
+
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId', taskRouter);
 
-app.use(resourceNotFoundHandler);
-app.use(appErrorHandler);
+app.use(resourceNotFoundHandler, appErrorHandler);
 
 export default app;

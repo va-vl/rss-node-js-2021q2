@@ -1,55 +1,34 @@
 import { getRepository } from 'typeorm';
 //
-import Task from '../../entities/task';
-import { TaskDTO } from '../../common/types';
-import { EntityNotFoundError } from '../../errors';
+import { Task, ITask } from '../../entities/task';
 
-const getTaskRepository = () => getRepository(Task);
+export const getAll = async (boardId: string): Promise<ITask[]> =>
+  getRepository(Task).find({ where: { boardId }, loadRelationIds: true });
 
-export const getAll = async (boardId: string): Promise<Task[]> => {
-  const taskRepository = getTaskRepository();
-  return taskRepository.find({ where: { boardId }, loadRelationIds: true });
-};
-
-export const getById = async (boardId: string, id: string): Promise<Task> => {
-  const taskRepository = getTaskRepository();
-  const task = await taskRepository.findOne(id, {
-    where: { boardId },
+export const getById = async (boardId: string, id: string): Promise<ITask> =>
+  getRepository(Task).findOneOrFail({
+    where: { boardId, id },
     loadRelationIds: true,
   });
 
-  if (task === undefined) {
-    throw new EntityNotFoundError('Task', id, { boardId });
-  }
-
-  return task;
-};
-
-export const create = async (boardId: string, dto: TaskDTO): Promise<Task> => {
-  const taskRepository = getTaskRepository();
-  const task = taskRepository.create({ ...dto, boardId });
-  await taskRepository.save(task);
-  return getById(boardId, task.id);
+export const create = async (
+  boardId: string,
+  dto: Partial<ITask>
+): Promise<ITask> => {
+  const taskRepository = getRepository(Task);
+  return taskRepository.save(taskRepository.create({ ...dto, boardId }));
 };
 
 export const update = async (
   boardId: string,
   id: string,
-  dto: TaskDTO
-): Promise<Task> => {
-  const taskRepository = getTaskRepository();
-  const task = await taskRepository.findOne(id, {
-    where: { boardId },
-  });
-
-  if (task === undefined) {
-    throw new EntityNotFoundError('Task', id, { boardId });
-  }
-
-  return taskRepository.save({ ...task, ...dto });
+  dto: Partial<ITask>
+): Promise<ITask> => {
+  const task = await getById(boardId, id);
+  return getRepository(Task).save({ ...task, ...dto });
 };
 
 export const remove = async (boardId: string, id: string): Promise<void> => {
-  const taskRepository = getTaskRepository();
+  const taskRepository = getRepository(Task);
   await taskRepository.delete({ boardId, id });
 };

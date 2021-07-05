@@ -1,47 +1,26 @@
 import { getRepository } from 'typeorm';
 //
-import User from '../../entities/user';
-import { UserDTO } from '../../common/types';
-import { EntityNotFoundError } from '../../errors';
+import { User, IUser } from '../../entities/user';
 
-const getUserRepository = () => getRepository(User);
+export const getAll = async (): Promise<IUser[]> => getRepository(User).find();
 
-export const getAll = async (): Promise<User[]> => {
-  const userRepository = getUserRepository();
-  return userRepository.find();
+export const getById = async (id: string): Promise<IUser> =>
+  getRepository(User).findOneOrFail({ where: { id } });
+
+export const create = async (dto: Partial<IUser>): Promise<IUser> => {
+  const userRepository = getRepository(User);
+  return userRepository.save(userRepository.create(dto));
 };
 
-export const getById = async (id: string): Promise<User> => {
-  const userRepository = getUserRepository();
-  const user = await userRepository.findOne(id);
-
-  if (user === undefined) {
-    throw new EntityNotFoundError('User', id);
-  }
-
-  return user;
-};
-
-export const create = async (dto: UserDTO): Promise<User> => {
-  const userRepository = getUserRepository();
-  const user = userRepository.create(dto);
-  await userRepository.save(user);
-  return getById(user.id);
-};
-
-export const update = async (id: string, dto: UserDTO): Promise<User> => {
-  const userRepository = getUserRepository();
-  const user = await userRepository.findOne(id);
-
-  if (user === undefined) {
-    throw new EntityNotFoundError('User', id);
-  }
-
-  await userRepository.update(id, dto);
-  return getById(id);
+export const update = async (
+  id: string,
+  dto: Partial<IUser>
+): Promise<IUser> => {
+  const user = await getById(id);
+  return getRepository(User).save({ ...user, ...dto });
 };
 
 export const remove = async (id: string): Promise<void> => {
-  const userRepository = getUserRepository();
+  const userRepository = getRepository(User);
   await userRepository.delete({ id });
 };
