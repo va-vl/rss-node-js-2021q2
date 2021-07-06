@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { seedAdmin } from './utils';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +13,8 @@ async function bootstrap() {
   await app.listen(port, () => {
     process.stdout.write(`App is running on port ${port}\n`);
   });
+
+  await seedAdmin();
 }
 
 bootstrap();

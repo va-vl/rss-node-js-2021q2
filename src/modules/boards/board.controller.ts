@@ -11,13 +11,17 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+//
 import { BoardService } from './board.service';
 import { BoardId } from './input/board-id.input';
 import { CreateBoardDTO } from './input/create-board';
 import { UpdateBoardDTO } from './input/update-board';
 
 @Controller('boards')
+@UseGuards(AuthGuard('jwt'))
 export class BoardController {
   constructor(
     @Inject(BoardService)

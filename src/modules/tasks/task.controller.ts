@@ -11,7 +11,9 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 //
 import { CreateTaskDTO } from './input/create-task.dto';
 import { TaskID } from './input/task-id.input';
@@ -19,6 +21,7 @@ import { UpdateTaskDTO } from './input/update-task.dto';
 import { TaskService } from './task.service';
 
 @Controller('/boards/:boardId/tasks')
+@UseGuards(AuthGuard('jwt'))
 export class TaskController {
   constructor(
     @Inject(TaskService)
