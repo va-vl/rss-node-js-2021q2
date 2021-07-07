@@ -1,16 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 //
 import { User } from './entities/user.entity';
 import { CreateUserDTO } from './input/create-user.dto';
 import { UpdateUserDTO } from './input/update-user.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @Inject(ConfigService)
+    private readonly configService: ConfigService,
   ) {}
 
   async getAll() {
@@ -22,7 +26,14 @@ export class UserService {
   }
 
   async create(createUserDTO: CreateUserDTO) {
-    return this.userRepository.save(this.userRepository.create(createUserDTO));
+    const user = new User();
+    user.name = createUserDTO.name;
+    user.login = createUserDTO.login;
+
+    const { JWT_SALT_ROUNDS } = this.configService.get('config');
+    user.password = await bcrypt.hash(createUserDTO.password, JWT_SALT_ROUNDS);
+
+    return this.userRepository.save(user);
   }
 
   async update(id: string, updateUserDTO: UpdateUserDTO) {
@@ -32,7 +43,16 @@ export class UserService {
       return user;
     }
 
-    const newUser = this.userRepository.create({ ...user, ...updateUserDTO });
+    const { JWT_SALT_ROUNDS } = this.configService.get('config');
+    const newUser = this.userRepository.create({
+      ...user,
+      ...updateUserDTO,
+      password:
+        updateUserDTO.password === undefined
+          ? user.password
+          : await bcrypt.hash(updateUserDTO.password, JWT_SALT_ROUNDS),
+    });
+
     return this.userRepository.save(newUser);
   }
 

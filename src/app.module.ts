@@ -8,13 +8,13 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/users/user.module';
 import { BoardModule } from './modules/boards/board.module';
 import { TaskModule } from './modules/tasks/task.module';
-import { ormConfig } from './common';
+import { config, ormConfig } from './common';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [ormConfig],
+      load: [config, ormConfig],
     }),
     TypeOrmModule.forRootAsync({ useFactory: ormConfig }),
     AuthModule,

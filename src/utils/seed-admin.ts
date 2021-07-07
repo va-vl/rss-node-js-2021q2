@@ -1,23 +1,19 @@
-import { getConnection, getRepository } from 'typeorm';
+import { getRepository, getConnection } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 //
 import { User } from 'src/modules/users/entities/user.entity';
 import { config } from './../common';
 
-export default async function () {
+export async function seedAdmin() {
   const admin = await getRepository(User).findOne({
-    where: {
-      login: 'admin',
-    },
+    where: { login: 'admin' },
   });
 
   if (admin) {
     return;
   }
 
-  const { JWT_SALT_ROUNDS } = config();
-  const salt = await bcrypt.genSalt(JWT_SALT_ROUNDS);
-  const passwordHash = await bcrypt.hash('admin', salt);
+  const password = await bcrypt.hash('admin', config().JWT_SALT_ROUNDS);
 
   await getConnection()
     .createQueryBuilder()
@@ -26,7 +22,7 @@ export default async function () {
     .values({
       name: 'admin',
       login: 'admin',
-      password: passwordHash,
+      password,
     })
     .execute();
 }

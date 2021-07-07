@@ -1,6 +1,7 @@
+import { registerAs } from '@nestjs/config';
 import * as constants from './constants';
 
-export default () => {
+export default registerAs('config', () => {
   const {
     DEFAULT_PORT,
     DEFAULT_JWT_SALT_ROUNDS,
@@ -30,11 +31,6 @@ export default () => {
     DB_LOGGING,
   } = process.env;
 
-  if (JWT_SECRET_KEY === undefined) {
-    process.stderr.write('JWT_SECRET_KEY key not provided!\n');
-    process.exit(1);
-  }
-
   return {
     NODE_ENV,
     //
@@ -53,4 +49,4 @@ export default () => {
     DB_SYNC: DB_SYNC === 'true',
     DB_LOGGING: DB_LOGGING === 'true',
   };
-};
+});

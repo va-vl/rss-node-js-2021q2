@@ -26,7 +26,7 @@ services:
 
   db:
     container_name: db
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.database
     image: postgres:13.3-alpine
@@ -34,7 +34,7 @@ services:
     ports:
       - ${DB_OUTER_PORT}:${DB_PORT}
     volumes:
-      - pgdata:${DOCKER_DB_DATA}
+      - ./db:/var/lib/postgresql/data/pgdata
     networks:
       - app-bridge
     environment:
@@ -43,7 +43,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_PORT: ${DB_PORT}
       POSTGRES_HOST: ${DB_HOST_DOCKER}
-      PGDATA: ${DOCKER_DB_DATA}
+      PGDATA: /var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
@@ -52,7 +52,7 @@ services:
     depends_on:
       - db
     volumes:
-      - pgadmin:/var/lib/pgadmin
+      - ./db/pgadmin:/var/lib/pgadmin
     networks:
       - app-bridge
     logging:
@@ -64,7 +64,3 @@ services:
 networks:
   app-bridge:
     driver: bridge
-
-volumes:
-  pgdata:
-  pgadmin:
