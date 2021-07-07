@@ -38,7 +38,7 @@ export class BoardController {
     const board = await this.boardService.getById(input.id);
 
     if (board === undefined) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Board ${input.id} not found`);
     }
 
     return board;
@@ -50,8 +50,8 @@ export class BoardController {
 
     try {
       board = await this.boardService.create(createBoardDTO);
-    } catch {
-      throw new InternalServerErrorException();
+    } catch (err) {
+      throw new InternalServerErrorException(err.message);
     }
 
     return board;
@@ -62,7 +62,13 @@ export class BoardController {
     @Param() input: BoardId,
     @Body() updateBoardDTO: UpdateBoardDTO,
   ) {
-    return this.boardService.update(input.id, updateBoardDTO);
+    const board = await this.boardService.update(input.id, updateBoardDTO);
+
+    if (board === undefined) {
+      throw new NotFoundException(`Board ${input.id} not found`);
+    }
+
+    return board;
   }
 
   @Delete(':id')
@@ -71,7 +77,7 @@ export class BoardController {
     const isBoardRemoved = await this.boardService.remove(input.id);
 
     if (!isBoardRemoved) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Board ${input.id} not found`);
     }
   }
 }

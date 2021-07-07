@@ -44,7 +44,7 @@ export class UserController {
     const user = await this.userService.getById(input.id);
 
     if (user === undefined) {
-      throw new NotFoundException();
+      throw new NotFoundException(`User ${input.id} not found`);
     }
 
     return user;
@@ -70,7 +70,7 @@ export class UserController {
     const user = await this.userService.update(input.id, updateUserDTO);
 
     if (user === undefined) {
-      throw new NotFoundException();
+      throw new NotFoundException(`User ${input.id} not found`);
     }
 
     return user;
@@ -82,7 +82,7 @@ export class UserController {
     const isUserRemoved = await this.userService.remove(input.id);
 
     if (!isUserRemoved) {
-      throw new NotFoundException();
+      throw new NotFoundException(`User ${input.id} not found`);
     }
   }
 }

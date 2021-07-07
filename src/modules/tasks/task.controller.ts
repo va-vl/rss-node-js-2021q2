@@ -38,7 +38,9 @@ export class TaskController {
     const task = await this.taskService.getById(input.boardId, input.id);
 
     if (task === undefined) {
-      throw new NotFoundException();
+      throw new NotFoundException(
+        `Task ${input.id} on board ${input.boardId} not found`,
+      );
     }
 
     return task;
@@ -50,8 +52,8 @@ export class TaskController {
 
     try {
       task = await this.taskService.create(input.boardId, createTaskDTO);
-    } catch {
-      throw new InternalServerErrorException();
+    } catch (err) {
+      throw new InternalServerErrorException(err.message);
     }
 
     return task;
@@ -59,7 +61,19 @@ export class TaskController {
 
   @Put(':id')
   async update(@Param() input: TaskID, @Body() updateTaskDTO: UpdateTaskDTO) {
-    return this.taskService.update(input.boardId, input.id, updateTaskDTO);
+    const task = await this.taskService.update(
+      input.boardId,
+      input.id,
+      updateTaskDTO,
+    );
+
+    if (task === undefined) {
+      throw new NotFoundException(
+        `Task ${input.id} on board ${input.boardId} not found`,
+      );
+    }
+
+    return task;
   }
 
   @Delete(':id')
@@ -71,7 +85,9 @@ export class TaskController {
     );
 
     if (!isTaskRemoved) {
-      throw new NotFoundException();
+      throw new NotFoundException(
+        `Task ${input.id} on board ${input.boardId} not found`,
+      );
     }
   }
 }

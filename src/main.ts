@@ -7,20 +7,33 @@ import * as yaml from 'yamljs';
 //
 import { AppModule } from './app.module';
 import { seedAdmin } from './utils/seed-admin';
+import { logger } from './common';
+import { AllExceptionFilter } from './filters/';
+
+process.on('uncaughtException', (err) => {
+  logger.logFatalError(logger.createFatalErrorLogMessage(err));
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (_, promise) => {
+  promise.catch((err) => {
+    logger.logFatalError(logger.createFatalErrorLogMessage(err));
+    process.exit(1);
+  });
+});
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new AllExceptionFilter());
+  SwaggerModule.setup('doc', app, yaml.load(path.resolve('doc/api.yaml')));
 
   await seedAdmin();
-
-  const swaggerDocument = yaml.load(path.resolve('doc/api.yaml'));
-  SwaggerModule.setup('doc', app, swaggerDocument);
 
   const port = app.get(ConfigService).get('PORT');
 
   await app.listen(port, () => {
-    process.stdout.write(`App is running on port ${port}\n`);
+    logger.logDebug(`App is running on port ${port}`);
   });
 }
 
