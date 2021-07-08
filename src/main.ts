@@ -27,13 +27,12 @@ process.on('unhandledRejection', (_, promise) => {
 
 async function bootstrap() {
   const { PORT } = process.env;
-  const isFastify = process.env['USE_FASTIFY'] === 'true';
-  const app = isFastify
-    ? await NestFactory.create<NestFastifyApplication>(
-        AppModule,
-        new FastifyAdapter(),
-      )
-    : await NestFactory.create(AppModule);
+  const app = process.env['USE_FASTIFY'] === 'true'
+      ? await NestFactory.create<NestFastifyApplication>(
+          AppModule,
+          new FastifyAdapter(),
+        )
+      : await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionFilter());
