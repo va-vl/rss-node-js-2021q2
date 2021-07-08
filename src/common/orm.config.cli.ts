@@ -6,8 +6,9 @@ import { User } from '../modules/users/entities/user.entity';
 import { Board } from '../modules/boards/entities/board.entity';
 import { BoardColumn } from '../modules/boards/entities/board-column.entity';
 
-const { DB, DB_HOST, DB_USER, DB_PASSWORD, DB_PORT, DB_SYNC, DB_LOGGING } =
-  config();
+const {
+  DB, DB_HOST, DB_USER, DB_PASSWORD, DB_PORT, DB_SYNC, DB_LOGGING,
+} = config();
 
 export default {
   type: 'postgres',

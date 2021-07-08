@@ -59,7 +59,7 @@ export class BoardController {
 
   @Put(':id')
   async update(
-    @Param() input: BoardId,
+  @Param() input: BoardId,
     @Body() updateBoardDTO: UpdateBoardDTO,
   ) {
     const board = await this.boardService.update(input.id, updateBoardDTO);

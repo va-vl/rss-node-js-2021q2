@@ -8,7 +8,7 @@ import * as yaml from 'yamljs';
 import { AppModule } from './app.module';
 import { seedAdmin } from './utils/seed-admin';
 import { logger } from './common';
-import { AllExceptionFilter } from './filters/';
+import { AllExceptionFilter } from './filters';
 
 process.on('uncaughtException', (err) => {
   logger.logFatalError(logger.createFatalErrorLogMessage(err));

@@ -56,12 +56,11 @@ export const createRequestResponseMessage = (
   statusCode: number,
   queryParamsStr: string,
   bodyStr: string,
-): string =>
-  [
-    `${method} ${url} ${statusCode} [${Date.now() - +requestStart} ms]`,
-    `Query params: ${queryParamsStr}`,
-    `Request body: ${bodyStr}`,
-  ].join(' | ');
+): string => [
+  `${method} ${url} ${statusCode} [${Date.now() - +requestStart} ms]`,
+  `Query params: ${queryParamsStr}`,
+  `Request body: ${bodyStr}`,
+].join(' | ');
 
 export const createRequestErrorResponseMessage = (
   method: string,
@@ -70,5 +69,4 @@ export const createRequestErrorResponseMessage = (
   errorMessage: string,
 ): string => `${method} ${url} ${statusCode} | ${errorMessage}`;
 
-export const createFatalErrorLogMessage = (error: Error): string =>
-  `${error.name} ${error.message}`;
+export const createFatalErrorLogMessage = (error: Error): string => `${error.name} ${error.message}`;

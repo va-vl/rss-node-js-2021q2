@@ -1,4 +1,6 @@
-import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column, Entity, Generated, PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class BoardColumn {

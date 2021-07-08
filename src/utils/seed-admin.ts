@@ -2,7 +2,7 @@ import { getRepository, getConnection } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 //
 import { User } from 'src/modules/users/entities/user.entity';
-import { config } from './../common';
+import { config } from '../common';
 
 export async function seedAdmin() {
   const admin = await getRepository(User).findOne({

@@ -4,19 +4,24 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint/eslint-plugin"],
+  "plugins": ["@typescript-eslint/eslint-plugin", "import"],
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "airbnb-base"
+    "prettier",
+    "airbnb-typescript/base"
   ],
   "root": true,
   "env": {
     "node": true,
-    "jest": true
+    "es2020": true,
+    "jest": true,
+    "jasmine": true
   },
-  "ignorePatterns": [".eslintrc.js"],
+  "ignorePatterns": [".eslintrc.json"],
   "rules": {
+    "class-methods-use-this": "off",
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
