@@ -35,6 +35,6 @@ lerna-debug.log*
 
 # express app
 /express-app
-
-# logs
 /log
+/db/pgadmin
+/db/pgdata

@@ -22,13 +22,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
 
     if (user === undefined) {
-      throw new UnauthorizedException({ message: 'Bad credentials' });
+      throw new UnauthorizedException('Bad credentials');
     }
 
     const isPasswordMatching = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatching) {
-      throw new UnauthorizedException({ message: 'Bad credentials' });
+      throw new UnauthorizedException('Bad credentials');
     }
 
     return user;
