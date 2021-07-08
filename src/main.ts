@@ -1,9 +1,12 @@
 import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import * as path from 'path';
 import * as yaml from 'yamljs';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 //
 import { AppModule } from './app.module';
 import { seedAdmin } from './utils/seed-admin';
@@ -23,17 +26,24 @@ process.on('unhandledRejection', (_, promise) => {
 });
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const { PORT } = process.env;
+  const isFastify = process.env['USE_FASTIFY'] === 'true';
+  const app = isFastify
+    ? await NestFactory.create<NestFastifyApplication>(
+        AppModule,
+        new FastifyAdapter(),
+      )
+    : await NestFactory.create(AppModule);
+
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionFilter());
+
   SwaggerModule.setup('doc', app, yaml.load(path.resolve('doc/api.yaml')));
 
   await seedAdmin();
 
-  const port = app.get(ConfigService).get('PORT');
-
-  await app.listen(port, () => {
-    logger.logDebug(`App is running on port ${port}`);
+  await app.listen(Number(PORT), () => {
+    logger.logDebug(`App is running on port ${PORT}`);
   });
 }
 

@@ -37,7 +37,7 @@ export default class AllExceptionFilter implements ExceptionFilter {
       typeof message === 'string' ? { message } : message,
     );
 
-    response.status(status).json(responseObject);
+    response.status(status).send({ ...responseObject });
 
     finished(response, () => {
       logger.logRequestError(
