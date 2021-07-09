@@ -1,18 +1,19 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 //
-import { config, ormConfig } from './common';
+import { WinstonModule } from 'nest-winston';
+import { config, ormConfig, winstonConfig } from './common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/users/user.module';
 import { BoardModule } from './modules/boards/board.module';
 import { TaskModule } from './modules/tasks/task.module';
-import { RequestLogger } from './middleware';
 
 @Module({
   imports: [
+    WinstonModule.forRoot(winstonConfig),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config, ormConfig],
@@ -26,8 +27,4 @@ import { RequestLogger } from './middleware';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestLogger).forRoutes('*');
-  }
-}
+export class AppModule {}

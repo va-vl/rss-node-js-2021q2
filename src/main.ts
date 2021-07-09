@@ -7,11 +7,12 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 //
 import { AppModule } from './app.module';
 import { seedAdmin } from './utils/seed-admin';
-import { logger } from './common';
 import { AllExceptionFilter } from './filters';
+import { logger } from './common';
 
 process.on('uncaughtException', (err) => {
   logger.logFatalError(logger.createFatalErrorLogMessage(err));
@@ -27,13 +28,15 @@ process.on('unhandledRejection', (_, promise) => {
 
 async function bootstrap() {
   const { PORT } = process.env;
-  const app = process.env['USE_FASTIFY'] === 'true'
+  const app =
+    process.env['USE_FASTIFY'] === 'true'
       ? await NestFactory.create<NestFastifyApplication>(
           AppModule,
           new FastifyAdapter(),
         )
       : await NestFactory.create(AppModule);
 
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionFilter());
 

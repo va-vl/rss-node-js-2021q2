@@ -1,40 +1,11 @@
 import * as winston from 'winston';
+//
+import winstonConfig from './winston.config';
 
-const CUSTOM_FORMAT = winston.format.combine(
-  winston.format.timestamp({ format: 'MMMM DD YYYY hh:mm:ss' }),
-  winston.format.printf(
-    (info) => `[logger] [${info.level}] ${info['timestamp']}: ${info.message}`,
-  ),
-);
-
-const CUSTOM_TRANSPORTS = [
-  new winston.transports.File({
-    dirname: './log/',
-    filename: 'combined.log',
-    level: 'info',
-    format: winston.format.json(),
-  }),
-  new winston.transports.File({
-    dirname: './log/',
-    filename: 'errors.log',
-    level: 'error',
-    format: winston.format.json(),
-  }),
-  new winston.transports.Console({
-    level: 'debug',
-    stderrLevels: ['fatal'],
-    format: winston.format.combine(winston.format.colorize({ all: true })),
-  }),
-];
-
-const logger = winston.createLogger({
-  transports: CUSTOM_TRANSPORTS,
-  format: CUSTOM_FORMAT,
-  exitOnError: true,
-});
+const logger = winston.createLogger(winstonConfig);
 
 export const logRequest = (message: string): void => {
-  logger.info(message);
+  logger.http(message);
 };
 
 export const logRequestError = (message: string): void => {
@@ -56,11 +27,12 @@ export const createRequestResponseMessage = (
   statusCode: number,
   queryParamsStr: string,
   bodyStr: string,
-): string => [
-  `${method} ${url} ${statusCode} [${Date.now() - +requestStart} ms]`,
-  `Query params: ${queryParamsStr}`,
-  `Request body: ${bodyStr}`,
-].join(' | ');
+): string =>
+  [
+    `${method} ${url} ${statusCode} [${Date.now() - +requestStart} ms]`,
+    `Query params: ${queryParamsStr}`,
+    `Request body: ${bodyStr}`,
+  ].join(' | ');
 
 export const createRequestErrorResponseMessage = (
   method: string,
@@ -69,4 +41,5 @@ export const createRequestErrorResponseMessage = (
   errorMessage: string,
 ): string => `${method} ${url} ${statusCode} | ${errorMessage}`;
 
-export const createFatalErrorLogMessage = (error: Error): string => `${error.name} ${error.message}`;
+export const createFatalErrorLogMessage = (error: Error): string =>
+  `${error.name} ${error.message}`;

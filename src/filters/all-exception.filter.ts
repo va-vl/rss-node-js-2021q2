@@ -39,12 +39,12 @@ export default class AllExceptionFilter implements ExceptionFilter {
 
     response.status(status).send({ ...responseObject });
 
-    finished(response, () => {
+    finished(response.raw ?? response, () => {
       logger.logRequestError(
         logger.createRequestErrorResponseMessage(
           request.method,
           request.url,
-          response.statusCode,
+          response.statusCode || response.raw.statusCode,
           exception.message,
         ),
       );

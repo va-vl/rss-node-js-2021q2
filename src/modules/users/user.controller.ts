@@ -16,7 +16,7 @@ import {
   HttpStatus,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtGuard } from 'src/guards/jwt.guard';
 //
 import { CreateUserDTO } from './input/create-user.dto';
 import { UpdateUserDTO } from './input/update-user.dto';
@@ -24,7 +24,7 @@ import { UserService } from './user.service';
 import { UserID } from './input/user-id.input';
 
 @Controller('users')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 @SerializeOptions({ strategy: 'excludeAll' })
 export class UserController {
   constructor(

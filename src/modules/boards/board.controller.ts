@@ -13,15 +13,15 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 //
+import { JwtGuard } from 'src/guards/jwt.guard';
 import { BoardService } from './board.service';
 import { BoardId } from './input/board-id.input';
 import { CreateBoardDTO } from './input/create-board';
 import { UpdateBoardDTO } from './input/update-board';
 
 @Controller('boards')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 export class BoardController {
   constructor(
     @Inject(BoardService)
@@ -59,7 +59,7 @@ export class BoardController {
 
   @Put(':id')
   async update(
-  @Param() input: BoardId,
+    @Param() input: BoardId,
     @Body() updateBoardDTO: UpdateBoardDTO,
   ) {
     const board = await this.boardService.update(input.id, updateBoardDTO);
