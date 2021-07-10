@@ -12,7 +12,6 @@ import { AppModule } from './app.module';
 import { AllExceptionFilter } from './filters';
 import { RequestLoggingInterceptor } from './interceptors';
 import { logFatalError, logDebug } from './logger';
-import { seedAdmin } from './utils/seed-admin';
 
 process.on('uncaughtException', (err) => {
   logFatalError('Uncaught Exception', err);
@@ -31,17 +30,14 @@ async function bootstrap() {
     process.env['USE_FASTIFY'] === 'true'
       ? await NestFactory.create<NestFastifyApplication>(
           AppModule,
-          new FastifyAdapter(),
+          new FastifyAdapter({ ignoreTrailingSlash: true }),
         )
       : await NestFactory.create(AppModule);
 
   app.useGlobalInterceptors(new RequestLoggingInterceptor());
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionFilter());
-
   SwaggerModule.setup('doc', app, yaml.load(path.resolve('doc/api.yaml')));
-
-  await seedAdmin();
 
   await app.listen(Number(PORT), () => {
     logDebug(`App is running on port ${PORT}`);

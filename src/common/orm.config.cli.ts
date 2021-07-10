@@ -27,4 +27,5 @@ export default {
   cli: {
     migrationsDir: 'src/migrations',
   },
+  seeds: ['src/seeds/*.seed{.ts, .js}'],
 } as ConnectionOptions;

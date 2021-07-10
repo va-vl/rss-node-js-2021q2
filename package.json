@@ -50,7 +50,8 @@
     "migration:run": "npm run typeorm migration:run",
     "migration:revert": "npm run typeorm migration:revert",
     "artillery:express": "artillery run --output ./log/artillery.express.log.json artillery.yaml",
-    "artillery:fastify": "artillery run --output ./log/artillery.fastify.log.json artillery.yaml"
+    "artillery:fastify": "artillery run --output ./log/artillery.fastify.log.json artillery.yaml",
+    "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js -n src/common/orm.config.cli.ts seed"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.15",
