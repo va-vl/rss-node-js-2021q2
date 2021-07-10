@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 //
-import { WinstonModule } from 'nest-winston';
-import { config, ormConfig, winstonConfig } from './common';
+import { config, ormConfig } from './common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
@@ -13,7 +12,6 @@ import { TaskModule } from './modules/tasks/task.module';
 
 @Module({
   imports: [
-    WinstonModule.forRoot(winstonConfig),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config, ormConfig],

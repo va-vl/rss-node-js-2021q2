@@ -7,21 +7,20 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 //
 import { AppModule } from './app.module';
-import { seedAdmin } from './utils/seed-admin';
 import { AllExceptionFilter } from './filters';
-import { logger } from './common';
+import { RequestLoggingInterceptor } from './interceptors';
+import { logFatalError, logDebug } from './logger';
+import { seedAdmin } from './utils/seed-admin';
 
 process.on('uncaughtException', (err) => {
-  logger.logFatalError(logger.createFatalErrorLogMessage(err));
-  process.exit(1);
+  logFatalError('Uncaught Exception', err);
 });
 
 process.on('unhandledRejection', (_, promise) => {
   promise.catch((err) => {
-    logger.logFatalError(logger.createFatalErrorLogMessage(err));
+    logFatalError('Unhandled rejection', err);
     process.exit(1);
   });
 });
@@ -36,7 +35,7 @@ async function bootstrap() {
         )
       : await NestFactory.create(AppModule);
 
-  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+  app.useGlobalInterceptors(new RequestLoggingInterceptor());
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionFilter());
 
@@ -45,7 +44,7 @@ async function bootstrap() {
   await seedAdmin();
 
   await app.listen(Number(PORT), () => {
-    logger.logDebug(`App is running on port ${PORT}`);
+    logDebug(`App is running on port ${PORT}`);
   });
 }
 

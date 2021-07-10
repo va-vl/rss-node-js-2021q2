@@ -7,11 +7,12 @@ import {
 } from '@nestjs/common';
 import { finished } from 'stream';
 //
-import { logger } from 'src/common';
+import { logRequestResponse } from '../logger';
 
 @Catch()
 export default class AllExceptionFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
+    const requestStart = new Date();
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
@@ -40,13 +41,15 @@ export default class AllExceptionFilter implements ExceptionFilter {
     response.status(status).send({ ...responseObject });
 
     finished(response.raw ?? response, () => {
-      logger.logRequestError(
-        logger.createRequestErrorResponseMessage(
-          request.method,
-          request.url,
-          response.statusCode || response.raw.statusCode,
-          exception.message,
-        ),
+      logRequestResponse(
+        'warn',
+        requestStart,
+        request.method,
+        request.url,
+        response.statusCode || response.raw?.statusCode,
+        JSON.stringify(request.query),
+        JSON.stringify(request.body),
+        exception.message,
       );
     });
   }

@@ -14,6 +14,7 @@ export default {
       filename: 'errors.log',
       level: 'error',
       format: winston.format.json(),
+      handleExceptions: true,
     }),
     new winston.transports.Console({
       level: 'debug',
