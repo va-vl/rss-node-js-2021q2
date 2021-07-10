@@ -6,8 +6,6 @@ import { jwtConfig } from 'src/common';
 import { User } from '../users/entities/user.entity';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategies/jwt.strategy';
-import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
@@ -16,7 +14,8 @@ import { LocalStrategy } from './strategies/local.strategy';
       useFactory: jwtConfig,
     }),
   ],
-  providers: [LocalStrategy, JwtStrategy, AuthService],
+  providers: [AuthService],
   controllers: [AuthController],
+  exports: [JwtModule],
 })
 export class AuthModule {}

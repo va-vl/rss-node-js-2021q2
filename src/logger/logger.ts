@@ -17,14 +17,11 @@ export const logRequestResponse = (
   const messageParts = [
     `${method} ${url} [${statusCode}] [${Date.now() - +requestStart} ms]`,
     `query params: ${queryParamsString}`,
+    `body: ${bodyString}`,
   ];
 
-  if (bodyString !== 'null') {
-    messageParts.push(`body: ${bodyString}`);
-  }
-
   if (errorMessage) {
-    messageParts.push(errorMessage);
+    messageParts.push(`error: ${errorMessage}`);
   }
 
   logger.log(level, messageParts.join(' | '));
