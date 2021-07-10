@@ -45,6 +45,7 @@ scenarios:
           expect:
             - statusCode: 201
             - contentType: json
+      - think: 5
       - get:
           url: 'boards/{{ BOARD_ID }}'
           headers:
@@ -64,6 +65,7 @@ scenarios:
             - hasProperty: title
             - equals:
                 - 'Updated load test board'
+      - think: 5
       - delete:
           url: 'boards/{{ BOARD_ID }}'
           headers:

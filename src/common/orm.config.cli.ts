@@ -6,9 +6,8 @@ import { User } from '../modules/users/entities/user.entity';
 import { Board } from '../modules/boards/entities/board.entity';
 import { BoardColumn } from '../modules/boards/entities/board-column.entity';
 
-const {
-  DB, DB_HOST, DB_USER, DB_PASSWORD, DB_PORT, DB_SYNC, DB_LOGGING,
-} = config();
+const { DB, DB_HOST, DB_USER, DB_PASSWORD, DB_PORT, DB_SYNC, DB_LOGGING } =
+  config();
 
 export default {
   type: 'postgres',
@@ -24,8 +23,8 @@ export default {
   logging: DB_LOGGING,
   //
   entities: [Task, User, Board, BoardColumn],
-  migrations: ['dist/db/migrations/*.js'],
+  migrations: ['dist/migrations/*.js'],
   cli: {
-    migrationsDir: 'db/migrations',
+    migrationsDir: 'src/migrations',
   },
 } as ConnectionOptions;

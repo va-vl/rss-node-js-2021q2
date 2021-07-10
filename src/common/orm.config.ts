@@ -25,9 +25,9 @@ export default registerAs('orm.config', (): TypeOrmModuleOptions => {
     logging: DB_LOGGING,
     //
     entities: [User, Board, BoardColumn, Task],
-    migrations: ['dist/db/migrations/*-migration.js'],
+    migrations: ['dist/migrations/*.js'],
     cli: {
-      migrationsDir: 'db/migrations',
+      migrationsDir: 'src/migrations',
     },
     migrationsRun: true,
   };
