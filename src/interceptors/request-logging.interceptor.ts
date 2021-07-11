@@ -3,30 +3,36 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
+  Inject,
+  LoggerService,
 } from '@nestjs/common';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-//
-import { logRequestResponse } from '../logger';
 
 @Injectable()
 export default class RequestLoggingInterceptor implements NestInterceptor {
+  constructor(
+    @Inject(WINSTON_MODULE_NEST_PROVIDER)
+    private readonly logger: LoggerService,
+  ) {}
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const requestStart = new Date();
+    const requestStart = Date.now();
     const ctx = context.switchToHttp();
     const request = ctx.getRequest();
     const response = ctx.getResponse();
 
     return next.handle().pipe(
       tap(() => {
-        logRequestResponse(
-          'info',
-          requestStart,
-          request.method,
-          request.url,
-          response.statusCode || response.raw?.statusCode,
-          JSON.stringify(request.query),
-          JSON.stringify(request.body),
+        this.logger.log(
+          [
+            `${request.method} ${request.url} [${response.statusCode}] [${
+              Date.now() - requestStart
+            } ms]`,
+            `query params: ${JSON.stringify(request.query)}`,
+            `body: ${JSON.stringify(request.body)}`,
+          ].join(' | '),
         );
       }),
     );

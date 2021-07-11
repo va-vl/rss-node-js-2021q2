@@ -7,19 +7,18 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 //
 import { AppModule } from './app.module';
-import { AllExceptionFilter } from './filters';
-import { RequestLoggingInterceptor } from './interceptors';
-import { logFatalError, logDebug } from './logger';
+import { processLogger } from './utils';
 
 process.on('uncaughtException', (err) => {
-  logFatalError('Uncaught Exception', err);
+  processLogger.logFatalError('Uncaught Exception', err);
 });
 
 process.on('unhandledRejection', (_, promise) => {
   promise.catch((err) => {
-    logFatalError('Unhandled rejection', err);
+    processLogger.logFatalError('Unhandled rejection', err);
     process.exit(1);
   });
 });
@@ -34,13 +33,12 @@ async function bootstrap() {
         )
       : await NestFactory.create(AppModule);
 
-  app.useGlobalInterceptors(new RequestLoggingInterceptor());
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new AllExceptionFilter());
   SwaggerModule.setup('doc', app, yaml.load(path.resolve('doc/api.yaml')));
 
   await app.listen(Number(PORT), () => {
-    logDebug(`App is running on port ${PORT}`);
+    processLogger.logDebug(`App is running on port ${PORT}`);
   });
 }
 

@@ -14,6 +14,9 @@ export class AuthController {
   @Post()
   @UseGuards(LocalGuard)
   async login(@Request() req: RequestWithUser) {
+    // setTimeout(() => {
+    //   throw new Error('я упал');
+    // }, 1000);
     return {
       token: this.authService.getTokenForUser(req.user),
     };

@@ -4,15 +4,20 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
+  Inject,
+  LoggerService,
 } from '@nestjs/common';
-import { finished } from 'stream';
-//
-import { logRequestResponse } from '../logger';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 @Catch()
 export default class AllExceptionFilter implements ExceptionFilter {
+  constructor(
+    @Inject(WINSTON_MODULE_NEST_PROVIDER)
+    private readonly logger: LoggerService,
+  ) {}
+
   catch(exception: Error, host: ArgumentsHost) {
-    const requestStart = new Date();
+    const requestStart = Date.now();
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
@@ -40,17 +45,15 @@ export default class AllExceptionFilter implements ExceptionFilter {
 
     response.status(status).send({ ...responseObject });
 
-    finished(response.raw ?? response, () => {
-      logRequestResponse(
-        'warn',
-        requestStart,
-        request.method,
-        request.url,
-        response.statusCode || response.raw?.statusCode,
-        JSON.stringify(request.query),
-        JSON.stringify(request.body),
-        exception.message,
-      );
-    });
+    this.logger.warn(
+      [
+        `${request.method} ${request.url} [${response.statusCode}] [${
+          Date.now() - requestStart
+        } ms]`,
+        `query params: ${JSON.stringify(request.query)}`,
+        `body: ${JSON.stringify(request.body)}`,
+        `error: ${exception.message}`,
+      ].join(' | '),
+    );
   }
 }

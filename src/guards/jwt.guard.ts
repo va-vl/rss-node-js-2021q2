@@ -1,7 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
-  ForbiddenException,
+  UnauthorizedException,
   Injectable,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -17,13 +17,13 @@ export class JwtGuard implements CanActivate {
     } = ctx.getRequest();
 
     if (!authorization) {
-      throw new ForbiddenException();
+      throw new UnauthorizedException();
     }
 
     const [scheme, token] = authorization.split(' ');
 
     if (scheme !== 'Bearer' || token === undefined) {
-      throw new ForbiddenException();
+      throw new UnauthorizedException();
     }
 
     this.jwtService.verify(token);
