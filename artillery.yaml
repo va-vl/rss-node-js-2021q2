@@ -5,14 +5,12 @@ config:
       arrivalRate: 5
       duration: 60
     - name: Ramp up load
-      duration: 120
+      duration: 90
       arrivalRate: 5
-      rampTo: 50
+      rampTo: 30
     - name: Sustained load
-      duration: 300
-      arrivalRate: 50
-  plugins:
-    expect: {}
+      duration: 150
+      arrivalRate: 10
 
 scenarios:
   - name: 'Board testing'
@@ -23,52 +21,35 @@ scenarios:
             login: 'admin'
             password: 'admin'
           capture:
-            - json: $.token
-            - as: TOKEN
+            json: '$.token'
+            as: 'TOKEN'
       - get:
           url: '/boards'
           headers:
             authorization: 'Bearer {{ TOKEN }}'
-          expect:
-            - statusCode: 200
-            - contentType: json
       - post:
           url: '/boards'
           headers:
             authorization: 'Bearer {{ TOKEN }}'
           json:
             title: 'Load test board {{ $randomString() }}'
-            columns: '[]'
+            columns: []
           capture:
-            - json: '$.id'
-              as: 'BOARD_ID'
-          expect:
-            - statusCode: 201
-            - contentType: json
-      - think: 5
+            json: '$.id'
+            as: 'BOARD_ID'
+      - think: 3
       - get:
-          url: 'boards/{{ BOARD_ID }}'
+          url: '/boards/{{ BOARD_ID }}'
           headers:
             authorization: 'Bearer {{ TOKEN }}'
-          expect:
-            - statusCode: 200
-            - contentType: json
       - put:
-          url: 'boards/{{ BOARD_ID }}'
+          url: '/boards/{{ BOARD_ID }}'
           headers:
             authorization: 'Bearer {{ TOKEN }}'
           json:
             title: 'Updated load test board'
-          expect:
-            - statusCode: 201
-            - contentType: json
-            - hasProperty: title
-            - equals:
-                - 'Updated load test board'
-      - think: 5
+      - think: 3
       - delete:
-          url: 'boards/{{ BOARD_ID }}'
+          url: '/boards/{{ BOARD_ID }}'
           headers:
             authorization: 'Bearer {{ TOKEN }}'
-          expect:
-            - statusCode: 204
