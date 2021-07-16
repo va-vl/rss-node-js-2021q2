@@ -1,0 +1,55 @@
+config:
+  target: 'http://localhost:4000'
+  phases:
+    - name: Warm up
+      arrivalRate: 5
+      duration: 60
+    - name: Ramp up load
+      duration: 90
+      arrivalRate: 5
+      rampTo: 30
+    - name: Sustained load
+      duration: 150
+      arrivalRate: 10
+
+scenarios:
+  - name: 'Board testing'
+    flow:
+      - post:
+          url: '/login'
+          json:
+            login: 'admin'
+            password: 'admin'
+          capture:
+            json: '$.token'
+            as: 'TOKEN'
+      - get:
+          url: '/boards'
+          headers:
+            authorization: 'Bearer {{ TOKEN }}'
+      - post:
+          url: '/boards'
+          headers:
+            authorization: 'Bearer {{ TOKEN }}'
+          json:
+            title: 'Load test board {{ $randomString() }}'
+            columns: []
+          capture:
+            json: '$.id'
+            as: 'BOARD_ID'
+      - think: 3
+      - get:
+          url: '/boards/{{ BOARD_ID }}'
+          headers:
+            authorization: 'Bearer {{ TOKEN }}'
+      - put:
+          url: '/boards/{{ BOARD_ID }}'
+          headers:
+            authorization: 'Bearer {{ TOKEN }}'
+          json:
+            title: 'Updated load test board'
+      - think: 3
+      - delete:
+          url: '/boards/{{ BOARD_ID }}'
+          headers:
+            authorization: 'Bearer {{ TOKEN }}'
